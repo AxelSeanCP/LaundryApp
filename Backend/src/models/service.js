@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Service.init(
     {
+      id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true,
+      },
       name: DataTypes.STRING,
       qty: DataTypes.INTEGER,
       unit: DataTypes.STRING,
@@ -25,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Service",
+      timestamps: true, // automatically adjust the createdAt and updatedAt
     }
   );
   return Service;

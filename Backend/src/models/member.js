@@ -16,12 +16,18 @@ module.exports = (sequelize, DataTypes) => {
   }
   Member.init(
     {
+      id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true,
+      },
       name: DataTypes.STRING,
       phoneNumber: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "Member",
+      timestamps: true, // automatically adjust the createdAt and updatedAt
     }
   );
   return Member;

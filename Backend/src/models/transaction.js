@@ -23,9 +23,15 @@ module.exports = (sequelize, DataTypes) => {
   }
   Transaction.init(
     {
+      id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true,
+      },
       idMember: DataTypes.STRING,
       idService: DataTypes.STRING,
       totalPrice: DataTypes.INTEGER,
+      description: DataTypes.STRING,
       discount: DataTypes.INTEGER,
       paid: DataTypes.FLOAT,
       status: DataTypes.STRING,
