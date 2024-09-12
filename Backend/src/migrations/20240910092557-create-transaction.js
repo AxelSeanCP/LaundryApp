@@ -17,6 +17,9 @@ module.exports = {
       totalPrice: {
         type: Sequelize.INTEGER,
       },
+      qty: {
+        type: Sequelize.FLOAT,
+      },
       description: {
         type: Sequelize.STRING,
       },

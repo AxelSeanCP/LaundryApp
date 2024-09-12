@@ -1,7 +1,26 @@
 const ClientError = require("../exceptions/ClientError");
-const { addMember, getMembers } = require("../services/memberService");
+const {
+  addMember,
+  getMembers,
+  getMemberById,
+  editMemberById,
+  deleteMemberById,
+} = require("../services/memberService");
 
-//TODO: add validation, add more error handling using try-catch with different response
+const logError = (error, res) => {
+  if (error instanceof ClientError) {
+    res.status(error.statusCode).json({
+      status: "fail",
+      message: error.message,
+    });
+  } else {
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+    });
+  }
+};
+
 const postMemberController = async (req, res) => {
   try {
     const { name, phoneNumber } = req.body;
@@ -9,29 +28,19 @@ const postMemberController = async (req, res) => {
     if (!name || !phoneNumber) {
       throw new ClientError("Name and phone number are required", 400);
     }
-    const member = await addMember(req.body);
+    const member = await addMember({ name, phoneNumber });
 
     res.status(201).json({
       status: "success",
-      message: "Member added",
+      message: "Member added successfully",
       data: member,
     });
   } catch (error) {
-    if (error instanceof ClientError) {
-      res.status(error.statusCode).json({
-        status: "fail",
-        message: error.message,
-      });
-    } else {
-      res.status(500).json({
-        status: "error",
-        message: "Internal Server Error",
-      });
-    }
+    logError(error, res);
   }
 };
 
-const getMembersController = async () => {
+const getMembersController = async (req, res) => {
   try {
     const members = await getMembers();
 
@@ -42,18 +51,62 @@ const getMembersController = async () => {
       },
     });
   } catch (error) {
-    if (error instanceof ClientError) {
-      res.status(error.statusCode).json({
-        status: "fail",
-        message: error.message,
-      });
-    } else {
-      res.status(500).json({
-        status: "error",
-        message: "Internal Server Error",
-      });
-    }
+    logError(error, res);
   }
 };
 
-module.exports = { postMemberController, getMembersController };
+const getMemberByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const member = await getMemberById(id);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        member,
+      },
+    });
+  } catch (error) {
+    logError(error, res);
+  }
+};
+
+const editMemberByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, phoneNumber } = req.body;
+
+    await editMemberById(id, { name, phoneNumber });
+
+    res.status(200).json({
+      status: "success",
+      message: "Member editted successfully",
+    });
+  } catch (error) {
+    logError(error, res);
+  }
+};
+
+const deleteMemberByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await deleteMemberById(id);
+
+    res.status(200).json({
+      status: "success",
+      message: "Member deleted successfully",
+    });
+  } catch (error) {
+    logError(error, res);
+  }
+};
+
+module.exports = {
+  postMemberController,
+  getMembersController,
+  getMemberByIdController,
+  editMemberByIdController,
+  deleteMemberByIdController,
+};

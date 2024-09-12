@@ -15,9 +15,9 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       // A transaction belongs to service
-      Transaction.belongsTo(model.Service, {
+      Transaction.belongsTo(models.Service, {
         foreignKey: "idService",
-        as: "member",
+        as: "service",
       });
     }
   }
@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       idMember: DataTypes.STRING,
       idService: DataTypes.STRING,
       totalPrice: DataTypes.INTEGER,
+      qty: DataTypes.FLOAT,
       description: DataTypes.STRING,
       discount: DataTypes.INTEGER,
       paid: DataTypes.FLOAT,
@@ -40,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Transaction",
+      timestamps: true, // automatically adjust the createdAt and updatedAt
     }
   );
   return Transaction;
