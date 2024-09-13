@@ -4,7 +4,6 @@ const { Op } = require("sequelize");
 const InvariantError = require("../exceptions/InvariantError");
 const NotFoundError = require("../exceptions/NotFoundError");
 
-//TODO: add service and options methods
 const verifyService = async ({ name }) => {
   const service = await db.Service.findOne({
     where: {
@@ -68,8 +67,8 @@ const getServiceById = async (idService) => {
   return service;
 };
 
-const editServiceById = async (idService, { name, unit }) => {
-  const service = await getServiceById(idService);
+const editServiceById = async (id, { name, unit }) => {
+  const service = await getServiceById(id);
 
   service.name = name;
   service.unit = unit;
@@ -77,17 +76,57 @@ const editServiceById = async (idService, { name, unit }) => {
   await service.save();
 };
 
-const deleteServiceById = async (idService) => {
-  const service = await getServiceById(idService);
+const deleteServiceById = async (id) => {
+  const service = await getServiceById(id);
 
   await service.destroy();
 };
 
-const addOption = async (idService) => {};
+const addOption = async (idService, { name, price }) => {
+  const id = `option-${nanoid(16)}`;
 
-const editOption = async (idService) => {};
+  const option = await db.Option.create({
+    id: id,
+    idService: idService,
+    name: name,
+    price: price,
+  });
 
-const deleteOption = async (idService) => {};
+  if (!option) {
+    throw new InvariantError("Add option failed");
+  }
+
+  return option;
+};
+
+const editOptionById = async (idService, idOption, { name, price }) => {
+  const option = await db.Option.findOne({
+    where: {
+      id: idOption,
+      idService: idService,
+    },
+  });
+
+  if (!option) {
+    throw new NotFoundError("Option not found. Invalid id");
+  }
+
+  option.name = name;
+  option.price = price;
+
+  await option.save();
+};
+
+const deleteOptionById = async (idService, idOption) => {
+  const option = await db.Option.findOne({
+    where: {
+      id: idOption,
+      idService: idService,
+    },
+  });
+
+  await option.destroy();
+};
 
 module.exports = {
   addService,
@@ -96,6 +135,6 @@ module.exports = {
   editServiceById,
   deleteServiceById,
   addOption,
-  editOption,
-  deleteOption,
+  editOptionById,
+  deleteOptionById,
 };

@@ -4,7 +4,7 @@ const {
   postMemberController,
   getMembersController,
   getMemberByIdController,
-  editMemberByIdController,
+  putMemberByIdController,
   deleteMemberByIdController,
 } = require("../controllers/memberController");
 
@@ -14,7 +14,7 @@ router.get("/", getMembersController);
 
 router.get("/:id", getMemberByIdController);
 
-router.put("/:id", editMemberByIdController);
+router.put("/:id", putMemberByIdController);
 
 router.delete("/:id", deleteMemberByIdController);
 

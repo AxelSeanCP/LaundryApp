@@ -14,6 +14,7 @@ const logError = (error, res) => {
       message: error.message,
     });
   } else {
+    console.error(error);
     res.status(500).json({
       status: "error",
       message: "Internal Server Error",
@@ -72,7 +73,7 @@ const getMemberByIdController = async (req, res) => {
   }
 };
 
-const editMemberByIdController = async (req, res) => {
+const putMemberByIdController = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, phoneNumber } = req.body;
@@ -81,7 +82,7 @@ const editMemberByIdController = async (req, res) => {
 
     res.status(200).json({
       status: "success",
-      message: "Member editted successfully",
+      message: "Member edited successfully",
     });
   } catch (error) {
     logError(error, res);
@@ -107,6 +108,6 @@ module.exports = {
   postMemberController,
   getMembersController,
   getMemberByIdController,
-  editMemberByIdController,
+  putMemberByIdController,
   deleteMemberByIdController,
 };
