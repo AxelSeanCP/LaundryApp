@@ -7,22 +7,7 @@ const {
   deleteMemberById,
 } = require("../services/memberService");
 
-const logError = (error, res) => {
-  if (error instanceof ClientError) {
-    res.status(error.statusCode).json({
-      status: "fail",
-      message: error.message,
-    });
-  } else {
-    console.error(error);
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-};
-
-const postMemberController = async (req, res) => {
+const postMemberController = async (req, res, next) => {
   try {
     const { name, phoneNumber } = req.body;
 
@@ -37,11 +22,11 @@ const postMemberController = async (req, res) => {
       data: member,
     });
   } catch (error) {
-    logError(error, res);
+    next(error);
   }
 };
 
-const getMembersController = async (req, res) => {
+const getMembersController = async (req, res, next) => {
   try {
     const members = await getMembers();
 
@@ -52,11 +37,11 @@ const getMembersController = async (req, res) => {
       },
     });
   } catch (error) {
-    logError(error, res);
+    next(error);
   }
 };
 
-const getMemberByIdController = async (req, res) => {
+const getMemberByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -69,11 +54,11 @@ const getMemberByIdController = async (req, res) => {
       },
     });
   } catch (error) {
-    logError(error, res);
+    next(error);
   }
 };
 
-const putMemberByIdController = async (req, res) => {
+const putMemberByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { name, phoneNumber } = req.body;
@@ -85,11 +70,11 @@ const putMemberByIdController = async (req, res) => {
       message: "Member edited successfully",
     });
   } catch (error) {
-    logError(error, res);
+    next(error);
   }
 };
 
-const deleteMemberByIdController = async (req, res) => {
+const deleteMemberByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -100,7 +85,7 @@ const deleteMemberByIdController = async (req, res) => {
       message: "Member deleted successfully",
     });
   } catch (error) {
-    logError(error, res);
+    next(error);
   }
 };
 

@@ -15,9 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       // A transaction belongs to service
-      Transaction.belongsTo(models.Service, {
-        foreignKey: "idService",
-        as: "service",
+      Transaction.belongsToMany(models.Option, {
+        through: models.TransactionOption,
+        foreignKey: "idTransaction",
+        as: "options",
       });
     }
   }
@@ -29,13 +30,12 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
       },
       idMember: DataTypes.STRING,
-      idService: DataTypes.STRING,
-      totalPrice: DataTypes.INTEGER,
-      qty: DataTypes.FLOAT,
+      totalPrice: DataTypes.INTEGER, //server will decide
       description: DataTypes.STRING,
       discount: DataTypes.INTEGER,
-      paid: DataTypes.FLOAT,
-      status: DataTypes.STRING,
+      payment: DataTypes.INTEGER,
+      status: DataTypes.STRING, //server will decide, but can be changed
+      paymentStatus: DataTypes.STRING, //server will decide
       estimation: DataTypes.STRING,
     },
     {
