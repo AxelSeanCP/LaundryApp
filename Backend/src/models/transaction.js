@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // A transaction belongs to member
       Transaction.belongsTo(models.Member, {
         foreignKey: "idMember",
-        as: "member",
+        as: "members",
       });
 
       // A transaction belongs to service
@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         through: models.TransactionOption,
         foreignKey: "idTransaction",
         as: "options",
+        onDelete: "CASCADE",
       });
     }
   }

@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const InvariantError = require("../exceptions/InvariantError");
 const NotFoundError = require("../exceptions/NotFoundError");
 
+// TODO: add feature get member by name
 const verifyMember = async ({ name, phoneNumber }) => {
   const member = await db.Member.findOne({
     where: {

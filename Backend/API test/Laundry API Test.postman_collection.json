@@ -1,0 +1,1748 @@
+{
+	"info": {
+		"_postman_id": "5b5979a0-1d1a-4567-86cf-a837e298882d",
+		"name": "Laundry API Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31486336"
+	},
+	"item": [
+		{
+			"name": "Members",
+			"item": [
+				{
+					"name": "Adding Member",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 201 value\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"\r",
+									"    pm.environment.set(\"memberId\", responseJson.data.id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"meltryllis\",\r\n    \"phoneNumber\": \"085333270333\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/members",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adding Member with Already Taken Name and Phone Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 400 value\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal(\"fail\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"meltryllis\",\r\n    \"phoneNumber\": \"085333270333\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/members",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Members",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 200 value\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test('response body data should have a members array and contains at least 1 item', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.have.ownProperty('members');\r",
+									"    pm.expect(data.members).to.be.an('array');\r",
+									"    pm.expect(data.members).lengthOf.at.least(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/members",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Member with Invalid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 404 value', () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									" \r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"}); \r",
+									" \r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson).to.have.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equals(\"fail\");\r",
+									"    pm.expect(responseJson).to.have.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/members/{{memberId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"members",
+								"{{memberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Member with Valid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 200 value\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const memberId = pm.environment.get(\"memberId\");\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"    pm.expect(responseJson.data.member).to.be.an(\"object\");\r",
+									"    pm.expect(responseJson.data.member.id).to.equal(memberId);\r",
+									"    pm.expect(responseJson.data.member.name).to.equal(\"meltryllis\");\r",
+									"    pm.expect(responseJson.data.member.phoneNumber).to.equal(\"085333270333\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/members/{{memberId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"members",
+								"{{memberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Member with Invalid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 404 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.message).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"meltlilith\",\r\n    \"phoneNumber\": \"085111222333\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/members/xxx",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"members",
+								"xxx"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Member with Valid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test('when GET detail members', () => {\r",
+									"    const memberId = pm.environment.get('memberId');\r",
+									"    const port = pm.environment.get('port');\r",
+									"    pm.sendRequest(`http://localhost:${port}/members/${memberId}`, (error, response) => {\r",
+									"        if (!error) {\r",
+									"            pm.test('it should response with revised content', () => {\r",
+									"                pm.expect(response.code).to.equal(200);\r",
+									"\r",
+									"                const responseJson = response.json();\r",
+									"\r",
+									"                pm.expect(responseJson.status).to.equal('success');\r",
+									"                pm.expect(responseJson.data.member).to.be.an('object');\r",
+									"                pm.expect(responseJson.data.member.id).to.equal(memberId);\r",
+									"                pm.expect(responseJson.data.member.name).to.equal('meltlilith');\r",
+									"                pm.expect(responseJson.data.member.phoneNumber).to.equal(\"085111222333\");\r",
+									"            });\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"meltlilith\",\r\n    \"phoneNumber\": \"085111222333\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/members/{{memberId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"members",
+								"{{memberId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Member with Invalid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 404 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal('fail');\r",
+									"    pm.expect(responseJson.message).to.be.a('string');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/members/xxx",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"members",
+								"xxx"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Member with Valid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test('when GET detail members', () => {\r",
+									"    const memberId = pm.environment.get('memberId');\r",
+									"    const port = pm.environment.get('port');\r",
+									"    pm.sendRequest(`http://localhost:${port}/members/${memberId}`, (error, response) => {\r",
+									"        if (!error) {\r",
+									"            pm.test('it should response with not found', () => {\r",
+									"                pm.expect(response.code).to.equal(404);\r",
+									"            });\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/members/{{memberId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"members",
+								"{{memberId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Services",
+			"item": [
+				{
+					"name": "Adding Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 201 value\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"\r",
+									"    pm.environment.set(\"serviceId\", responseJson.data.id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Cuci Setrika\",\r\n    \"unit\": \"kiloan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/services",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Services",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 200 value\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test('response body data should have a services array and contains at least 1 item', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.have.ownProperty('services');\r",
+									"    pm.expect(data.services).to.be.an('array');\r",
+									"    pm.expect(data.services).lengthOf.at.least(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/services",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Service with Valid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test('when GET detail service', () => {\r",
+									"    const serviceId = pm.environment.get('serviceId');\r",
+									"    const port = pm.environment.get('port');\r",
+									"    pm.sendRequest(`http://localhost:${port}/services/${serviceId}`, (error, response) => {\r",
+									"        if (!error) {\r",
+									"            pm.test('it should response with revised content', () => {\r",
+									"                pm.expect(response.code).to.equal(200);\r",
+									"\r",
+									"                const responseJson = response.json();\r",
+									"\r",
+									"                pm.expect(responseJson.status).to.equal('success');\r",
+									"                pm.expect(responseJson.data.service).to.be.an('object');\r",
+									"                pm.expect(responseJson.data.service.id).to.equal(serviceId);\r",
+									"                pm.expect(responseJson.data.service.name).to.equal(\"Handuk\");\r",
+									"                pm.expect(responseJson.data.service.unit).to.equal(\"satuan\");\r",
+									"            });\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Handuk\",\r\n    \"unit\": \"satuan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/services/{{serviceId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Service Option by Service Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 201 value\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"\r",
+									"    pm.environment.set(\"optionId\", responseJson.data.id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"biasa\",\r\n    \"price\": 5000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/services/{{serviceId}}/options",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"services",
+								"{{serviceId}}",
+								"options"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Service Option by Service Id and Option Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.be.a('string');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"express\",\r\n    \"price\": 10000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/services/{{serviceId}}/options/{{optionId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"services",
+								"{{serviceId}}",
+								"options",
+								"{{optionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Service with Valid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 200 value\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test('response body data should contain service object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.have.ownProperty('service');\r",
+									"    pm.expect(data.service).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('service object should contain correct value for id, name, and unit property', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data: { service } } = responseJson;\r",
+									"\r",
+									"    const expectedId = pm.environment.get('serviceId');\r",
+									"    const expectedName = 'Cuci Setrika';\r",
+									"    const expectedUnit = \"kiloan\";\r",
+									"\r",
+									"    pm.expect(service).to.have.ownProperty('id');\r",
+									"    pm.expect(service.id).to.equals(expectedId);\r",
+									"\r",
+									"    pm.expect(service).to.have.ownProperty('name');\r",
+									"    pm.expect(service.name).to.equals(expectedName);\r",
+									"\r",
+									"    pm.expect(service).to.have.ownProperty('unit');\r",
+									"    pm.expect(service.unit).to.eql(expectedUnit);\r",
+									"});\r",
+									"\r",
+									"pm.test('service should contain options object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data: { service } } = responseJson;\r",
+									"\r",
+									"    pm.expect(service).to.have.ownProperty('options');\r",
+									"});\r",
+									"\r",
+									"pm.test('service should have a options array and contains at least 1 item', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data: { service: { options } } } = responseJson;\r",
+									"\r",
+									"    pm.expect(options).to.be.an('array');\r",
+									"    pm.expect(options).lengthOf.at.least(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/services/{{serviceId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Service Option by Service Id and Option Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.be.a('string');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/services/{{serviceId}}/options/{{optionId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"services",
+								"{{serviceId}}",
+								"options",
+								"{{optionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Service with Valid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test('when GET detail members', () => {\r",
+									"    const serviceId = pm.environment.get('serviceId');\r",
+									"    const port = pm.environment.get('port');\r",
+									"    pm.sendRequest(`http://localhost:${port}/services/${serviceId}`, (error, response) => {\r",
+									"        if (!error) {\r",
+									"            pm.test('it should response with not found', () => {\r",
+									"                pm.expect(response.code).to.equal(404);\r",
+									"            });\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/services/{{serviceId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"services",
+								"{{serviceId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "[No Test] Prerequisite",
+					"item": [
+						{
+							"name": "Add Service A",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.environment.set(\"serviceIdA\", responseJson.data.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Cuci Setrika\",\r\n    \"unit\": \"kiloan\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/services",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"services"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Service B",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.environment.set(\"serviceIdB\", responseJson.data.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Sprei\",\r\n    \"unit\": \"satuan\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/services",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"services"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Option A",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.environment.set(\"optionIdA\", responseJson.data.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"biasa\",\r\n    \"price\": 5000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/services/{{serviceIdA}}/options",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"services",
+										"{{serviceIdA}}",
+										"options"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Option B",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.environment.set(\"optionIdB\", responseJson.data.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Biasa\",\r\n    \"price\": 10000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/services/{{serviceIdB}}/options",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"services",
+										"{{serviceIdB}}",
+										"options"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Adding Transaction with Single Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 201 value\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"\r",
+									"    pm.environment.set(\"transactionId\", responseJson.data.id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idMember\": \"{{memberId}}\",\r\n    \"options\": [\r\n        {\r\n            \"idOption\": \"{{optionId}}\",\r\n            \"qty\": 5.0\r\n        }\r\n    ],\r\n    \"description\": \"10 potong\",\r\n    \"estimation\": \"3 hari\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adding Transaction with Multiple Option",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 201 value\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idMember\": \"{{memberId}}\",\r\n    \"options\": [\r\n        {\r\n            \"idOption\": \"{{optionIdA}}\",\r\n            \"qty\": 4.0\r\n        },\r\n        {\r\n            \"idOption\": \"{{optionIdB}}\",\r\n            \"qty\": 2\r\n        }\r\n    ],\r\n    \"description\": \"30 potong, 5 sarung bg\",\r\n    \"estimation\": \"3 hari\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adding Transaction with Not Enough Payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 400 value\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"fail\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idMember\": \"{{memberId}}\",\r\n    \"options\": [\r\n        {\r\n            \"idOption\": \"{{optionId}}\",\r\n            \"qty\": 5.0\r\n        }\r\n    ],\r\n    \"description\": \"10 potong\",\r\n    \"payment\": 10000,\r\n    \"estimation\": \"3 hari\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transactions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 200 value\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test('response body data should have a transactions array and contains at least 1 item', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.have.ownProperty('transactions');\r",
+									"    pm.expect(data.transactions).to.be.an('array');\r",
+									"    pm.expect(data.transactions).lengthOf.at.least(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction with Valid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 200 value\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const transactionId = pm.environment.get(\"transactionId\");\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"    pm.expect(responseJson.data.transaction).to.be.an(\"object\");\r",
+									"    pm.expect(responseJson.data.transaction.id).to.equal(transactionId);\r",
+									"    pm.expect(responseJson.data.transaction.status).to.equal(\"In Progress\");\r",
+									"    pm.expect(responseJson.data.transaction.paymentStatus).to.equal(\"Unpaid\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/transactions/{{transactionId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"transactions",
+								"{{transactionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Transaction with Valid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test('when GET detail transaction', () => {\r",
+									"    const transactionId = pm.environment.get('transactionId');\r",
+									"    const port = pm.environment.get('port');\r",
+									"    pm.sendRequest(`http://localhost:${port}/transactions/${transactionId}`, (error, response) => {\r",
+									"        if (!error) {\r",
+									"            pm.test('it should response with revised content', () => {\r",
+									"                pm.expect(response.code).to.equal(200);\r",
+									"\r",
+									"                const responseJson = response.json();\r",
+									"\r",
+									"                pm.expect(responseJson.status).to.equal('success');\r",
+									"                pm.expect(responseJson.data.transaction).to.be.an('object');\r",
+									"                pm.expect(responseJson.data.transaction.id).to.equal(transactionId);\r",
+									"                pm.expect(responseJson.data.transaction.status).to.equal(\"Done\");\r",
+									"                pm.expect(responseJson.data.transaction.paymentStatus).to.equal(\"Paid\");\r",
+									"            });\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"15 potong\",\r\n    \"payment\": 25000,\r\n    \"status\": \"Done\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/transactions/{{transactionId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"transactions",
+								"{{transactionId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Transaction with Valid Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('it should response 200 status code', () => {\r",
+									"    pm.expect(pm.response).to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.includes('application/json');\r",
+									"}); \r",
+									"\r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test('response body should have correct property and value', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal('success');\r",
+									"    pm.expect(responseJson.message).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test('when GET detail members', () => {\r",
+									"    const transactionId = pm.environment.get('transactionId');\r",
+									"    const port = pm.environment.get('port');\r",
+									"    pm.sendRequest(`http://localhost:${port}/transactions/${transactionId}`, (error, response) => {\r",
+									"        if (!error) {\r",
+									"            pm.test('it should response with not found', () => {\r",
+									"                pm.expect(response.code).to.equal(404);\r",
+									"            });\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/transactions/{{transactionId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"transactions",
+								"{{transactionId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "End Of Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/members",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"members"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

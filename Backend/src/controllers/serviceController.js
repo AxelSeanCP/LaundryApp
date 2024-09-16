@@ -1,3 +1,4 @@
+const InvariantError = require("../exceptions/InvariantError");
 const ClientError = require("../exceptions/ClientError");
 const {
   addService,
@@ -10,12 +11,27 @@ const {
   deleteOptionById,
 } = require("../services/serviceService");
 
-const postServiceController = async (req, res, next) => {
+const logError = (error, res) => {
+  if (error instanceof ClientError) {
+    res.status(error.statusCode).json({
+      status: "fail",
+      message: error.message,
+    });
+  } else {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+    });
+  }
+};
+
+const postServiceController = async (req, res) => {
   try {
     const { name, unit } = req.body;
 
     if (!name || !unit) {
-      throw new ClientError("Name and unit are required", 400);
+      throw new InvariantError("Name and unit are required");
     }
 
     const service = await addService({ name, unit });
@@ -26,11 +42,11 @@ const postServiceController = async (req, res, next) => {
       data: service,
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
-const getServicesController = async (req, res, next) => {
+const getServicesController = async (req, res) => {
   try {
     const services = await getServices();
 
@@ -41,11 +57,11 @@ const getServicesController = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
-const getServiceByIdController = async (req, res, next) => {
+const getServiceByIdController = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -58,31 +74,31 @@ const getServiceByIdController = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
-const putServiceByIdController = async (req, res, next) => {
+const putServiceByIdController = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, unit } = req.body;
 
     if (!name || !unit) {
-      throw new ClientError("Name and unit are required", 400);
+      throw new InvariantError("Name and unit are required");
     }
 
     await editServiceById(id, { name, unit });
 
     res.status(200).json({
       status: "success",
-      message: "Service edited successfully",
+      message: "Service updated successfully",
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
-const deleteServiceByIdController = async (req, res, next) => {
+const deleteServiceByIdController = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -93,17 +109,17 @@ const deleteServiceByIdController = async (req, res, next) => {
       message: "Service deleted successfully",
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
-const postOptionController = async (req, res, next) => {
+const postOptionController = async (req, res) => {
   try {
     const { id: idService } = req.params;
     const { name, price } = req.body;
 
     if (!name || !price) {
-      throw new ClientError("Name and price are required", 400);
+      throw new InvariantError("Name and price are required");
     }
 
     const option = await addOption(idService, { name, price });
@@ -114,31 +130,31 @@ const postOptionController = async (req, res, next) => {
       data: option,
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
-const putOptionByIdController = async (req, res, next) => {
+const putOptionByIdController = async (req, res) => {
   try {
     const { idService, idOption } = req.params;
     const { name, price } = req.body;
 
     if (!name || !price) {
-      throw new ClientError("Name and price are required", 400);
+      throw new InvariantError("Name and price are required");
     }
 
     await editOptionById(idService, idOption, { name, price });
 
     res.status(200).json({
       status: "success",
-      message: "Option edited successfully",
+      message: "Option updated successfully",
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
-const deleteOptionByIdController = async (req, res, next) => {
+const deleteOptionByIdController = async (req, res) => {
   try {
     const { idService, idOption } = req.params;
 
@@ -149,7 +165,7 @@ const deleteOptionByIdController = async (req, res, next) => {
       message: "Option deleted successfully",
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 

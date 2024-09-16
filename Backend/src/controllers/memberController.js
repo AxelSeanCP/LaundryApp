@@ -1,3 +1,4 @@
+const InvariantError = require("../exceptions/InvariantError");
 const ClientError = require("../exceptions/ClientError");
 const {
   addMember,
@@ -7,12 +8,27 @@ const {
   deleteMemberById,
 } = require("../services/memberService");
 
-const postMemberController = async (req, res, next) => {
+const logError = (error, res) => {
+  if (error instanceof ClientError) {
+    res.status(error.statusCode).json({
+      status: "fail",
+      message: error.message,
+    });
+  } else {
+    console.error(error);
+    res.status(500).json({
+      status: "error",
+      message: "Internal Server Error",
+    });
+  }
+};
+
+const postMemberController = async (req, res) => {
   try {
     const { name, phoneNumber } = req.body;
 
     if (!name || !phoneNumber) {
-      throw new ClientError("Name and phone number are required", 400);
+      throw new InvariantError("Name and phone number are required");
     }
     const member = await addMember({ name, phoneNumber });
 
@@ -22,11 +38,11 @@ const postMemberController = async (req, res, next) => {
       data: member,
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
-const getMembersController = async (req, res, next) => {
+const getMembersController = async (req, res) => {
   try {
     const members = await getMembers();
 
@@ -37,11 +53,11 @@ const getMembersController = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
-const getMemberByIdController = async (req, res, next) => {
+const getMemberByIdController = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -54,11 +70,11 @@ const getMemberByIdController = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
-const putMemberByIdController = async (req, res, next) => {
+const putMemberByIdController = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, phoneNumber } = req.body;
@@ -67,14 +83,14 @@ const putMemberByIdController = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      message: "Member edited successfully",
+      message: "Member updated successfully",
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
-const deleteMemberByIdController = async (req, res, next) => {
+const deleteMemberByIdController = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -85,7 +101,7 @@ const deleteMemberByIdController = async (req, res, next) => {
       message: "Member deleted successfully",
     });
   } catch (error) {
-    next(error);
+    logError(error, res);
   }
 };
 
