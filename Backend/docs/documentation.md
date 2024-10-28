@@ -21,3 +21,7 @@ Transaction model
 - status: server will decide at first but able to be changed
 - totalPrice: server will decide
 - paymentStatus: server will decide
+
+TransactionOption model
+
+- qty: quantity of laundered clothes (kg or pieces)
