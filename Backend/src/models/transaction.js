@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "members",
       });
 
-      // A transaction belongs to service
+      // A transaction belongs to service options
       Transaction.belongsToMany(models.Option, {
         through: models.TransactionOption,
         foreignKey: "idTransaction",

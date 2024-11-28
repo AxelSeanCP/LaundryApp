@@ -63,6 +63,7 @@ const getMemberById = async (id) => {
 };
 
 const editMemberById = async (id, { name, phoneNumber }) => {
+  await verifyMember({ name, phoneNumber });
   const member = await getMemberById(id);
 
   member.name = name;

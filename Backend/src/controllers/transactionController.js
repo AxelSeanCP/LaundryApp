@@ -1,5 +1,4 @@
-const InvariantError = require("../exceptions/InvariantError");
-const ClientError = require("../exceptions/ClientError");
+const TransactionsValidator = require("../validator/transactions");
 const {
   addTransaction,
   getTransactions,
@@ -8,29 +7,11 @@ const {
   deleteTransactionById,
 } = require("../services/transactionService");
 
-const logError = (error, res) => {
-  if (error instanceof ClientError) {
-    res.status(error.statusCode).json({
-      status: "fail",
-      message: error.message,
-    });
-  } else {
-    console.error(error);
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-};
-
-const postTransactionController = async (req, res) => {
+const postTransactionController = async (req, res, next) => {
   try {
+    TransactionsValidator.validateTransactionPayload(req.body);
     const { idMember, options, description, estimation, discount, payment } =
       req.body;
-
-    if (!idMember || !options) {
-      throw new InvariantError("IdMember and service options are required");
-    }
 
     const transaction = await addTransaction({
       idMember,
@@ -47,11 +28,11 @@ const postTransactionController = async (req, res) => {
       data: transaction,
     });
   } catch (error) {
-    logError(error, res);
+    next(error);
   }
 };
 
-const getTransactionsController = async (req, res) => {
+const getTransactionsController = async (req, res, next) => {
   try {
     const transactions = await getTransactions();
 
@@ -62,11 +43,11 @@ const getTransactionsController = async (req, res) => {
       },
     });
   } catch (error) {
-    logError(error, res);
+    next(error);
   }
 };
 
-const getTransactionByIdController = async (req, res) => {
+const getTransactionByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -79,12 +60,13 @@ const getTransactionByIdController = async (req, res) => {
       },
     });
   } catch (error) {
-    logError(error, res);
+    next(error);
   }
 };
 
-const putTransactionByIdController = async (req, res) => {
+const putTransactionByIdController = async (req, res, next) => {
   try {
+    TransactionsValidator.validateTransactionPayload(req.body);
     const { id } = req.params;
 
     const { description, discount, payment, status, estimation } = req.body;
@@ -102,11 +84,11 @@ const putTransactionByIdController = async (req, res) => {
       message: "Transaction updated successfully",
     });
   } catch (error) {
-    logError(error, res);
+    next(error);
   }
 };
 
-const deleteTransactionByIdController = async (req, res) => {
+const deleteTransactionByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -117,7 +99,7 @@ const deleteTransactionByIdController = async (req, res) => {
       message: "Transaction deleted successfully",
     });
   } catch (error) {
-    logError(error, res);
+    next(error);
   }
 };
 

@@ -41,7 +41,7 @@ const addTransaction = async ({
 
   totalPrice -= discount;
 
-  if (payment !== null) {
+  if (payment !== 0) {
     if (totalPrice - payment === 0) {
       paymentStatus = "Paid";
     } else {
@@ -107,6 +107,19 @@ const getTransactionById = async (id) => {
         model: db.Member,
         as: "members",
         attributes: ["name"],
+      },
+      {
+        model: db.Option,
+        as: "options",
+        attributes: ["price"],
+        through: { attributes: ["qty"] },
+        include: [
+          {
+            model: db.Service,
+            as: "services",
+            attributes: ["name"],
+          },
+        ],
       },
     ],
   });

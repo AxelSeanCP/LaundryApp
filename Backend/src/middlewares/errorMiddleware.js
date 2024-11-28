@@ -1,13 +1,13 @@
 const ClientError = require("../exceptions/ClientError");
 
-const errorMiddleware = (error, res) => {
-  if (error instanceof ClientError) {
-    res.status(error.statusCode).json({
+const errorMiddleware = (err, req, res, next) => {
+  if (err instanceof ClientError) {
+    res.status(err.statusCode).json({
       status: "fail",
-      message: error.message,
+      message: err.message,
     });
   } else {
-    console.error(error);
+    console.error(err);
     res.status(500).json({
       status: "error",
       message: "Internal Server Error",

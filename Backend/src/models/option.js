@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 
       Option.belongsTo(models.Service, {
         foreignKey: "idService",
-        as: "options",
+        as: "services",
         onDelete: "CASCADE",
       });
     }
