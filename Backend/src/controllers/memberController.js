@@ -26,7 +26,8 @@ const postMemberController = async (req, res, next) => {
 
 const getMembersController = async (req, res, next) => {
   try {
-    const members = await getMembers();
+    const { input } = req.query;
+    const members = await getMembers(input);
 
     res.status(200).json({
       status: "success",

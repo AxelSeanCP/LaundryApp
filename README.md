@@ -2,6 +2,6 @@
 
 Personal project a laundry app to add members and add transactions.
 
-## Read the DOCS
+## Getting Started
 
 - [Back-End](./Backend/README.md)

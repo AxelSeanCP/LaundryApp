@@ -1,6 +1,6 @@
 const db = require("../models");
 const { nanoid } = require("nanoid");
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 const InvariantError = require("../exceptions/InvariantError");
 const NotFoundError = require("../exceptions/NotFoundError");
 
@@ -35,9 +35,19 @@ const addMember = async ({ name, phoneNumber }) => {
   return member;
 };
 
-const getMembers = async () => {
+const getMembers = async (input) => {
+  const whereClause = input
+    ? {
+        [Op.or]: [
+          { name: { [Op.like]: `%${input}%` } },
+          { phoneNumber: { [Op.like]: `%${input}%` } },
+        ],
+      }
+    : {};
+
   const members = await db.Member.findAll({
     attributes: ["id", "name", "phoneNumber"],
+    where: whereClause,
   });
 
   if (members.length === 0) {
