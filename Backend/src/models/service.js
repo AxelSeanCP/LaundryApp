@@ -12,6 +12,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "idService",
         as: "options",
       });
+
+      Service.belongsTo(models.Organization, {
+        foreignKey: "idOrganization",
+        as: "organization",
+        onDelete: "CASCADE",
+      });
     }
   }
   Service.init(
@@ -23,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       unit: DataTypes.STRING,
+      idOrganization: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,

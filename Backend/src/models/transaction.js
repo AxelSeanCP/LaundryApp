@@ -21,6 +21,12 @@ module.exports = (sequelize, DataTypes) => {
         as: "options",
         onDelete: "CASCADE",
       });
+
+      Transaction.belongsTo(models.Organization, {
+        foreignKey: "idOrganization",
+        as: "organization",
+        onDelete: "CASCADE",
+      });
     }
   }
   Transaction.init(
@@ -38,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
       status: DataTypes.STRING, //server will decide, but can be changed
       paymentStatus: DataTypes.STRING, //server will decide
       estimation: DataTypes.STRING,
+      idOrganization: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,

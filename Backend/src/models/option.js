@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
         as: "services",
         onDelete: "CASCADE",
       });
+
+      Option.belongsTo(models.Organization, {
+        foreignKey: "idOrganization",
+        as: "organization",
+        onDelete: "CASCADE",
+      });
     }
   }
   Option.init(
@@ -32,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
       idService: DataTypes.STRING,
       name: DataTypes.STRING,
       price: DataTypes.INTEGER,
+      idOrganization: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,

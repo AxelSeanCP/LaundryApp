@@ -3,12 +3,6 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
     await queryInterface.addColumn("members", "idOrganization", {
       type: Sequelize.STRING,
       allowNull: false,
@@ -34,5 +28,9 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
+    await queryInterface.removeColumn("members", "idOrganization");
+    await queryInterface.removeColumn("services", "idOrganization");
+    await queryInterface.removeColumn("options", "idOrganization");
+    await queryInterface.removeColumn("transactions", "idOrganization");
   },
 };

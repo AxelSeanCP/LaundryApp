@@ -12,6 +12,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "idMember",
         as: "transactions",
       });
+
+      Member.belongsTo(models.Organization, {
+        foreignKey: "idOrganization",
+        as: "organization",
+        onDelete: "CASCADE",
+      });
     }
   }
   Member.init(
@@ -23,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       phoneNumber: DataTypes.STRING,
+      idOrganization: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,
