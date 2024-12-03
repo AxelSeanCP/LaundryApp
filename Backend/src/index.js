@@ -6,6 +6,7 @@ const express = require("express");
 const member = require("./routes/memberRoutes");
 const service = require("./routes/serviceRoutes");
 const transaction = require("./routes/transactionRoutes");
+const user = require("./routes/userRoutes");
 
 const errorMiddleware = require("./middlewares/errorMiddleware");
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/members", member);
 app.use("/services", service);
 app.use("/transactions", transaction);
+app.use("/users", user);
 
 app.use(errorMiddleware);
 
