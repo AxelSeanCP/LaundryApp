@@ -1,5 +1,5 @@
 const UsersValidator = require("../validator/users");
-const { addUser } = require("../services/userService");
+const { addUser, getUserById } = require("../services/userService");
 
 const postUserController = async (req, res, next) => {
   try {
@@ -18,4 +18,23 @@ const postUserController = async (req, res, next) => {
   }
 };
 
-module.exports = postUserController;
+const getUserByIdController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await getUserById(id);
+
+    res.status(201).json({
+      status: "success",
+      data: {
+        user,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  postUserController,
+  getUserByIdController,
+};

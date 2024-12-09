@@ -3,6 +3,8 @@ const { nanoid } = require("nanoid");
 const bcrypt = require("bcrypt");
 const InvariantError = require("../exceptions/InvariantError");
 const AuthenticationError = require("../exceptions/AuthenticationError");
+const { where } = require("sequelize");
+const NotFoundError = require("../exceptions/NotFoundError");
 
 const verifyNewUsername = async ({ username }) => {
   const user = await db.User.findOne({
@@ -55,7 +57,23 @@ const verifyUserCredential = async ({ username, password }) => {
   }
 };
 
+const getUserById = async (id) => {
+  const user = await db.User.findOne({
+    where: {
+      id,
+    },
+    attributes: ["username", "idOrganization"],
+  });
+
+  if (!user) {
+    throw new NotFoundError("Get user failed. User not found");
+  }
+
+  return user;
+};
+
 module.exports = {
   addUser,
   verifyUserCredential,
+  getUserById,
 };
