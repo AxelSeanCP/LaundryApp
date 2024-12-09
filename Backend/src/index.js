@@ -7,6 +7,7 @@ const member = require("./routes/memberRoutes");
 const service = require("./routes/serviceRoutes");
 const transaction = require("./routes/transactionRoutes");
 const user = require("./routes/userRoutes");
+const authentication = require("./routes/authenticationRoutes");
 
 const errorMiddleware = require("./middlewares/errorMiddleware");
 
@@ -19,6 +20,7 @@ app.use("/members", member);
 app.use("/services", service);
 app.use("/transactions", transaction);
 app.use("/users", user);
+app.use("/authentications", authentication);
 
 app.use(errorMiddleware);
 

@@ -3,7 +3,6 @@ const { nanoid } = require("nanoid");
 const bcrypt = require("bcrypt");
 const InvariantError = require("../exceptions/InvariantError");
 const AuthenticationError = require("../exceptions/AuthenticationError");
-const { where } = require("sequelize");
 const NotFoundError = require("../exceptions/NotFoundError");
 
 const verifyNewUsername = async ({ username }) => {
@@ -38,7 +37,7 @@ const addUser = async ({ username, password, idOrganization }) => {
   return user;
 };
 
-const verifyUserCredential = async ({ username, password }) => {
+const verifyUserCredential = async (username, password) => {
   const user = await db.User.findOne({
     where: {
       username: username,
@@ -49,12 +48,14 @@ const verifyUserCredential = async ({ username, password }) => {
     throw new AuthenticationError("Login failed. User credentials is wrong");
   }
 
-  const { password: hashedPassword } = user;
+  const { id, idOrganization, password: hashedPassword } = user;
   const match = await bcrypt.compare(password, hashedPassword);
 
   if (!match) {
     throw new AuthenticationError("Login failed. User credentials is wrong");
   }
+
+  return { id, idOrganization };
 };
 
 const getUserById = async (id) => {

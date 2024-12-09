@@ -20,4 +20,4 @@ const AuthenticationsValidator = {
   },
 };
 
-module.exports = { AuthenticationsValidator };
+module.exports = AuthenticationsValidator;
