@@ -1,0 +1,3 @@
+- add organization access token to add user;
+- add protected route to all services
+- add auth middleware and store userid and organizationid to be used

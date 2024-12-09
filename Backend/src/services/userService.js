@@ -5,7 +5,7 @@ const InvariantError = require("../exceptions/InvariantError");
 const AuthenticationError = require("../exceptions/AuthenticationError");
 const NotFoundError = require("../exceptions/NotFoundError");
 
-const verifyNewUsername = async ({ username }) => {
+const verifyNewUsername = async (username) => {
   const user = await db.User.findOne({
     where: {
       username: username,
@@ -15,9 +15,10 @@ const verifyNewUsername = async ({ username }) => {
   if (user) {
     throw new InvariantError("Add user failed. Username already exists!");
   }
+  console.log("ini aman");
 };
 
-const addUser = async ({ username, password, idOrganization }) => {
+const addUser = async (username, password, idOrganization) => {
   await verifyNewUsername(username);
 
   const id = `user-${nanoid(16)}`;

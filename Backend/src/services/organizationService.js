@@ -51,7 +51,7 @@ const verifyOrganizationCredential = async ({ name, password }) => {
   }
 
   const { id, password: hashedPassword } = organization;
-  const match = bcrypt.compare(password, hashedPassword);
+  const match = await bcrypt.compare(password, hashedPassword);
 
   if (!match) {
     throw new AuthenticationError(

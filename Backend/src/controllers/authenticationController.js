@@ -21,8 +21,8 @@ const postAuthenticationController = async (req, res, next) => {
       password
     );
 
-    const accessToken = await generateAccessToken({ id, idOrganization });
-    const refreshToken = await generateRefreshToken({ id, idOrganization });
+    const accessToken = generateAccessToken({ id, idOrganization });
+    const refreshToken = generateRefreshToken({ id, idOrganization });
 
     await addRefreshToken(refreshToken);
 

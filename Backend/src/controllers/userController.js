@@ -6,12 +6,12 @@ const postUserController = async (req, res, next) => {
     UsersValidator.validateUserPayload(req.body);
     const { username, password, idOrganization } = req.body;
 
-    const user = await addUser({ username, password, idOrganization });
+    const user = await addUser(username, password, idOrganization);
 
     res.status(201).json({
       status: "success",
       message: "User added successfully",
-      data: user,
+      data: { user },
     });
   } catch (error) {
     next(error);
@@ -23,7 +23,7 @@ const getUserByIdController = async (req, res, next) => {
     const { id } = req.params;
     const user = await getUserById(id);
 
-    res.status(201).json({
+    res.status(200).json({
       status: "success",
       data: {
         user,

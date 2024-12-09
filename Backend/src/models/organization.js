@@ -29,14 +29,18 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       Organization.hasMany(models.User, {
-        foreginKey: "idOrganization",
+        foreignKey: "idOrganization",
         as: "users",
       });
     }
   }
   Organization.init(
     {
-      id: DataTypes.STRING,
+      id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true,
+      },
       name: DataTypes.STRING,
       password: DataTypes.STRING,
     },

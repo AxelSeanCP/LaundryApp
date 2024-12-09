@@ -1,5 +1,6 @@
 Associations
 
+- all belong to one organization
 - service has many options
 - options belongs to service
 - service has many transactions

@@ -6,6 +6,7 @@ const express = require("express");
 const member = require("./routes/memberRoutes");
 const service = require("./routes/serviceRoutes");
 const transaction = require("./routes/transactionRoutes");
+const organizations = require("./routes/organizationRoutes");
 const user = require("./routes/userRoutes");
 const authentication = require("./routes/authenticationRoutes");
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/members", member);
 app.use("/services", service);
 app.use("/transactions", transaction);
+app.use("/organizations", organizations);
 app.use("/users", user);
 app.use("/authentications", authentication);
 

@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Authentication.init(
     {
-      token: DataTypes.STRING,
+      token: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true,
+      },
     },
     {
       sequelize,
