@@ -4,8 +4,9 @@ const {
   postUserController,
   getUserByIdController,
 } = require("../controllers/userController");
+const authMiddleware = require("../middlewares/authMiddleware");
 
-router.post("/", postUserController);
+router.post("/", authMiddleware, postUserController);
 
 router.get("/:id", getUserByIdController);
 

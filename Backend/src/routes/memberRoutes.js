@@ -7,15 +7,16 @@ const {
   putMemberByIdController,
   deleteMemberByIdController,
 } = require("../controllers/memberController");
+const authMiddleware = require("../middlewares/authMiddleware");
 
-router.post("/", postMemberController);
+router.post("/", authMiddleware, postMemberController);
 
-router.get("/", getMembersController);
+router.get("/", authMiddleware, getMembersController);
 
-router.get("/:id", getMemberByIdController);
+router.get("/:id", authMiddleware, getMemberByIdController);
 
-router.put("/:id", putMemberByIdController);
+router.put("/:id", authMiddleware, putMemberByIdController);
 
-router.delete("/:id", deleteMemberByIdController);
+router.delete("/:id", authMiddleware, deleteMemberByIdController);
 
 module.exports = router;

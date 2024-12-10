@@ -4,7 +4,8 @@ const { addUser, getUserById } = require("../services/userService");
 const postUserController = async (req, res, next) => {
   try {
     UsersValidator.validateUserPayload(req.body);
-    const { username, password, idOrganization } = req.body;
+    const { username, password } = req.body;
+    const { id: idOrganization } = req.credentials;
 
     const user = await addUser(username, password, idOrganization);
 

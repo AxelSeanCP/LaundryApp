@@ -3,6 +3,7 @@ const { nanoid } = require("nanoid");
 const { Op } = require("sequelize");
 const InvariantError = require("../exceptions/InvariantError");
 const NotFoundError = require("../exceptions/NotFoundError");
+const AuthorizationError = require("../exceptions/AuthorizationError");
 
 const verifyMember = async ({ name, phoneNumber }) => {
   const member = await db.Member.findOne({
@@ -16,7 +17,7 @@ const verifyMember = async ({ name, phoneNumber }) => {
   }
 };
 
-const addMember = async ({ name, phoneNumber }) => {
+const addMember = async ({ name, phoneNumber, idOrganization }) => {
   await verifyMember({ name, phoneNumber });
 
   const id = `member-${nanoid(16)}`;
@@ -25,6 +26,7 @@ const addMember = async ({ name, phoneNumber }) => {
     id: id,
     name: name,
     phoneNumber: phoneNumber,
+    idOrganization: idOrganization,
   });
 
   if (!member) {
@@ -34,15 +36,20 @@ const addMember = async ({ name, phoneNumber }) => {
   return member;
 };
 
-const getMembers = async (input) => {
+const getMembers = async (input, idOrganization) => {
   const whereClause = input
     ? {
-        [Op.or]: [
-          { name: { [Op.like]: `%${input}%` } },
-          { phoneNumber: { [Op.like]: `%${input}%` } },
+        [Op.and]: [
+          {
+            [Op.or]: [
+              { name: { [Op.like]: `%${input}%` } },
+              { phoneNumber: { [Op.like]: `%${input}%` } },
+            ],
+          },
+          { idOrganization: idOrganization },
         ],
       }
-    : {};
+    : { idOrganization: idOrganization };
 
   const members = await db.Member.findAll({
     attributes: ["id", "name", "phoneNumber"],
@@ -56,10 +63,11 @@ const getMembers = async (input) => {
   return members;
 };
 
-const getMemberById = async (id) => {
+const getMemberById = async (id, idOrganization) => {
   const member = await db.Member.findOne({
     where: {
       id,
+      idOrganization,
     },
     attributes: ["id", "name", "phoneNumber"],
   });
@@ -72,19 +80,31 @@ const getMemberById = async (id) => {
 };
 
 const editMemberById = async (id, { name, phoneNumber }) => {
-  await verifyMember({ name, phoneNumber });
-  const member = await getMemberById(id);
-
-  member.name = name;
-  member.phoneNumber = phoneNumber;
-
-  await member.save();
+  await db.Member.update({ name, phoneNumber }, { where: { id } });
 };
 
 const deleteMemberById = async (id) => {
-  const member = await getMemberById(id);
+  await db.Member.destroy({
+    where: {
+      id,
+    },
+  });
+};
 
-  await member.destroy();
+const verifyMemberAccess = async (id, idOrganization) => {
+  const member = await db.Member.findOne({
+    where: {
+      id: id,
+    },
+  });
+
+  if (!member) {
+    throw new NotFoundError("Resource not found");
+  }
+
+  if (member.idOrganization !== idOrganization) {
+    throw new AuthorizationError("You dont have access to this resource");
+  }
 };
 
 module.exports = {
@@ -93,4 +113,5 @@ module.exports = {
   getMemberById,
   editMemberById,
   deleteMemberById,
+  verifyMemberAccess,
 };

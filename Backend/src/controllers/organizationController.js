@@ -31,9 +31,12 @@ const PostOrganizationLoginController = async (req, res, next) => {
 
     const { name, password } = req.body;
 
-    const id = await verifyOrganizationCredential({ name, password });
+    const idOrganization = await verifyOrganizationCredential({
+      name,
+      password,
+    });
 
-    const accessToken = await generateAccessToken({ id });
+    const accessToken = generateAccessToken({ idOrganization });
 
     res.status(201).json({
       status: "success",
