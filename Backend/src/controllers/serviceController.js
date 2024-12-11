@@ -6,17 +6,20 @@ const {
   getServiceById,
   editServiceById,
   deleteServiceById,
+  verifyServiceAccess,
   addOption,
   editOptionById,
   deleteOptionById,
+  verifyOptionAccess,
 } = require("../services/serviceService");
 
 const postServiceController = async (req, res, next) => {
   try {
     ServicesValidator.validateServicePayload(req.body);
     const { name, unit } = req.body;
+    const { idOrganization } = req.credentials;
 
-    const service = await addService({ name, unit });
+    const service = await addService({ name, unit, idOrganization });
 
     res.status(201).json({
       status: "success",
@@ -30,7 +33,8 @@ const postServiceController = async (req, res, next) => {
 
 const getServicesController = async (req, res, next) => {
   try {
-    const services = await getServices();
+    const { idOrganization } = req.credentials;
+    const services = await getServices(idOrganization);
 
     res.status(200).json({
       status: "success",
@@ -46,8 +50,9 @@ const getServicesController = async (req, res, next) => {
 const getServiceByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { idOrganization } = req.credentials;
 
-    const service = await getServiceById(id);
+    const service = await getServiceById(id, idOrganization);
 
     res.status(200).json({
       status: "success",
@@ -64,9 +69,10 @@ const putServiceByIdController = async (req, res, next) => {
   try {
     ServicesValidator.validateServicePayload(req.body);
     const { id } = req.params;
-    const { name, unit } = req.body;
+    const { idOrganization } = req.credentials;
 
-    await editServiceById(id, { name, unit });
+    await verifyServiceAccess(id, idOrganization);
+    await editServiceById(id, req.body);
 
     res.status(200).json({
       status: "success",
@@ -80,7 +86,9 @@ const putServiceByIdController = async (req, res, next) => {
 const deleteServiceByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { idOrganization } = req.credentials;
 
+    await verifyServiceAccess(id, idOrganization);
     await deleteServiceById(id);
 
     res.status(200).json({
@@ -96,9 +104,9 @@ const postOptionController = async (req, res, next) => {
   try {
     OptionsValidator.validateOptionPayload(req.body);
     const { id: idService } = req.params;
-    const { name, price } = req.body;
+    const { idOrganization } = req.credentials;
 
-    const option = await addOption(idService, { name, price });
+    const option = await addOption(idService, idOrganization, req.body);
 
     res.status(201).json({
       status: "success",
@@ -114,9 +122,10 @@ const putOptionByIdController = async (req, res, next) => {
   try {
     OptionsValidator.validateOptionPayload(req.body);
     const { idService, idOption } = req.params;
-    const { name, price } = req.body;
+    const { idOrganization } = req.credentials;
 
-    await editOptionById(idService, idOption, { name, price });
+    await verifyOptionAccess(idService, idOption, idOrganization);
+    await editOptionById(idService, idOption, req.body);
 
     res.status(200).json({
       status: "success",
@@ -130,7 +139,9 @@ const putOptionByIdController = async (req, res, next) => {
 const deleteOptionByIdController = async (req, res, next) => {
   try {
     const { idService, idOption } = req.params;
+    const { idOrganization } = req.credentials;
 
+    await verifyOptionAccess(idService, idOption, idOrganization);
     await deleteOptionById(idService, idOption);
 
     res.status(200).json({

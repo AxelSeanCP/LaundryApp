@@ -3,6 +3,7 @@ const { nanoid } = require("nanoid");
 const { Op } = require("sequelize");
 const InvariantError = require("../exceptions/InvariantError");
 const NotFoundError = require("../exceptions/NotFoundError");
+const AuthorizationError = require("../exceptions/AuthorizationError");
 
 const verifyService = async ({ name }) => {
   const service = await db.Service.findOne({
@@ -16,7 +17,7 @@ const verifyService = async ({ name }) => {
   }
 };
 
-const addService = async ({ name, unit }) => {
+const addService = async ({ name, unit, idOrganization }) => {
   await verifyService({ name });
 
   const id = `service-${nanoid(16)}`;
@@ -25,6 +26,7 @@ const addService = async ({ name, unit }) => {
     id: id,
     name: name,
     unit: unit,
+    idOrganization: idOrganization,
   });
 
   if (!service) {
@@ -34,9 +36,12 @@ const addService = async ({ name, unit }) => {
   return service;
 };
 
-const getServices = async () => {
+const getServices = async (idOrganization) => {
   const services = await db.Service.findAll({
     attributes: ["id", "name", "unit"],
+    where: {
+      idOrganization,
+    },
   });
 
   if (services.length === 0) {
@@ -46,11 +51,12 @@ const getServices = async () => {
   return services;
 };
 
-const getServiceById = async (idService) => {
+const getServiceById = async (idService, idOrganization) => {
   // also return all the options
   const service = await db.Service.findOne({
     where: {
       id: idService,
+      idOrganization: idOrganization,
     },
     include: [
       {
@@ -68,21 +74,34 @@ const getServiceById = async (idService) => {
 };
 
 const editServiceById = async (id, { name, unit }) => {
-  const service = await getServiceById(id);
-
-  service.name = name;
-  service.unit = unit;
-
-  await service.save();
+  await db.Service.update({ name, unit }, { where: { id } });
 };
 
 const deleteServiceById = async (id) => {
-  const service = await getServiceById(id);
-
-  await service.destroy();
+  await db.Service.destroy({
+    where: {
+      id,
+    },
+  });
 };
 
-const addOption = async (idService, { name, price }) => {
+const verifyServiceAccess = async (id, idOrganization) => {
+  const service = await db.Service.findOne({
+    where: {
+      id,
+    },
+  });
+
+  if (!service) {
+    throw new NotFoundError("Service not found. Invalid Id");
+  }
+
+  if (service.idOrganization !== idOrganization) {
+    throw new AuthorizationError("You don't have access to this resource");
+  }
+};
+
+const addOption = async (idService, idOrganization, { name, price }) => {
   const id = `option-${nanoid(16)}`;
 
   const option = await db.Option.create({
@@ -90,6 +109,7 @@ const addOption = async (idService, { name, price }) => {
     idService: idService,
     name: name,
     price: price,
+    idOrganization: idOrganization,
   });
 
   if (!option) {
@@ -100,6 +120,27 @@ const addOption = async (idService, { name, price }) => {
 };
 
 const editOptionById = async (idService, idOption, { name, price }) => {
+  await db.Option.update(
+    { name, price },
+    {
+      where: {
+        id: idOption,
+        idService: idService,
+      },
+    }
+  );
+};
+
+const deleteOptionById = async (idService, idOption) => {
+  await db.Option.destroy({
+    where: {
+      id: idOption,
+      idService,
+    },
+  });
+};
+
+const verifyOptionAccess = async (idService, idOption, idOrganization) => {
   const option = await db.Option.findOne({
     where: {
       id: idOption,
@@ -111,21 +152,9 @@ const editOptionById = async (idService, idOption, { name, price }) => {
     throw new NotFoundError("Option not found. Invalid id");
   }
 
-  option.name = name;
-  option.price = price;
-
-  await option.save();
-};
-
-const deleteOptionById = async (idService, idOption) => {
-  const option = await db.Option.findOne({
-    where: {
-      id: idOption,
-      idService: idService,
-    },
-  });
-
-  await option.destroy();
+  if (option.idOrganization !== idOrganization) {
+    throw new AuthorizationError("You don't have access to this resource");
+  }
 };
 
 module.exports = {
@@ -134,7 +163,9 @@ module.exports = {
   getServiceById,
   editServiceById,
   deleteServiceById,
+  verifyServiceAccess,
   addOption,
   editOptionById,
   deleteOptionById,
+  verifyOptionAccess,
 };

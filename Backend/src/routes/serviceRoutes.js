@@ -10,21 +10,30 @@ const {
   putOptionByIdController,
   deleteOptionByIdController,
 } = require("../controllers/serviceController");
+const authMiddleware = require("../middlewares/authMiddleware");
 
-router.post("/", postServiceController);
+router.post("/", authMiddleware, postServiceController);
 
-router.get("/", getServicesController);
+router.get("/", authMiddleware, getServicesController);
 
-router.get("/:id", getServiceByIdController);
+router.get("/:id", authMiddleware, getServiceByIdController);
 
-router.put("/:id", putServiceByIdController);
+router.put("/:id", authMiddleware, putServiceByIdController);
 
-router.delete("/:id", deleteServiceByIdController);
+router.delete("/:id", authMiddleware, deleteServiceByIdController);
 
-router.post("/:id/options", postOptionController);
+router.post("/:id/options", authMiddleware, postOptionController);
 
-router.put("/:idService/options/:idOption", putOptionByIdController);
+router.put(
+  "/:idService/options/:idOption",
+  authMiddleware,
+  putOptionByIdController
+);
 
-router.delete("/:idService/options/:idOption", deleteOptionByIdController);
+router.delete(
+  "/:idService/options/:idOption",
+  authMiddleware,
+  deleteOptionByIdController
+);
 
 module.exports = router;

@@ -99,11 +99,11 @@ const verifyMemberAccess = async (id, idOrganization) => {
   });
 
   if (!member) {
-    throw new NotFoundError("Resource not found");
+    throw new NotFoundError("Member not found. Invalid Id");
   }
 
   if (member.idOrganization !== idOrganization) {
-    throw new AuthorizationError("You dont have access to this resource");
+    throw new AuthorizationError("You don't have access to this resource");
   }
 };
 
