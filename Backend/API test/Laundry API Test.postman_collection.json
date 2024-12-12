@@ -7,6 +7,720 @@
 	},
 	"item": [
 		{
+			"name": "Organizations",
+			"item": [
+				{
+					"name": "Adding Organization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 201 value\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body data should have organizationId property and not equal to empty\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data.organization).to.ownProperty(\"id\");\r",
+									"    pm.expect(data.organization.id).to.not.equals(\"\");\r",
+									"\r",
+									"    pm.environment.set(\"organizationId\", data.organization.id);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Lotus Laundry\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/organizations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"organizations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adding Organization with Exists Organization Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 400 value\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"fail\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Lotus Laundry\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/organizations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"organizations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Organization",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 201 value', () => {\r",
+									"   pm.response.to.have.status(201);\r",
+									"}); \r",
+									" \r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"}); \r",
+									" \r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equals(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body data should have property accessToken with correct value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.have.ownProperty(\"accessToken\");\r",
+									"    pm.expect(data.accessToken).to.not.equals(\"\");\r",
+									"    pm.expect(data.accessToken).to.not.equals(null);\r",
+									"\r",
+									"    pm.environment.set(\"organizationAccessToken\", data.accessToken);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Lotus Laundry\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/organizations/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"organizations",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Organization with Invalid Credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 401 value', () => {\r",
+									"   pm.response.to.have.status(401);\r",
+									"}); \r",
+									" \r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"}); \r",
+									" \r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equals(\"fail\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Lotus Laundry\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/organizations/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"organizations",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Adding User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 201 value\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body data should have userId property and not equal to empty\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data.user).to.ownProperty(\"id\");\r",
+									"    pm.expect(data.user.id).to.not.equals(\"\");\r",
+									"\r",
+									"    pm.environment.set(\"userId\", data.user.id);\r",
+									"    pm.environment.set(\"username\", data.user.username);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{organizationAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Axel\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adding User with Exists Username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 400 value\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"fail\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{organizationAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Axel\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting User By Correct Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 200 value\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body data should contain user object\", () => {\r",
+									"    const { data } = pm.response.json();\r",
+									"\r",
+									"    pm.expect(data).to.have.ownProperty('user');\r",
+									"    pm.expect(data.user).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"user object should only contain username and idOrganization\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data: { user } } = responseJson;\r",
+									"\r",
+									"    pm.expect(user).to.have.ownProperty(\"username\");\r",
+									"    pm.expect(user.username).to.equals(pm.environment.get(\"username\"));\r",
+									"    pm.expect(user).to.have.ownProperty(\"idOrganization\");\r",
+									"    pm.expect(user.idOrganization).to.equals(pm.environment.get(\"organizationId\"));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{organizationAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/users/{{userId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting User By Incorrect Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 404 value\", () => {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"fail\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{organizationAccessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/users/xxx",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"users",
+								"xxx"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentications",
+			"item": [
+				{
+					"name": "Post Authentication with Valid Credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 201 value', () => {\r",
+									"   pm.response.to.have.status(201);\r",
+									"}); \r",
+									" \r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"}); \r",
+									" \r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equals(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body data should have property accessToken and refreshToken with correct value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.have.ownProperty(\"accessToken\");\r",
+									"    pm.expect(data.accessToken).to.not.equals(\"\");\r",
+									"    pm.expect(data.accessToken).to.not.equals(null);\r",
+									"    pm.expect(data).to.have.ownProperty(\"refreshToken\");\r",
+									"    pm.expect(data.refreshToken).to.not.equals(\"\");\r",
+									"    pm.expect(data.refreshToken).to.not.equals(null);\r",
+									"\r",
+									"    // menyimpan accessToken dan refreshToken di environment variable\r",
+									"    pm.environment.set(\"accessToken\", data.accessToken);\r",
+									"    pm.environment.set(\"refreshToken\", data.refreshToken);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Axel\",\r\n    \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/authentications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"authentications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Authentication with Invalid Credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code should have 401 value', () => {\r",
+									"   pm.response.to.have.status(401);\r",
+									"}); \r",
+									" \r",
+									"pm.test('response Content-Type header should have application/json value', () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');\r",
+									"}); \r",
+									" \r",
+									"pm.test('response body should an object', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equals(\"fail\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"message\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Axel\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/authentications",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"authentications"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Members",
 			"item": [
 				{
@@ -48,6 +762,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -106,6 +830,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -175,6 +909,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -186,6 +930,158 @@
 							"port": "{{port}}",
 							"path": [
 								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Members based on Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 200 value\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test('response body data should have a members array and contains at least 1 item', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.have.ownProperty('members');\r",
+									"    pm.expect(data.members).to.be.an('array');\r",
+									"    pm.expect(data.members).lengthOf.at.least(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/members?input=meltryllis",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"members"
+							],
+							"query": [
+								{
+									"key": "input",
+									"value": "meltryllis"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Members based on Phone Number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 200 value\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test('response body data should have a members array and contains at least 1 item', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.have.ownProperty('members');\r",
+									"    pm.expect(data.members).to.be.an('array');\r",
+									"    pm.expect(data.members).lengthOf.at.least(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/members?input=085333270333",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"members"
+							],
+							"query": [
+								{
+									"key": "input",
+									"value": "085333270333"
+								}
 							]
 						}
 					},
@@ -226,10 +1122,20 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:{{port}}/members/{{memberId}}",
+							"raw": "http://localhost:{{port}}/members/xxx",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -237,7 +1143,7 @@
 							"port": "{{port}}",
 							"path": [
 								"members",
-								"{{memberId}}"
+								"xxx"
 							]
 						}
 					},
@@ -281,6 +1187,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -331,6 +1247,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -387,7 +1313,14 @@
 									"pm.test('when GET detail members', () => {\r",
 									"    const memberId = pm.environment.get('memberId');\r",
 									"    const port = pm.environment.get('port');\r",
-									"    pm.sendRequest(`http://localhost:${port}/members/${memberId}`, (error, response) => {\r",
+									"    const getRequest = {\r",
+									"        url: `http://localhost:${port}/members/${memberId}`,\r",
+									"        method: \"GET\",\r",
+									"        header: {\r",
+									"            \"Authorization\": `Bearer ${pm.environment.get(\"accessToken\")}`,\r",
+									"        },\r",
+									"    }\r",
+									"    pm.sendRequest(getRequest, (error, response) => {\r",
 									"        if (!error) {\r",
 									"            pm.test('it should response with revised content', () => {\r",
 									"                pm.expect(response.code).to.equal(200);\r",
@@ -411,6 +1344,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -471,6 +1414,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -518,7 +1471,14 @@
 									"pm.test('when GET detail members', () => {\r",
 									"    const memberId = pm.environment.get('memberId');\r",
 									"    const port = pm.environment.get('port');\r",
-									"    pm.sendRequest(`http://localhost:${port}/members/${memberId}`, (error, response) => {\r",
+									"    const getRequest = {\r",
+									"        url: `http://localhost:${port}/members/${memberId}`,\r",
+									"        method: \"GET\",\r",
+									"        header: {\r",
+									"            \"Authorization\": `Bearer ${pm.environment.get(\"accessToken\")}`,\r",
+									"        },\r",
+									"    }\r",
+									"    pm.sendRequest(getRequest, (error, response) => {\r",
 									"        if (!error) {\r",
 									"            pm.test('it should response with not found', () => {\r",
 									"                pm.expect(response.code).to.equal(404);\r",
@@ -534,6 +1494,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -595,11 +1565,89 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Cuci Setrika\",\r\n    \"unit\": \"kiloan\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Handuk\",\r\n    \"unit\": \"satuan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/services",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Service with Already Exists Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 400 value\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson.status).to.equal(\"fail\");\r",
+									"    pm.expect(responseJson.message).to.be.a(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Handuk\",\r\n    \"unit\": \"satuan\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -664,6 +1712,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -710,7 +1768,14 @@
 									"pm.test('when GET detail service', () => {\r",
 									"    const serviceId = pm.environment.get('serviceId');\r",
 									"    const port = pm.environment.get('port');\r",
-									"    pm.sendRequest(`http://localhost:${port}/services/${serviceId}`, (error, response) => {\r",
+									"    const getRequest = {\r",
+									"        url: `http://localhost:${port}/services/${serviceId}`,\r",
+									"        method: \"GET\",\r",
+									"        header: {\r",
+									"            \"Authorization\": `Bearer ${pm.environment.get(\"accessToken\")}`,\r",
+									"        },\r",
+									"    }\r",
+									"    pm.sendRequest(getRequest, (error, response) => {\r",
 									"        if (!error) {\r",
 									"            pm.test('it should response with revised content', () => {\r",
 									"                pm.expect(response.code).to.equal(200);\r",
@@ -720,8 +1785,8 @@
 									"                pm.expect(responseJson.status).to.equal('success');\r",
 									"                pm.expect(responseJson.data.service).to.be.an('object');\r",
 									"                pm.expect(responseJson.data.service.id).to.equal(serviceId);\r",
-									"                pm.expect(responseJson.data.service.name).to.equal(\"Handuk\");\r",
-									"                pm.expect(responseJson.data.service.unit).to.equal(\"satuan\");\r",
+									"                pm.expect(responseJson.data.service.name).to.equal(\"Cuci Setrika\");\r",
+									"                pm.expect(responseJson.data.service.unit).to.equal(\"kiloan\");\r",
 									"            });\r",
 									"        }\r",
 									"    });\r",
@@ -734,11 +1799,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Handuk\",\r\n    \"unit\": \"satuan\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Cuci Setrika\",\r\n    \"unit\": \"kiloan\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -799,6 +1874,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -860,6 +1945,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -964,6 +2059,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1015,6 +2120,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -1064,7 +2179,14 @@
 									"pm.test('when GET detail members', () => {\r",
 									"    const serviceId = pm.environment.get('serviceId');\r",
 									"    const port = pm.environment.get('port');\r",
-									"    pm.sendRequest(`http://localhost:${port}/services/${serviceId}`, (error, response) => {\r",
+									"    const getRequest = {\r",
+									"        url: `http://localhost:${port}/services/${serviceId}`,\r",
+									"        method: \"GET\",\r",
+									"        header: {\r",
+									"            \"Authorization\": `Bearer ${pm.environment.get(\"accessToken\")}`,\r",
+									"        },\r",
+									"    }\r",
+									"    pm.sendRequest(getRequest, (error, response) => {\r",
 									"        if (!error) {\r",
 									"            pm.test('it should response with not found', () => {\r",
 									"                pm.expect(response.code).to.equal(404);\r",
@@ -1080,6 +2202,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -1106,6 +2238,58 @@
 					"name": "[No Test] Prerequisite",
 					"item": [
 						{
+							"name": "Add Member A",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json();\r",
+											"\r",
+											"pm.environment.set(\"memberIdA\", responseJson.data.id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"meltryllis\",\r\n    \"phoneNumber\": \"085333270333\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/members",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"members"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Add Service A",
 							"event": [
 								{
@@ -1122,6 +2306,16 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -1164,6 +2358,16 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -1206,6 +2410,16 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -1250,6 +2464,16 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"body": {
@@ -1318,11 +2542,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idMember\": \"{{memberId}}\",\r\n    \"options\": [\r\n        {\r\n            \"idOption\": \"{{optionId}}\",\r\n            \"qty\": 5.0\r\n        }\r\n    ],\r\n    \"description\": \"10 potong\",\r\n    \"estimation\": \"3 hari\"\r\n}",
+							"raw": "{\r\n    \"idMember\": \"{{memberIdA}}\",\r\n    \"options\": [\r\n        {\r\n            \"idOption\": \"{{optionIdA}}\",\r\n            \"qty\": 5.0\r\n        }\r\n    ],\r\n    \"description\": \"10 potong\",\r\n    \"estimation\": \"3 hari\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1380,11 +2614,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idMember\": \"{{memberId}}\",\r\n    \"options\": [\r\n        {\r\n            \"idOption\": \"{{optionIdA}}\",\r\n            \"qty\": 4.0\r\n        },\r\n        {\r\n            \"idOption\": \"{{optionIdB}}\",\r\n            \"qty\": 2\r\n        }\r\n    ],\r\n    \"description\": \"30 potong, 5 sarung bg\",\r\n    \"estimation\": \"3 hari\"\r\n}",
+							"raw": "{\r\n    \"idMember\": \"{{memberIdA}}\",\r\n    \"options\": [\r\n        {\r\n            \"idOption\": \"{{optionIdA}}\",\r\n            \"qty\": 4.0\r\n        },\r\n        {\r\n            \"idOption\": \"{{optionIdB}}\",\r\n            \"qty\": 2\r\n        }\r\n    ],\r\n    \"description\": \"30 potong, 5 sarung bg\",\r\n    \"estimation\": \"3 hari\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1440,11 +2684,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"idMember\": \"{{memberId}}\",\r\n    \"options\": [\r\n        {\r\n            \"idOption\": \"{{optionId}}\",\r\n            \"qty\": 5.0\r\n        }\r\n    ],\r\n    \"description\": \"10 potong\",\r\n    \"payment\": 10000,\r\n    \"estimation\": \"3 hari\"\r\n}",
+							"raw": "{\r\n    \"idMember\": \"{{memberIdA}}\",\r\n    \"options\": [\r\n        {\r\n            \"idOption\": \"{{optionIdA}}\",\r\n            \"qty\": 5.0\r\n        }\r\n    ],\r\n    \"description\": \"10 potong\",\r\n    \"payment\": 10000,\r\n    \"estimation\": \"3 hari\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1509,6 +2763,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1520,6 +2784,82 @@
 							"port": "{{port}}",
 							"path": [
 								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transactions with Member Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response status code should have 200 value\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response Content-Type header should have application/json value\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.equals(\"application/json; charset=utf-8\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should be an object\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body should have correct property and value\", () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseJson).to.ownProperty(\"status\");\r",
+									"    pm.expect(responseJson.status).to.equal(\"success\");\r",
+									"    pm.expect(responseJson).to.ownProperty(\"data\");\r",
+									"    pm.expect(responseJson.data).to.be.an(\"object\");\r",
+									"});\r",
+									"\r",
+									"pm.test('response body data should have a transactions array and contains at least 1 item', () => {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    const { data } = responseJson;\r",
+									"\r",
+									"    pm.expect(data).to.have.ownProperty('transactions');\r",
+									"    pm.expect(data.transactions).to.be.an('array');\r",
+									"    pm.expect(data.transactions).lengthOf.at.least(1);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/transactions?memberName=meltryllis",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "memberName",
+									"value": "meltryllis"
+								}
 							]
 						}
 					},
@@ -1563,6 +2903,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1610,7 +2960,14 @@
 									"pm.test('when GET detail transaction', () => {\r",
 									"    const transactionId = pm.environment.get('transactionId');\r",
 									"    const port = pm.environment.get('port');\r",
-									"    pm.sendRequest(`http://localhost:${port}/transactions/${transactionId}`, (error, response) => {\r",
+									"    const getRequest = {\r",
+									"        url: `http://localhost:${port}/transactions/${transactionId}`,\r",
+									"        method: \"GET\",\r",
+									"        header: {\r",
+									"            \"Authorization\": `Bearer ${pm.environment.get(\"accessToken\")}`\r",
+									"        }\r",
+									"    }\r",
+									"    pm.sendRequest(getRequest, (error, response) => {\r",
 									"        if (!error) {\r",
 									"            pm.test('it should response with revised content', () => {\r",
 									"                pm.expect(response.code).to.equal(200);\r",
@@ -1634,11 +2991,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"description\": \"15 potong\",\r\n    \"payment\": 25000,\r\n    \"status\": \"Done\"\r\n}",
+							"raw": "{\r\n    \"idMember\": \"{{memberId}}\",\r\n    \"options\": [\r\n        {\r\n            \"idOption\": \"{{optionIdA}}\",\r\n            \"qty\": 5.0\r\n        }\r\n    ],\r\n    \"description\": \"15 potong\",\r\n    \"payment\": 25000,\r\n    \"status\": \"Done\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1690,7 +3057,14 @@
 									"pm.test('when GET detail members', () => {\r",
 									"    const transactionId = pm.environment.get('transactionId');\r",
 									"    const port = pm.environment.get('port');\r",
-									"    pm.sendRequest(`http://localhost:${port}/transactions/${transactionId}`, (error, response) => {\r",
+									"    const getRequest = {\r",
+									"        url: `http://localhost:${port}/transactions/${transactionId}`,\r",
+									"        method: \"GET\",\r",
+									"        header: {\r",
+									"            \"Authorization\": `Bearer ${pm.environment.get(\"accessToken\")}`\r",
+									"        }\r",
+									"    }\r",
+									"    pm.sendRequest(getRequest, (error, response) => {\r",
 									"        if (!error) {\r",
 									"            pm.test('it should response with not found', () => {\r",
 									"                pm.expect(response.code).to.equal(404);\r",
@@ -1706,6 +3080,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {

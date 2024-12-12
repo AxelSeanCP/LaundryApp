@@ -1,3 +1,0 @@
-- change all queries on edit and delete to use sequelize
-- add protected route to all services
-- add auth middleware and store userid and organizationid to be used

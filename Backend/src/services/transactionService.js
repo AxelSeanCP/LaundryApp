@@ -1,7 +1,9 @@
 const db = require("../models");
 const { nanoid } = require("nanoid");
+const { Op } = require("sequelize");
 const InvariantError = require("../exceptions/InvariantError");
 const NotFoundError = require("../exceptions/NotFoundError");
+const AuthorizationError = require("../exceptions/AuthorizationError");
 
 // TODO: add feature get transaction by member name
 const addTransaction = async ({
@@ -11,6 +13,7 @@ const addTransaction = async ({
   discount = 0, //optional fields
   payment = 0, //optional fields
   estimation,
+  idOrganization,
 }) => {
   const id = `transaction-${nanoid(16)}`;
   let totalPrice = 0;
@@ -59,6 +62,7 @@ const addTransaction = async ({
     paymentStatus,
     discount,
     estimation,
+    idOrganization,
   });
 
   if (!transaction) {
@@ -68,14 +72,21 @@ const addTransaction = async ({
   return transaction;
 };
 
-const getTransactions = async () => {
+const getTransactions = async (idOrganization, memberName) => {
   const transactions = await db.Transaction.findAll({
     attributes: ["id", "totalPrice", "paymentStatus", "status"],
+    where: {
+      idOrganization,
+    },
     include: [
       {
         model: db.Member,
         as: "members",
         attributes: ["name"],
+        ...(memberName && {
+          // to return conditionally according to member name, if null return all
+          where: { name: { [Op.like]: `%${memberName}%` } },
+        }),
       },
     ],
   });
@@ -87,10 +98,11 @@ const getTransactions = async () => {
   return transactions;
 };
 
-const getTransactionById = async (id) => {
+const getTransactionById = async (id, idOrganization) => {
   const transaction = await db.Transaction.findOne({
     where: {
       id,
+      idOrganization,
     },
     attributes: [
       "id",
@@ -133,9 +145,10 @@ const getTransactionById = async (id) => {
 
 const editTransactionById = async (
   id,
+  idOrganization,
   { description, discount, payment, status, estimation }
 ) => {
-  const transaction = await getTransactionById(id);
+  const transaction = await getTransactionById(id, idOrganization);
 
   if (description) {
     transaction.description = description;
@@ -168,9 +181,27 @@ const editTransactionById = async (
 };
 
 const deleteTransactionById = async (id) => {
-  const transaction = await getTransactionById(id);
+  await db.Transaction.destroy({
+    where: {
+      id,
+    },
+  });
+};
 
-  await transaction.destroy();
+const verifyTransactionAccess = async (id, idOrganization) => {
+  const transaction = await db.Transaction.findOne({
+    where: {
+      id,
+    },
+  });
+
+  if (!transaction) {
+    throw new NotFoundError("Transaction not found. Invalid id");
+  }
+
+  if (transaction.idOrganization !== idOrganization) {
+    throw new AuthorizationError("You don't have access to this resource");
+  }
 };
 
 module.exports = {
@@ -179,4 +210,5 @@ module.exports = {
   getTransactionById,
   editTransactionById,
   deleteTransactionById,
+  verifyTransactionAccess,
 };

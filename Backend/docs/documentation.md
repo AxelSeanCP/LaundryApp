@@ -1,11 +1,20 @@
 Associations
 
-- all belong to one organization
+- all belong to one organization including users
 - service has many options
 - options belongs to service
 - service has many transactions
 - member has many transactions
 - transaction belongs to member and service
+
+Organization model
+
+- root account for a laundry organization
+- name: name of the organization, example = "Lotus Laundry"
+
+User Model
+
+- user account for a laundry organization
 
 Service model
 

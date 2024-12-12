@@ -5,6 +5,7 @@ const {
   getTransactionById,
   editTransactionById,
   deleteTransactionById,
+  verifyTransactionAccess,
 } = require("../services/transactionService");
 
 const postTransactionController = async (req, res, next) => {
@@ -12,6 +13,7 @@ const postTransactionController = async (req, res, next) => {
     TransactionsValidator.validateTransactionPayload(req.body);
     const { idMember, options, description, estimation, discount, payment } =
       req.body;
+    const { idOrganization } = req.credentials;
 
     const transaction = await addTransaction({
       idMember,
@@ -20,6 +22,7 @@ const postTransactionController = async (req, res, next) => {
       estimation,
       discount,
       payment,
+      idOrganization,
     });
 
     res.status(201).json({
@@ -34,7 +37,9 @@ const postTransactionController = async (req, res, next) => {
 
 const getTransactionsController = async (req, res, next) => {
   try {
-    const transactions = await getTransactions();
+    const { idOrganization } = req.credentials;
+    const { memberName } = req.query;
+    const transactions = await getTransactions(idOrganization, memberName);
 
     res.status(200).json({
       status: "success",
@@ -50,8 +55,9 @@ const getTransactionsController = async (req, res, next) => {
 const getTransactionByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { idOrganization } = req.credentials;
 
-    const transaction = await getTransactionById(id);
+    const transaction = await getTransactionById(id, idOrganization);
 
     res.status(200).json({
       status: "success",
@@ -68,10 +74,11 @@ const putTransactionByIdController = async (req, res, next) => {
   try {
     TransactionsValidator.validateTransactionPayload(req.body);
     const { id } = req.params;
-
+    const { idOrganization } = req.credentials;
     const { description, discount, payment, status, estimation } = req.body;
 
-    await editTransactionById(id, {
+    await verifyTransactionAccess(id, idOrganization);
+    await editTransactionById(id, idOrganization, {
       description,
       discount,
       payment,
@@ -91,7 +98,9 @@ const putTransactionByIdController = async (req, res, next) => {
 const deleteTransactionByIdController = async (req, res, next) => {
   try {
     const { id } = req.params;
+    const { idOrganization } = req.credentials;
 
+    await verifyTransactionAccess(id, idOrganization);
     await deleteTransactionById(id);
 
     res.status(200).json({

@@ -7,15 +7,16 @@ const {
   putTransactionByIdController,
   deleteTransactionByIdController,
 } = require("../controllers/transactionController");
+const authMiddleware = require("../middlewares/authMiddleware");
 
-router.post("/", postTransactionController);
+router.post("/", authMiddleware, postTransactionController);
 
-router.get("/", getTransactionsController);
+router.get("/", authMiddleware, getTransactionsController);
 
-router.get("/:id", getTransactionByIdController);
+router.get("/:id", authMiddleware, getTransactionByIdController);
 
-router.put("/:id", putTransactionByIdController);
+router.put("/:id", authMiddleware, putTransactionByIdController);
 
-router.delete("/:id", deleteTransactionByIdController);
+router.delete("/:id", authMiddleware, deleteTransactionByIdController);
 
 module.exports = router;

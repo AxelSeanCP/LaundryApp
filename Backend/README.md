@@ -21,6 +21,9 @@ In Version 2, users will be able to log in to their accounts to access their own
 
 ## Features
 
+- **Add Organizations**: Add new laundry organization.
+- **Add Users**: Add new users with username and password, related to an organization
+- **Add Login and Logout Feature**: Securely authenticate and deauthenticate users.
 - **Add Members**: Add new members by entering their name and phone number.
 - **View Members**: Retrieve a list of all members.
 - **Edit Members**: Update member details.
@@ -73,10 +76,8 @@ To run this project locally, follow these steps:
    - Add the necessary environment variables:
      ```
      PORT=<your-port>
-     DB_NAME=<your-database-name>
-     DB_USERNAME=<your-database-username>
-     DB_PASSWORD=<your-database-password>
-     DB_HOST=<your-database-host>
+     ACCESS_TOKEN_KEY=<your-access-token-key>
+     REFRESH_TOKEN_KEY=<your-refresh-token-key>
      ```
 
 5. **Start the server:**
@@ -90,6 +91,19 @@ To run this project locally, follow these steps:
 Once the server is running, you can interact with the API using tools such as Postman or cURL. Refer to the [API Endpoints](#api-endpoints) section for details on available routes.
 
 ## API Endpoints
+
+### Organizations
+
+- **Add an Organization**
+
+  - `POST /organizations`
+  - Request Body:
+    ```json
+    {
+      "name": "string", // Lotus Laundry
+      "password": "string"
+    }
+    ```
 
 ### Members
 
