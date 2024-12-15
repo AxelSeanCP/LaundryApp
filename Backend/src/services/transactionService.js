@@ -5,7 +5,6 @@ const InvariantError = require("../exceptions/InvariantError");
 const NotFoundError = require("../exceptions/NotFoundError");
 const AuthorizationError = require("../exceptions/AuthorizationError");
 
-// TODO: add feature get transaction by member name
 const addTransaction = async ({
   idMember,
   options,

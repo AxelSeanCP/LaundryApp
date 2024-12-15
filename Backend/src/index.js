@@ -6,9 +6,10 @@ const express = require("express");
 const member = require("./routes/memberRoutes");
 const service = require("./routes/serviceRoutes");
 const transaction = require("./routes/transactionRoutes");
-const organizations = require("./routes/organizationRoutes");
+const organization = require("./routes/organizationRoutes");
 const user = require("./routes/userRoutes");
 const authentication = require("./routes/authenticationRoutes");
+const report = require("./routes/reportRoutes");
 
 const errorMiddleware = require("./middlewares/errorMiddleware");
 
@@ -20,9 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/members", member);
 app.use("/services", service);
 app.use("/transactions", transaction);
-app.use("/organizations", organizations);
+app.use("/organizations", organization);
 app.use("/users", user);
 app.use("/authentications", authentication);
+app.use("/reports", report);
 
 app.use(errorMiddleware);
 
