@@ -9,20 +9,20 @@ const getReportsController = async (req, res, next) => {
   try {
     const { type, startDate, endDate } = req.query;
     const { idOrganization } = req.credentials;
-    let report;
+    let reports;
 
     switch (type) {
       case "daily":
-        report = await getDailyTransactionReports(idOrganization);
+        reports = await getDailyTransactionReports(idOrganization);
         break;
       case "weekly":
-        report = await getWeeklyTransactionReports(idOrganization);
+        reports = await getWeeklyTransactionReports(idOrganization);
         break;
       case "monthly":
-        report = await getMonthlyTransactionReports(idOrganization);
+        reports = await getMonthlyTransactionReports(idOrganization);
         break;
       case "custom":
-        report = await getCustomTransactionReports(
+        reports = await getCustomTransactionReports(
           idOrganization,
           startDate,
           endDate
@@ -36,7 +36,7 @@ const getReportsController = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       data: {
-        report,
+        reports,
       },
     });
   } catch (error) {

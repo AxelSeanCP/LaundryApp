@@ -13,6 +13,7 @@ const postMemberController = async (req, res, next) => {
     MembersValidator.validateMemberPayload(req.body);
     const { name, phoneNumber } = req.body;
     const { idOrganization } = req.credentials;
+    console.log(idOrganization);
 
     const member = await addMember({ name, phoneNumber, idOrganization });
 

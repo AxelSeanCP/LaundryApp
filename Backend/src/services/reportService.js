@@ -2,11 +2,13 @@ const db = require("../models");
 const { Op, Sequelize } = require("sequelize");
 const NotFoundError = require("../exceptions/NotFoundError");
 
+// TODO: add get daily, weekly, custom in postman
+// TODO: if possible add totalQty for satuan in every reports
 const getDailyTransactionReports = async (idOrganization) => {
   const startOfDay = new Date();
   startOfDay.setHours(0, 0, 0, 0);
 
-  const report = await db.Transaction.findAll({
+  const reports = await db.Transaction.findAll({
     where: {
       idOrganization,
       createdAt: {
@@ -28,13 +30,13 @@ const getDailyTransactionReports = async (idOrganization) => {
         model: db.Option,
         as: "options",
         attributes: [],
-        through: { attributes: ["qty"] },
+        through: { attributes: [] },
         include: [
           {
             model: db.Service,
             as: "services",
             where: {
-              unit: "kg",
+              unit: "kiloan",
             },
             attributes: [],
           },
@@ -44,11 +46,11 @@ const getDailyTransactionReports = async (idOrganization) => {
     raw: true,
   });
 
-  if (!report) {
+  if (!reports || reports.length === 0) {
     throw new NotFoundError("Daily report not found. Set a different period");
   }
 
-  return report;
+  return reports;
 };
 
 const getWeeklyTransactionReports = async (idOrganization) => {
@@ -56,7 +58,7 @@ const getWeeklyTransactionReports = async (idOrganization) => {
   startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
   startOfWeek.setHours(0, 0, 0, 0);
 
-  const report = await db.Transaction.findAll({
+  const reports = await db.Transaction.findAll({
     where: {
       idOrganization,
       createdAt: {
@@ -78,13 +80,13 @@ const getWeeklyTransactionReports = async (idOrganization) => {
         model: db.Option,
         as: "options",
         attributes: [],
-        through: { attributes: ["qty"] },
+        through: { attributes: [] },
         include: [
           {
             model: db.Service,
             as: "services",
             where: {
-              unit: "kg",
+              unit: "kiloan",
             },
             attributes: [],
           },
@@ -94,11 +96,11 @@ const getWeeklyTransactionReports = async (idOrganization) => {
     raw: true,
   });
 
-  if (!report || report.length === 0) {
+  if (!reports || reports.length === 0) {
     throw new NotFoundError("No report found for the given period.");
   }
 
-  return report;
+  return reports;
 };
 
 const getMonthlyTransactionReports = async (idOrganization) => {
@@ -106,7 +108,7 @@ const getMonthlyTransactionReports = async (idOrganization) => {
   startOfMonth.setDate(1);
   startOfMonth.setHours(0, 0, 0, 0);
 
-  const report = await db.Transaction.findAll({
+  const reports = await db.Transaction.findAll({
     where: {
       idOrganization,
       createdAt: {
@@ -128,13 +130,13 @@ const getMonthlyTransactionReports = async (idOrganization) => {
         model: db.Option,
         as: "options",
         attributes: [],
-        through: { attributes: ["qty"] },
+        through: { attributes: [] },
         include: [
           {
             model: db.Service,
             as: "services",
             where: {
-              unit: "kg",
+              unit: "kiloan",
             },
             attributes: [],
           },
@@ -144,11 +146,11 @@ const getMonthlyTransactionReports = async (idOrganization) => {
     raw: true,
   });
 
-  if (!report || report.length === 0) {
+  if (!reports || reports.length === 0) {
     throw new NotFoundError("No report found for the given period.");
   }
 
-  return report;
+  return reports;
 };
 
 const getCustomTransactionReports = async (
@@ -156,7 +158,7 @@ const getCustomTransactionReports = async (
   startDate,
   endDate
 ) => {
-  const report = await db.Transaction.findAll({
+  const reports = await db.Transaction.findAll({
     where: {
       idOrganization,
       createdAt: {
@@ -179,13 +181,13 @@ const getCustomTransactionReports = async (
         model: db.Option,
         as: "options",
         attributes: [],
-        through: { attributes: ["qty"] },
+        through: { attributes: [] },
         include: [
           {
             model: db.Service,
             as: "services",
             where: {
-              unit: "kg",
+              unit: "kiloan",
             },
             attributes: [],
           },
@@ -195,11 +197,11 @@ const getCustomTransactionReports = async (
     raw: true,
   });
 
-  if (!report || report.length === 0) {
+  if (!reports || reports.length === 0) {
     throw new NotFoundError("No report found for the given period.");
   }
 
-  return report;
+  return reports;
 };
 
 module.exports = {

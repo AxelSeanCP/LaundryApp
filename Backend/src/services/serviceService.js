@@ -101,7 +101,27 @@ const verifyServiceAccess = async (id, idOrganization) => {
   }
 };
 
+/* 
+OPTION
+*/
+
+const verifyOption = async ({ idService, name, price }) => {
+  const option = await db.Option.findOne({
+    where: {
+      [Op.and]: [{ idService }, { name }, { price }],
+    },
+  });
+
+  if (option) {
+    throw new InvariantError(
+      "Add option failed. Option already exists for this service"
+    );
+  }
+};
+
 const addOption = async (idService, idOrganization, { name, price }) => {
+  await verifyOption({ idService, name, price });
+
   const id = `option-${nanoid(16)}`;
 
   const option = await db.Option.create({

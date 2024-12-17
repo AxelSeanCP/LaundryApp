@@ -20,6 +20,7 @@ const postAuthenticationController = async (req, res, next) => {
       username,
       password
     );
+    console.log(id, idOrganization);
 
     const accessToken = generateAccessToken({ id, idOrganization });
     const refreshToken = generateRefreshToken({ id, idOrganization });
@@ -44,13 +45,13 @@ const putAuthenticationController = async (req, res, next) => {
     AuthenticationsValidator.validatePutAuthenticationPayload(req.body);
 
     const { refreshToken } = req.body;
-    const { id, idOrganization } = await verifyToken(
+    const { id, idOrganization } = verifyToken(
       refreshToken,
       process.env.REFRESH_TOKEN_KEY
     );
     await verifyRefreshToken(refreshToken);
 
-    const accessToken = await generateAccessToken({ id, idOrganization });
+    const accessToken = generateAccessToken({ id, idOrganization });
     res.status(200).json({
       status: "success",
       message: "Access token has been refreshed",
