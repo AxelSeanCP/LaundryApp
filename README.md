@@ -46,7 +46,3 @@ The user-friendly interface is currently under development. Stay tuned for updat
 - [x] Transaction handling and detailed record keeping.
 - [ ] Front-end interface for seamless user interaction.
 - [ ] Advanced analytics and reporting features.
-
-## **Contributions**
-
-We welcome contributions! Submit a pull request or raise an issue for suggestions and improvements.
