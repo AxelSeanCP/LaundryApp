@@ -1,0 +1,11 @@
+Buat mobile first
+
+- login & register page untuk organization
+- add user page 
+- login & register page untuk user dengan organization id
+- main page ada 3 tombol (transaksi, status, add member)
+- sidebar / navbar di main page, terdiri dari
+    - list transaksi
+    - list member
+    - tambah layanan (service, option)
+    - laporan
