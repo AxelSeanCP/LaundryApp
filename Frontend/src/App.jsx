@@ -4,6 +4,20 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
+import useAuth from "./hooks/useAuth";
+import PropType from "prop-types";
+
+import OrganizationLogin from "./pages/Organizations/Login";
+import OrganizationRegister from "./pages/Organizations/Register";
+
+const PrivateRouteOrganization = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to={"/organizations/login"} />;
+};
+
+PrivateRouteOrganization.propTypes = {
+  children: PropType.node.isRequired,
+};
 
 const Layout = () => {
   return (
@@ -21,11 +35,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "login",
-        element: <h1>Hello World</h1>,
+        element: <OrganizationLogin />,
       },
       {
         path: "register",
-        element: <h1>Hello World</h1>,
+        element: <OrganizationRegister />,
+      },
+      {
+        path: "addUser",
+        element: (
+          <PrivateRouteOrganization>
+            <h1>add user here</h1>
+          </PrivateRouteOrganization>
+        ),
       },
     ],
   },
@@ -48,7 +70,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Hello World</h1>,
+        element: (
+          <PrivateRouteOrganization>
+            <h1>Hello World</h1>
+          </PrivateRouteOrganization>
+        ),
       },
     ],
   },
