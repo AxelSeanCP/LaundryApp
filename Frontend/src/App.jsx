@@ -7,6 +7,7 @@ import {
 import useAuth from "./hooks/useAuth";
 import PropType from "prop-types";
 
+import LandingPage from "./pages/LandingPage";
 import OrganizationLogin from "./pages/Organizations/Login";
 import OrganizationRegister from "./pages/Organizations/Register";
 
@@ -30,6 +31,16 @@ const Layout = () => {
 };
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <LandingPage />,
+      },
+    ],
+  },
   {
     path: "organizations",
     children: [
@@ -61,20 +72,6 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <h1>Hello World</h1>,
-      },
-    ],
-  },
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "/",
-        element: (
-          <PrivateRouteOrganization>
-            <h1>Hello World</h1>
-          </PrivateRouteOrganization>
-        ),
       },
     ],
   },

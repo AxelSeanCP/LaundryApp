@@ -50,7 +50,7 @@ const OrganizationRegister = () => {
             id="organizationName"
             onChange={handleInput}
             required
-            className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500"
+            className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
           />
         </div>
 
@@ -66,7 +66,7 @@ const OrganizationRegister = () => {
             id="password"
             onChange={handleInput}
             required
-            className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-indigo-500"
+            className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
           />
         </div>
 
@@ -74,7 +74,7 @@ const OrganizationRegister = () => {
           <button
             type="button"
             onClick={handleSubmit}
-            className="w-full px-4 py-2 text-white bg-indigo600 rounded-md hover:bg-indigo-700 focus:outline-none"
+            className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none"
           >
             Register
           </button>
