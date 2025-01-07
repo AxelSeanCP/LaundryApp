@@ -1,15 +1,21 @@
 import {
   createBrowserRouter,
   RouterProvider,
-  Outlet,
   Navigate,
 } from "react-router-dom";
-import useAuth from "./hooks/useAuth";
+import useAuth from "./Hooks/useAuth";
 import PropType from "prop-types";
 
-import LandingPage from "./pages/LandingPage";
-import OrganizationLogin from "./pages/Organizations/Login";
-import OrganizationRegister from "./pages/Organizations/Register";
+/* Layouts */
+import OrganizationLayout from "./Layouts/OrganizationLayout";
+import UserLayout from "./Layouts/UserLayout";
+
+/* Pages */
+import LandingPage from "./Pages/LandingPage";
+import OrganizationLogin from "./Pages/Organizations/Login";
+import OrganizationRegister from "./Pages/Organizations/Register";
+import UserLogin from "./Pages/Users/Login";
+import UserRegister from "./Pages/Users/Register";
 
 const PrivateRouteOrganization = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -20,30 +26,32 @@ PrivateRouteOrganization.propTypes = {
   children: PropType.node.isRequired,
 };
 
-const Layout = () => {
-  return (
-    <div>
-      <main>
-        <Outlet />
-      </main>
-    </div>
-  );
+const PrivateRouteUser = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to={"/users/login"} />;
+};
+
+PrivateRouteUser.propTypes = {
+  children: PropType.node.isRequired,
 };
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
-    children: [
-      {
-        path: "/",
-        element: <LandingPage />,
-      },
-    ],
+    element: <LandingPage />,
   },
   {
     path: "organizations",
+    element: <OrganizationLayout />,
     children: [
+      {
+        path: "dashboard",
+        element: (
+          <PrivateRouteOrganization>
+            <h1>Hello World</h1>
+          </PrivateRouteOrganization>
+        ),
+      },
       {
         path: "login",
         element: <OrganizationLogin />,
@@ -64,14 +72,23 @@ const router = createBrowserRouter([
   },
   {
     path: "users",
+    element: <UserLayout />,
     children: [
       {
+        path: "dashboard",
+        element: (
+          <PrivateRouteUser>
+            <h1>Hello World</h1>
+          </PrivateRouteUser>
+        ),
+      },
+      {
         path: "login",
-        element: <h1>Hello World</h1>,
+        element: <UserLogin />,
       },
       {
         path: "register",
-        element: <h1>Hello World</h1>,
+        element: <UserRegister />,
       },
     ],
   },

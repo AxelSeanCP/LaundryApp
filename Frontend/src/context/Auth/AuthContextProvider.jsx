@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
 
   // const register = async () => {};
 
-  const login = async () => {
+  const login = async (role) => {
     // try {
     //   const data = await loginService(credentials);
     //   setUser(data.accessToken);
@@ -18,13 +18,15 @@ const AuthProvider = ({ children }) => {
     // } catch (error) {
     //   setError(error.message);
     // }
+    localStorage.setItem("role", role);
     setIsAuthenticated(true);
   };
 
-  const logout = () => {
+  const logout = async () => {
     // setUser(null);
     // localStorage.removeItem("accessToken");
     setIsAuthenticated(false);
+    localStorage.removeItem("role");
   };
 
   const contextValue = {

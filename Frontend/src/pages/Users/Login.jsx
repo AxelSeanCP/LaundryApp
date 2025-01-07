@@ -2,22 +2,22 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 
-const OrganizationLogin = () => {
+const UserLogin = () => {
   const { login } = useAuth();
   const [input, setInput] = useState({
-    organizationName: "",
+    username: "",
     password: "",
   });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { organizationName, password } = input;
-    const role = "organization";
+    const { username, password } = input;
+    const role = "user";
 
-    if (organizationName !== "" && password !== "") {
+    if (username !== "" && password !== "") {
       await login(role);
-      navigate("/organizations/dashboard");
+      navigate("/users/dashboard");
     } else {
       alert("Please fill out all fields");
     }
@@ -38,21 +38,20 @@ const OrganizationLogin = () => {
           Welcome to <span className="text-indigo-600">Laundry App</span>
         </h1>
         <p className="font-semibold text-slate-500 text-center">
-          Please Login <span className="text-indigo-600">Organization</span> to
-          Continue
+          Please Login <span className="text-indigo-600">User</span> to Continue
         </p>
 
         <div>
           <label
-            htmlFor="organizationName"
+            htmlFor="username"
             className="block text-sm font-medium text-slate-700"
           >
-            Organization Name
+            Username
           </label>
           <input
             type="text"
-            id="organizationName"
-            name="organizationName"
+            id="username"
+            name="username"
             onChange={handleInput}
             required
             className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
@@ -99,4 +98,4 @@ const OrganizationLogin = () => {
   );
 };
 
-export default OrganizationLogin;
+export default UserLogin;
