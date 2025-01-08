@@ -33,9 +33,9 @@ const OrganizationLogin = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-md rounded shadow-md p-8 space-y-4">
-        <h1 className="text-3xl font-bold text-center text-slate-700">
-          Welcome to <span className="text-indigo-600">Laundry App</span>
+      <div className="w-full max-w-md bg-white rounded shadow-md p-8 space-y-6">
+        <h1 className="text-3xl font-bold text-center text-indigo-600">
+          Welcome to <span className="text-teal-500">Laundry App</span>
         </h1>
         <p className="font-semibold text-slate-500 text-center">
           Please Login <span className="text-indigo-600">Organization</span> to
@@ -80,7 +80,7 @@ const OrganizationLogin = () => {
           <button
             type="button"
             onClick={handleSubmit}
-            className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none"
+            className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           >
             Login
           </button>
@@ -88,7 +88,7 @@ const OrganizationLogin = () => {
         <p className="text-center mt-3">
           Don&apos;t have an account?{" "}
           <Link
-            to={"/users/register"}
+            to={"/organizations/register"}
             className="text-teal-500 no-underline hover:underline"
           >
             Register here

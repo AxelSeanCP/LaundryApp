@@ -1,10 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
-import useAuth from "./Hooks/useAuth";
-import PropType from "prop-types";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 /* Layouts */
 import OrganizationLayout from "./Layouts/OrganizationLayout";
@@ -14,26 +8,13 @@ import UserLayout from "./Layouts/UserLayout";
 import LandingPage from "./Pages/LandingPage";
 import OrganizationLogin from "./Pages/Organizations/Login";
 import OrganizationRegister from "./Pages/Organizations/Register";
+import OrganizationDashboard from "./Pages/Organizations/Dashboard";
 import UserLogin from "./Pages/Users/Login";
 import UserRegister from "./Pages/Users/Register";
 
-const PrivateRouteOrganization = ({ children }) => {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to={"/organizations/login"} />;
-};
-
-PrivateRouteOrganization.propTypes = {
-  children: PropType.node.isRequired,
-};
-
-const PrivateRouteUser = ({ children }) => {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to={"/users/login"} />;
-};
-
-PrivateRouteUser.propTypes = {
-  children: PropType.node.isRequired,
-};
+/* Private Routes */
+import PrivateRouteOrganization from "./Components/PrivateRoute/PrivateRouteOrganization";
+import PrivateRouteUser from "./Components/PrivateRoute/PrivateRouteUser";
 
 const router = createBrowserRouter([
   {
@@ -48,7 +29,7 @@ const router = createBrowserRouter([
         path: "dashboard",
         element: (
           <PrivateRouteOrganization>
-            <h1>Hello World</h1>
+            <OrganizationDashboard />
           </PrivateRouteOrganization>
         ),
       },

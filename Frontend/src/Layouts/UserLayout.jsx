@@ -15,7 +15,7 @@ const UserLayout = () => {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="flex-1 flex flex-col">
         <Navbar toggleSidebar={toggleSidebar} />
-        <main>
+        <main className="bg-slate-50">
           <Outlet />
         </main>
       </div>
