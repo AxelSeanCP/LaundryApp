@@ -11,6 +11,7 @@ import OrganizationRegister from "./Pages/Organizations/Register";
 import OrganizationDashboard from "./Pages/Organizations/Dashboard";
 import UserLogin from "./Pages/Users/Login";
 import UserRegister from "./Pages/Users/Register";
+import UserDashboard from "./Pages/Users/Dashboard";
 
 /* Private Routes */
 import PrivateRouteOrganization from "./Components/PrivateRoute/PrivateRouteOrganization";
@@ -59,7 +60,7 @@ const router = createBrowserRouter([
         path: "dashboard",
         element: (
           <PrivateRouteUser>
-            <h1>Hello World</h1>
+            <UserDashboard />
           </PrivateRouteUser>
         ),
       },

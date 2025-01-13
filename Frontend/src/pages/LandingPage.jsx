@@ -66,15 +66,6 @@ const LandingPage = () => {
           >
             Login
           </button>
-          <p className="text-center text-slate-700">
-            Don&apos;t have an account?{" "}
-            <Link
-              to={"/users/register"}
-              className="text-teal-500 font-medium hover:underline"
-            >
-              Register here
-            </Link>
-          </p>
         </div>
       </div>
     </div>

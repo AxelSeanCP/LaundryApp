@@ -1,16 +1,23 @@
 import { useState } from "react";
 import PropType from "prop-types";
-// import { login as loginService } from "../../services/authService";
-import { AuthContext } from "./AuthContext";
+import {
+  login as loginService,
+  organizationRegister,
+  organizationLogin,
+} from "../../Services/authService";
+import { AuthContext } from "../../Context/Auth/AuthContext";
 
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   // const [user, setUser] = useState(null);
   // const [error, setError] = useState(null);
 
-  // const register = async () => {};
-
   const login = async (role) => {
+    if (role === "organization") {
+      // login organization
+    } else {
+      // login user
+    }
     // try {
     //   const data = await loginService(credentials);
     //   setUser(data.accessToken);

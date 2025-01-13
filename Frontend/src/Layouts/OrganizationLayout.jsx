@@ -12,7 +12,11 @@ const OrganizationLayout = () => {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
+        isUser={false}
+      />
       <div className="flex-1 flex flex-col">
         <Navbar toggleSidebar={toggleSidebar} />
         <main className="bg-slate-50">
