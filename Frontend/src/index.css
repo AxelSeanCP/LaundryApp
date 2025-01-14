@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .form-button {
+    @apply w-full px-4 py-2 text-white bg-orange-600 rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-400;
+  }
+
+  .form-input {
+    @apply w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500;
+  }
+
+  .sidebar-button {
+    @apply w-full text-base text-slate-700 hover:bg-slate-300 py-2 px-2 rounded-md text-left flex items-center gap-3;
+  }
+}

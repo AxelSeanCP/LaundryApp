@@ -9,8 +9,8 @@ import LandingPage from "./Pages/LandingPage";
 import OrganizationLogin from "./Pages/Organizations/Login";
 import OrganizationRegister from "./Pages/Organizations/Register";
 import OrganizationDashboard from "./Pages/Organizations/Dashboard";
+import AddUser from "./Pages/Organizations/AddUser";
 import UserLogin from "./Pages/Users/Login";
-import UserRegister from "./Pages/Users/Register";
 import UserDashboard from "./Pages/Users/Dashboard";
 
 /* Private Routes */
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         path: "addUser",
         element: (
           <PrivateRouteOrganization>
-            <h1>add user here</h1>
+            <AddUser />
           </PrivateRouteOrganization>
         ),
       },
@@ -67,10 +67,6 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <UserLogin />,
-      },
-      {
-        path: "register",
-        element: <UserRegister />,
       },
     ],
   },

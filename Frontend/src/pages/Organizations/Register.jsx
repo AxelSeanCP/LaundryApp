@@ -1,23 +1,24 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import useAuth from "../../hooks/useAuth";
+import useAuth from "../../Hooks/useAuth";
 
 const OrganizationRegister = () => {
-  //   const { register } = useAuth();
+  const { register } = useAuth();
   const [input, setInput] = useState({
     organizationName: "",
     password: "",
   });
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { organizationName, password } = input;
     if (organizationName !== "" && password !== "") {
-      alert("Organization Registered Successfully");
+      register({ name: organizationName, password });
       navigate("/organizations/login");
     } else {
-      alert("Please fill out all fields");
+      setError("Please fill out all the fields");
     }
   };
 
@@ -31,7 +32,7 @@ const OrganizationRegister = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="w-full max-w-md bg-white rounded shadow-lmd p-8 space-y-4">
+      <div className="w-full max-w-md bg-white rounded shadow-lmd p-8 space-y-6">
         <h1 className="text-3xl font-bold text-center text-indigo-600">
           Welcome to <span className="text-teal-500">Laundry App</span>
         </h1>
@@ -39,7 +40,7 @@ const OrganizationRegister = () => {
           Please Login <span className="text-indigo-600">Organization</span> to
           Continue
         </p>
-
+        {error && <p className="text-red-500">{error}</p>}
         <div>
           <label
             htmlFor="organizationName"
@@ -53,7 +54,7 @@ const OrganizationRegister = () => {
             name="organizationName"
             onChange={handleInput}
             required
-            className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="form-input"
           />
         </div>
 
@@ -70,16 +71,12 @@ const OrganizationRegister = () => {
             name="password"
             onChange={handleInput}
             required
-            className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="form-input"
           />
         </div>
 
         <div>
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none"
-          >
+          <button type="button" onClick={handleSubmit} className="form-button">
             Register
           </button>
         </div>

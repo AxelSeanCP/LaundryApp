@@ -36,7 +36,7 @@ const UserDashboard = () => {
         </svg>
       </button>
       <button
-        className="w-full max-w-xl py-10 px-10 bg-rose hover:bg-pink-500 uppercase text-white rounded-lg shadow-md text-3xl font-bold font-sans md:text-4xl md:py-14 md:px-14 flex items-center justify-center gap-4"
+        className="w-full max-w-xl py-10 px-10 bg-orange-600 hover:bg-orange-700 uppercase text-white rounded-lg shadow-md text-3xl font-bold font-sans md:text-4xl md:py-14 md:px-14 flex items-center justify-center gap-4"
         onClick={() => navigate("/members/add")}
       >
         Add Member

@@ -8,6 +8,7 @@ const OrganizationLogin = () => {
     organizationName: "",
     password: "",
   });
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,10 +17,10 @@ const OrganizationLogin = () => {
     const role = "organization";
 
     if (organizationName !== "" && password !== "") {
-      await login(role);
+      await login(role, { name: organizationName, password });
       navigate("/organizations/dashboard");
     } else {
-      alert("Please fill out all fields");
+      setError("Please fill out all fields");
     }
   };
 
@@ -41,7 +42,7 @@ const OrganizationLogin = () => {
           Please Login <span className="text-indigo-600">Organization</span> to
           Continue
         </p>
-
+        {error && <p className="text-red-500">{error}</p>}
         <div>
           <label
             htmlFor="organizationName"
@@ -55,7 +56,7 @@ const OrganizationLogin = () => {
             name="organizationName"
             onChange={handleInput}
             required
-            className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="form-input"
           />
         </div>
 
@@ -72,16 +73,12 @@ const OrganizationLogin = () => {
             name="password"
             onChange={handleInput}
             required
-            className="w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="form-input"
           />
         </div>
 
         <div>
-          <button
-            type="button"
-            onClick={handleSubmit}
-            className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-          >
+          <button type="button" onClick={handleSubmit} className="form-button">
             Login
           </button>
         </div>

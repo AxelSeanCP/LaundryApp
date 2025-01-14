@@ -20,8 +20,8 @@ const login = async ({ username, password }) => {
 const organizationRegister = async ({ name, password }) => {
   try {
     const response = await api.post("/organizations", {
-      name,
-      password,
+      name: name,
+      password: password,
     });
 
     if (response.status === 201) {
@@ -51,4 +51,4 @@ const organizationLogin = async ({ name, password }) => {
   }
 };
 
-export default { login, organizationRegister, organizationLogin };
+export { login, organizationRegister, organizationLogin };

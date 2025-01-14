@@ -35,7 +35,6 @@ const PostOrganizationLoginController = async (req, res, next) => {
       name,
       password,
     });
-    console.log(idOrganization);
 
     const accessToken = generateAccessToken({ idOrganization });
 

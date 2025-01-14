@@ -10,28 +10,29 @@ import { AuthContext } from "../../Context/Auth/AuthContext";
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   // const [user, setUser] = useState(null);
-  // const [error, setError] = useState(null);
 
-  const login = async (role) => {
+  const register = async (credentials) => {
+    await organizationRegister(credentials);
+  };
+
+  const login = async (role, credentials) => {
     if (role === "organization") {
-      // login organization
+      const data = await organizationLogin(credentials);
+      localStorage.setItem("accessToken", data.accessToken);
     } else {
-      // login user
+      const data = await loginService(credentials);
+      // setUser(data.accessToken);
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
     }
-    // try {
-    //   const data = await loginService(credentials);
-    //   setUser(data.accessToken);
-    //   localStorage.setItem("accessToken", data.accessToken);
-    // } catch (error) {
-    //   setError(error.message);
-    // }
     localStorage.setItem("role", role);
     setIsAuthenticated(true);
   };
 
   const logout = async () => {
     // setUser(null);
-    // localStorage.removeItem("accessToken");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     setIsAuthenticated(false);
     localStorage.removeItem("role");
   };
@@ -39,7 +40,7 @@ const AuthProvider = ({ children }) => {
   const contextValue = {
     isAuthenticated,
     // user,
-    // error,
+    register,
     login,
     logout,
   };
