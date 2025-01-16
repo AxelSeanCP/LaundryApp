@@ -29,7 +29,7 @@ const organizationRegister = async ({ name, password }) => {
       alert("Register successfull");
     }
   } catch (error) {
-    alert("Register failed. Please check your credentials");
+    alert("Register failed");
     console.error("Register error: ", error.response?.data || error.message);
   }
 };

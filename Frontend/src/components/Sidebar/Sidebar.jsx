@@ -3,7 +3,7 @@ import PropType from "prop-types";
 import useAuth from "../../Hooks/useAuth";
 
 const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -18,16 +18,25 @@ const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out z-50`}
       >
-        <div className="bg-teal-500 p-4 text-lg font-semibold border-b border-gray-600">
-          Laundry App
-        </div>
+        {isUser ? (
+          <div className="bg-teal-500 p-4 text-lg font-semibold border-b border-gray-600">
+            {user}
+          </div>
+        ) : (
+          <div className="bg-teal-500 p-4 text-lg font-semibold border-b border-gray-600">
+            Laundry App
+          </div>
+        )}
         <ul className="mt-6 space-y-2 px-2">
           {isUser ? (
             <>
               <li>
                 <button
                   className="sidebar-button"
-                  onClick={() => navigate("/users/dashboard")}
+                  onClick={() => {
+                    toggleSidebar();
+                    navigate("/users/dashboard");
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +112,10 @@ const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
               <li>
                 <button
                   className="sidebar-button"
-                  onClick={() => navigate("/organizations/dashboard")}
+                  onClick={() => {
+                    toggleSidebar();
+                    navigate("/organizations/dashboard");
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +132,10 @@ const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
               <li>
                 <button
                   className="sidebar-button"
-                  onClick={() => navigate("/organizations/addUser")}
+                  onClick={() => {
+                    toggleSidebar();
+                    navigate("/organizations/addUser");
+                  }}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -137,13 +152,16 @@ const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
             </>
           )}
           <li>
-            <button className="sidebar-button" onClick={handleLogout}>
+            <button
+              className="sidebar-button text-red-700"
+              onClick={handleLogout}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 height="24px"
                 viewBox="0 -960 960 960"
                 width="24px"
-                fill="334155"
+                fill="currentcolor"
               >
                 <path d="M216-144q-29.7 0-50.85-21.15Q144-186.3 144-216v-528q0-29.7 21.15-50.85Q186.3-816 216-816h264v72H216v528h264v72H216Zm432-168-51-51 81-81H384v-72h294l-81-81 51-51 168 168-168 168Z" />
               </svg>

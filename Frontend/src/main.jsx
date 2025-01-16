@@ -1,10 +1,16 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import AuthProvider from "./context/Auth/AuthContextProvider.jsx";
+import AuthContextProvider from "./context/Auth/AuthContextProvider.jsx";
+import UserContextProvider from "./Context/User/UserContextProvider.jsx";
+import MemberContextProvider from "./Context/Member/MemberContextProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <AuthProvider>
-    <App />
-  </AuthProvider>
+  <AuthContextProvider>
+    <UserContextProvider>
+      <MemberContextProvider>
+        <App />
+      </MemberContextProvider>
+    </UserContextProvider>
+  </AuthContextProvider>
 );

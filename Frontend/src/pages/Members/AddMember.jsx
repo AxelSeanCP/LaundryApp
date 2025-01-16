@@ -1,23 +1,22 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import useUser from "../../Hooks/useUser";
+import { useNavigate } from "react-router-dom";
+import useMember from "../../Hooks/useMember";
 
-const AddUser = () => {
-  const { addUser } = useUser();
+const AddMember = () => {
+  const { addMember } = useMember();
   const navigate = useNavigate();
   const [input, setInput] = useState({
-    username: "",
-    password: "",
+    name: "",
+    phoneNumber: "",
   });
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { username, password } = input;
-
-    if (username !== "" && password !== "") {
-      await addUser({ username, password });
-      navigate("/organizations/dashboard");
+    const { name, phoneNumber } = input;
+    if (name !== "" && phoneNumber !== "") {
+      addMember({ name, phoneNumber });
+      navigate("/users/dashboard");
     } else {
       setError("Please fill out all fields");
     }
@@ -34,15 +33,13 @@ const AddUser = () => {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-8 space-y-6">
-        <h1 className="text-xl text-center font-semibold text-indigo-600">
-          Add a user to your organization
-        </h1>
+        <h1 className="text-xl text-center font-semibold">Add a member</h1>
         {error && <p className="text-red-500">{error}</p>}
         <div>
           <input
             type="text"
-            name="username"
-            placeholder="Username"
+            name="name"
+            placeholder="Name"
             required
             onChange={handleInput}
             className="form-input"
@@ -50,17 +47,17 @@ const AddUser = () => {
         </div>
         <div>
           <input
-            type="password"
-            name="password"
-            placeholder="Password"
+            type="text"
+            name="phoneNumber"
+            placeholder="Phone Number"
             required
             onChange={handleInput}
             className="form-input"
           />
         </div>
         <div>
-          <button type="button" onClick={handleSubmit} className="form-button">
-            Add User
+          <button onClick={handleSubmit} className="form-button">
+            Add Member
           </button>
         </div>
       </div>
@@ -68,4 +65,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default AddMember;

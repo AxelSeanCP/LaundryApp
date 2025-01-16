@@ -17,7 +17,7 @@ const UserLogin = () => {
     const role = "user";
 
     if (username !== "" && password !== "") {
-      await login(role);
+      await login(role, { username, password });
       navigate("/users/dashboard");
     } else {
       setError("Please fill out all fields");

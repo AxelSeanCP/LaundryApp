@@ -1,15 +1,17 @@
 import { useState } from "react";
 import PropType from "prop-types";
+import { jwtDecode } from "jwt-decode";
 import {
   login as loginService,
   organizationRegister,
   organizationLogin,
 } from "../../Services/authService";
+import { getUser } from "../../Services/userService";
 import { AuthContext } from "../../Context/Auth/AuthContext";
 
-const AuthProvider = ({ children }) => {
+const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
   const register = async (credentials) => {
     await organizationRegister(credentials);
@@ -21,7 +23,12 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem("accessToken", data.accessToken);
     } else {
       const data = await loginService(credentials);
-      // setUser(data.accessToken);
+      const token = data.accessToken;
+
+      const decoded = jwtDecode(token);
+      const user = await getUser(decoded.id);
+      setUser(user.username);
+
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
     }
@@ -30,7 +37,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    // setUser(null);
+    setUser(null);
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     setIsAuthenticated(false);
@@ -39,7 +46,7 @@ const AuthProvider = ({ children }) => {
 
   const contextValue = {
     isAuthenticated,
-    // user,
+    user,
     register,
     login,
     logout,
@@ -50,8 +57,8 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-AuthProvider.propTypes = {
+AuthContextProvider.propTypes = {
   children: PropType.node.isRequired,
 };
 
-export default AuthProvider;
+export default AuthContextProvider;

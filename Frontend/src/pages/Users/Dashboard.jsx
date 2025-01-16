@@ -7,7 +7,7 @@ const UserDashboard = () => {
     <div className="flex flex-col items-center justify-center min-h-screen gap-14">
       <button
         className="w-full max-w-xl py-10 px-10 bg-indigo-600 hover:bg-indigo-700 uppercase text-white rounded-lg shadow-md text-3xl font-bold font-sans md:text-4xl md:py-14 md:px-14 flex items-center justify-center gap-4"
-        onClick={() => navigate("/transactions/add")}
+        onClick={() => navigate("/users/transactions/add")}
       >
         Add Transactions
         <svg
@@ -22,7 +22,7 @@ const UserDashboard = () => {
       </button>
       <button
         className="w-full max-w-xl py-10 px-10 bg-teal-500 hover:bg-teal-600 uppercase text-white rounded-lg shadow-md text-3xl font-bold font-sans md:text-4xl md:py-14 md:px-14 flex items-center justify-center gap-4"
-        onClick={() => navigate("/transactions/status")}
+        onClick={() => navigate("/users/transactions/status")}
       >
         Status
         <svg
@@ -37,7 +37,7 @@ const UserDashboard = () => {
       </button>
       <button
         className="w-full max-w-xl py-10 px-10 bg-orange-600 hover:bg-orange-700 uppercase text-white rounded-lg shadow-md text-3xl font-bold font-sans md:text-4xl md:py-14 md:px-14 flex items-center justify-center gap-4"
-        onClick={() => navigate("/members/add")}
+        onClick={() => navigate("/users/members/add")}
       >
         Add Member
         <svg
