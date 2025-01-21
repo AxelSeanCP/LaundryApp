@@ -28,6 +28,10 @@ const MemberDetail = () => {
     fetchMember();
   }, [getMemberById, memberId]);
 
+  const handleEditMember = () => {
+    navigate(`/users/members/${memberId}`, { state: member });
+  };
+
   return (
     <div className="flex items-center justify-center">
       {loading ? (
@@ -76,10 +80,7 @@ const MemberDetail = () => {
             </p>
           </div>
           <div>
-            <button
-              className="form-button"
-              onClick={() => navigate(`/users/members/${memberId}/edit`)}
-            >
+            <button className="form-button" onClick={handleEditMember}>
               Edit Member
             </button>
           </div>

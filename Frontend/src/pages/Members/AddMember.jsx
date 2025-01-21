@@ -13,9 +13,8 @@ const AddMember = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, phoneNumber } = input;
-    if (name !== "" && phoneNumber !== "") {
-      addMember({ name, phoneNumber });
+    if (input.name !== "" && input.phoneNumber !== "") {
+      addMember(input);
       navigate("/users/dashboard");
     } else {
       setError("Please fill out all fields");

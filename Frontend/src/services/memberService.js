@@ -63,4 +63,22 @@ const getMemberById = async (id) => {
   }
 };
 
-export { addMember, getMembers, getMemberById };
+const editMember = async (id, { name, phoneNumber }) => {
+  try {
+    const token = localStorage.getItem("accessToken");
+    const response = await api.put(
+      `/members/${id}`,
+      { name, phoneNumber },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    if (response.status === 200) {
+      console.log("Edit member successfull");
+    }
+  } catch (error) {
+    alert("Edit member failed.");
+    console.error("Edit member error: ", error.response?.data || error.message);
+  }
+};
+
+export { addMember, getMembers, getMemberById, editMember };

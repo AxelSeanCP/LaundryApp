@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropType from "prop-types";
 import { jwtDecode } from "jwt-decode";
 import {
@@ -8,10 +8,24 @@ import {
 } from "../../Services/authService";
 import { getUser } from "../../Services/userService";
 import { AuthContext } from "../../Context/Auth/AuthContext";
+import isTokenExpired from "../../utils/isTokenExpired";
 
 const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    const user = localStorage.getItem("user");
+    if (accessToken && user && !isTokenExpired(accessToken)) {
+      const { username } = JSON.parse(user);
+      setIsAuthenticated(true);
+      setUser(username);
+    } else {
+      alert("Session expired. Please login again");
+      logout();
+    }
+  }, []);
 
   const register = async (credentials) => {
     await organizationRegister(credentials);
@@ -31,6 +45,7 @@ const AuthContextProvider = ({ children }) => {
 
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
+      localStorage.setItem("user", JSON.stringify(user));
     }
     localStorage.setItem("role", role);
     setIsAuthenticated(true);
@@ -40,6 +55,7 @@ const AuthContextProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
     setIsAuthenticated(false);
     localStorage.removeItem("role");
   };

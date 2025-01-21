@@ -4,6 +4,7 @@ import {
   addMember as addMemberService,
   getMembers as getMembersService,
   getMemberById as getMemberByIdService,
+  editMember as editMemberService,
 } from "../../Services/memberService";
 
 const MemberContextProvider = ({ children }) => {
@@ -21,10 +22,15 @@ const MemberContextProvider = ({ children }) => {
     return member;
   };
 
+  const editMember = async (id, credentials) => {
+    await editMemberService(id, credentials);
+  };
+
   const contextValue = {
     addMember,
     getMembers,
     getMemberById,
+    editMember,
   };
 
   return (

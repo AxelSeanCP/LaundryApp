@@ -13,11 +13,10 @@ const UserLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { username, password } = input;
     const role = "user";
 
-    if (username !== "" && password !== "") {
-      await login(role, { username, password });
+    if (input.username !== "" && input.password !== "") {
+      await login(role, input);
       navigate("/users/dashboard");
     } else {
       setError("Please fill out all fields");

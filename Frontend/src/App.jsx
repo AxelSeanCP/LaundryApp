@@ -15,6 +15,7 @@ import UserDashboard from "./Pages/Users/Dashboard";
 import AddMember from "./Pages/Members/AddMember";
 import MemberView from "./Pages/Members/MemberView";
 import MemberDetail from "./Pages/Members/MemberDetail";
+import EditMember from "./Pages/Members/EditMember";
 
 /* Private Routes */
 import PrivateRouteOrganization from "./Components/PrivateRoute/PrivateRouteOrganization";
@@ -102,7 +103,7 @@ const router = createBrowserRouter([
             path: ":memberId/edit",
             element: (
               <PrivateRouteUser>
-                <h1>Edit Member</h1>
+                <EditMember />
               </PrivateRouteUser>
             ),
           },

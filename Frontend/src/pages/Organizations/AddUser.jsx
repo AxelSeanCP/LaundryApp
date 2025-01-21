@@ -13,10 +13,9 @@ const AddUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { username, password } = input;
 
-    if (username !== "" && password !== "") {
-      await addUser({ username, password });
+    if (input.username !== "" && input.password !== "") {
+      await addUser(input);
       navigate("/organizations/dashboard");
     } else {
       setError("Please fill out all fields");
