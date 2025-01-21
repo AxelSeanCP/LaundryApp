@@ -19,7 +19,7 @@ const OrganizationLayout = () => {
       />
       <div className="flex-1 flex flex-col">
         <Navbar toggleSidebar={toggleSidebar} />
-        <main className="bg-slate-50">
+        <main className="mt-16">
           <Outlet />
         </main>
       </div>

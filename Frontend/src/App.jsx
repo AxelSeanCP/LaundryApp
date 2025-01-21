@@ -13,6 +13,8 @@ import AddUser from "./Pages/Organizations/AddUser";
 import UserLogin from "./Pages/Users/Login";
 import UserDashboard from "./Pages/Users/Dashboard";
 import AddMember from "./Pages/Members/AddMember";
+import MemberView from "./Pages/Members/MemberView";
+import MemberDetail from "./Pages/Members/MemberDetail";
 
 /* Private Routes */
 import PrivateRouteOrganization from "./Components/PrivateRoute/PrivateRouteOrganization";
@@ -76,7 +78,7 @@ const router = createBrowserRouter([
             path: "",
             element: (
               <PrivateRouteUser>
-                <h1>Members</h1>
+                <MemberView />
               </PrivateRouteUser>
             ),
           },
@@ -85,6 +87,14 @@ const router = createBrowserRouter([
             element: (
               <PrivateRouteUser>
                 <AddMember />
+              </PrivateRouteUser>
+            ),
+          },
+          {
+            path: ":memberId",
+            element: (
+              <PrivateRouteUser>
+                <MemberDetail />
               </PrivateRouteUser>
             ),
           },
@@ -208,7 +218,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div>
+    <div className="bg-slate-100">
       <RouterProvider router={router} />
     </div>
   );
