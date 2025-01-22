@@ -2,13 +2,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useMember from "../../Hooks/useMember";
 import Loader from "../../Components/Loader/Loader";
+import Modal from "../../Components/Modal/Modal";
 
 const MemberDetail = () => {
   const { memberId } = useParams();
-  const { getMemberById } = useMember();
+  const { getMemberById, deleteMember } = useMember();
   const [member, setMember] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,17 +31,36 @@ const MemberDetail = () => {
   }, [getMemberById, memberId]);
 
   const handleEditMember = () => {
-    navigate(`/users/members/${memberId}`, { state: member });
+    navigate(`/users/members/${memberId}/edit`, { state: member });
+  };
+
+  const handleDeleteMember = async () => {
+    await deleteMember(memberId);
+    setShowModal(false);
+    navigate("/users/members");
+  };
+
+  const toggleModal = () => {
+    setShowModal((prev) => !prev);
   };
 
   return (
     <div className="flex items-center justify-center">
+      {showModal && (
+        <Modal
+          buttonAction={handleDeleteMember}
+          closeModal={toggleModal}
+          title="Delete Member?"
+          body="Are you sure you want to delete this member?"
+          buttonText="Delete"
+        />
+      )}
       {loading ? (
         <Loader />
       ) : error ? (
         <p className="text-center col-span-full text-red-500">{error}</p>
       ) : (
-        <div className="max-w-md w-full space-y-2">
+        <div className="max-w-md w-full space-y-3">
           <div className="bg-teal-400 flex flex-col items-center justify-center p-4 rounded-md">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -79,9 +100,12 @@ const MemberDetail = () => {
               {member.address || "Information not available"}
             </p>
           </div>
-          <div>
+          <div className="flex items-center justify-center gap-2">
             <button className="form-button" onClick={handleEditMember}>
               Edit Member
+            </button>
+            <button className="reverse-form-button" onClick={toggleModal}>
+              Delete Member
             </button>
           </div>
         </div>

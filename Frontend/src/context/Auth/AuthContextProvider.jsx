@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropType from "prop-types";
 import { jwtDecode } from "jwt-decode";
 import {
@@ -13,17 +13,20 @@ import isTokenExpired from "../../utils/isTokenExpired";
 const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     const user = localStorage.getItem("user");
-    if (accessToken && user && !isTokenExpired(accessToken)) {
+    const role = localStorage.getItem("role");
+    if (accessToken && user && !isTokenExpired(accessToken) && role) {
       const { username } = JSON.parse(user);
       setIsAuthenticated(true);
       setUser(username);
-    } else {
+    } else if (isFirstRender.current) {
       alert("Session expired. Please login again");
       logout();
+      window.location.href = "/";
     }
   }, []);
 

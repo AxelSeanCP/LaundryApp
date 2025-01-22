@@ -23,10 +23,10 @@ const addMember = async ({ name, phoneNumber }) => {
   }
 };
 
-const getMembers = async () => {
+const getMembers = async (input) => {
   try {
     const token = localStorage.getItem("accessToken");
-    const response = await api.get("/members", {
+    const response = await api.get(`/members?input=${input}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -81,4 +81,23 @@ const editMember = async (id, { name, phoneNumber }) => {
   }
 };
 
-export { addMember, getMembers, getMemberById, editMember };
+const deleteMember = async (id) => {
+  try {
+    const token = localStorage.getItem("accessToken");
+    const response = await api.delete(`/members/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (response.status === 200) {
+      console.log("Delete member successfull");
+    }
+  } catch (error) {
+    alert("Delete member failed");
+    console.error(
+      "Delete member error: ",
+      error.response?.data || error.message
+    );
+  }
+};
+
+export { addMember, getMembers, getMemberById, editMember, deleteMember };

@@ -30,7 +30,7 @@ const EditMember = () => {
     e.preventDefault();
     if (input.name !== "" && input.phoneNumber !== "") {
       editMember(memberId, input);
-      navigate("/users/dashboard");
+      navigate("/users/members");
     } else {
       setError("Please fill out all fields");
     }
@@ -47,9 +47,15 @@ const EditMember = () => {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-8 space-y-6">
-        <h1 className="text-xl text-center font-semibold">Add a member</h1>
+        <h1 className="text-xl text-center font-semibold">Edit member</h1>
         {error && <p className="text-red-500">{error}</p>}
         <div>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-slate-700 mb-2"
+          >
+            Member name
+          </label>
           <input
             type="text"
             name="name"
@@ -60,6 +66,12 @@ const EditMember = () => {
           />
         </div>
         <div>
+          <label
+            htmlFor="phoneNumber"
+            className="block text-sm font-medium text-slate-700 mb-2"
+          >
+            Member phone number
+          </label>
           <input
             type="text"
             name="phoneNumber"
