@@ -3,6 +3,7 @@ const { nanoid } = require("nanoid");
 const bcrypt = require("bcrypt");
 const InvariantError = require("../exceptions/InvariantError");
 const AuthenticationError = require("../exceptions/AuthenticationError");
+const NotFoundError = require("../exceptions/NotFoundError");
 
 const verifyNewOrganization = async ({ name }) => {
   const organization = await db.Organization.findOne({
@@ -62,7 +63,23 @@ const verifyOrganizationCredential = async ({ name, password }) => {
   return id;
 };
 
+const getOrganization = async (id) => {
+  const organization = await db.Organization.findOne({
+    where: {
+      id: id,
+    },
+    attributes: ["name"],
+  });
+
+  if (!organization) {
+    throw new NotFoundError("Organization not found.");
+  }
+
+  return organization;
+};
+
 module.exports = {
   addOrganization,
   verifyOrganizationCredential,
+  getOrganization,
 };

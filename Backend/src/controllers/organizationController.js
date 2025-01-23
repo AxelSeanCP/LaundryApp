@@ -3,6 +3,7 @@ const { generateAccessToken } = require("../tokenize/TokenManager");
 const {
   addOrganization,
   verifyOrganizationCredential,
+  getOrganization,
 } = require("../services/organizationService");
 
 const postOrganizationController = async (req, res, next) => {
@@ -25,7 +26,7 @@ const postOrganizationController = async (req, res, next) => {
   }
 };
 
-const PostOrganizationLoginController = async (req, res, next) => {
+const postOrganizationLoginController = async (req, res, next) => {
   try {
     OrganizationsValidator.validateOrganizationPayload(req.body);
 
@@ -50,7 +51,24 @@ const PostOrganizationLoginController = async (req, res, next) => {
   }
 };
 
+const getOrganizationController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const organization = await getOrganization(id);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        organization,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   postOrganizationController,
-  PostOrganizationLoginController,
+  postOrganizationLoginController,
+  getOrganizationController,
 };

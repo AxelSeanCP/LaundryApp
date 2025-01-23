@@ -3,7 +3,7 @@ import PropType from "prop-types";
 import useAuth from "../../Hooks/useAuth";
 
 const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
-  const { logout, user } = useAuth();
+  const { logout, user, organization } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -19,12 +19,13 @@ const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
         } transition-transform duration-300 ease-in-out z-50`}
       >
         {isUser ? (
-          <div className="bg-teal-500 p-4 text-lg font-semibold border-b border-gray-600">
-            {user}
+          <div className="bg-teal-500 py-4 px-6 border-b border-gray-600">
+            <h1 className="text-xl font-bold">{user}</h1>
+            <p className="text-lg font-semibold">{organization}</p>
           </div>
         ) : (
           <div className="bg-teal-500 p-4 text-lg font-semibold border-b border-gray-600">
-            Laundry App
+            {organization}
           </div>
         )}
         <ul className="mt-6 space-y-2 px-2">

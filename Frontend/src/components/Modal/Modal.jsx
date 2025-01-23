@@ -9,19 +9,27 @@ const Modal = ({ buttonAction, closeModal, title, body, buttonText }) => {
       ></div>
 
       <div className="relative bg-white rounded-lg shadow-lg">
-        <div className="bg-teal-400 p-4 rounded-t-lg">
-          <h1 className="text-2xl font-bold text-center text-white">{title}</h1>
+        <div className="bg-teal-400 p-4 sm:p-6 rounded-t-lg">
+          <h1 className="text-2xl sm:text-3xl font-bold text-center text-white">
+            {title}
+          </h1>
         </div>
-        <div className="p-3">
-          <p className="text-lg font-medium text-slate-700 text-center">
+        <div className="p-3 sm:p-4">
+          <p className="text-lg sm:text-xl font-medium text-slate-700 text-center">
             {body}
           </p>
         </div>
-        <div className="flex items-center justify-center gap-1 p-1">
-          <button className="form-button" onClick={closeModal}>
+        <div className="flex items-center justify-center gap-1 sm:gap-2 p-1 sm:p-2">
+          <button
+            className="form-button sm:px-5 sm:py-3 sm:text-xl"
+            onClick={closeModal}
+          >
             Cancel
           </button>
-          <button className="reverse-form-button" onClick={buttonAction}>
+          <button
+            className="reverse-form-button sm:px-5 sm:py-3 sm:text-xl"
+            onClick={buttonAction}
+          >
             {buttonText}
           </button>
         </div>

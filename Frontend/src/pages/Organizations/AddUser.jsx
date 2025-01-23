@@ -32,8 +32,8 @@ const AddUser = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-6">
-        <h1 className="text-xl text-center font-semibold text-indigo-600">
+      <div className="w-full max-w-md p-8 space-y-6 sm:max-w-lg">
+        <h1 className="text-xl sm:text-2xl text-center font-semibold text-indigo-600">
           Add a user to your organization
         </h1>
         {error && <p className="text-red-500">{error}</p>}
@@ -44,7 +44,7 @@ const AddUser = () => {
             placeholder="Username"
             required
             onChange={handleInput}
-            className="form-input"
+            className="form-input sm:text-lg"
           />
         </div>
         <div>
@@ -54,11 +54,15 @@ const AddUser = () => {
             placeholder="Password"
             required
             onChange={handleInput}
-            className="form-input"
+            className="form-input sm:text-lg"
           />
         </div>
         <div>
-          <button type="button" onClick={handleSubmit} className="form-button">
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="form-button sm:px-5 sm:py-3 sm:text-xl"
+          >
             Add User
           </button>
         </div>

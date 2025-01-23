@@ -46,13 +46,15 @@ const EditMember = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-6">
-        <h1 className="text-xl text-center font-semibold">Edit member</h1>
+      <div className="w-full max-w-md p-8 space-y-6 sm:max-w-lg">
+        <h1 className="text-xl sm:text-2xl text-center font-semibold">
+          Edit Member
+        </h1>
         {error && <p className="text-red-500">{error}</p>}
         <div>
           <label
             htmlFor="name"
-            className="block text-sm font-medium text-slate-700 mb-2"
+            className="block text-sm sm:text-lg font-medium text-slate-700 mb-2"
           >
             Member name
           </label>
@@ -62,13 +64,13 @@ const EditMember = () => {
             value={input.name}
             required
             onChange={handleInput}
-            className="form-input"
+            className="form-input sm:text-lg"
           />
         </div>
         <div>
           <label
             htmlFor="phoneNumber"
-            className="block text-sm font-medium text-slate-700 mb-2"
+            className="block text-sm sm:text-lg font-medium text-slate-700 mb-2"
           >
             Member phone number
           </label>
@@ -78,11 +80,14 @@ const EditMember = () => {
             value={input.phoneNumber}
             required
             onChange={handleInput}
-            className="form-input"
+            className="form-input sm:text-lg"
           />
         </div>
         <div>
-          <button onClick={handleSubmit} className="form-button">
+          <button
+            onClick={handleSubmit}
+            className="form-button sm:px-5 sm:py-3 sm:text-xl"
+          >
             Edit Member
           </button>
         </div>

@@ -31,8 +31,10 @@ const AddMember = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-6">
-        <h1 className="text-xl text-center font-semibold">Add a member</h1>
+      <div className="w-full max-w-md p-8 space-y-6 sm:max-w-lg">
+        <h1 className="text-xl sm:text-2xl text-center font-semibold">
+          Add a member
+        </h1>
         {error && <p className="text-red-500">{error}</p>}
         <div>
           <input
@@ -41,7 +43,7 @@ const AddMember = () => {
             placeholder="Name"
             required
             onChange={handleInput}
-            className="form-input"
+            className="form-input sm:text-lg"
           />
         </div>
         <div>
@@ -51,11 +53,14 @@ const AddMember = () => {
             placeholder="Phone Number"
             required
             onChange={handleInput}
-            className="form-input"
+            className="form-input sm:text-lg"
           />
         </div>
         <div>
-          <button onClick={handleSubmit} className="form-button">
+          <button
+            onClick={handleSubmit}
+            className="form-button sm:text-xl sm:px-5 sm:py-3"
+          >
             Add Member
           </button>
         </div>
