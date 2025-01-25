@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useUser from "../../Hooks/useUser";
+import Alert from "../../Components/Alert/Alert";
 
 const AddUser = () => {
   const { addUser } = useUser();
@@ -10,13 +11,26 @@ const AddUser = () => {
     password: "",
   });
   const [error, setError] = useState(null);
+  const [alertObject, setAlertObject] = useState({
+    message: "",
+    type: "",
+    show: false,
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (input.username !== "" && input.password !== "") {
-      await addUser(input);
-      navigate("/organizations/dashboard");
+      const { success, message } = await addUser(input);
+
+      if (success) {
+        setAlertObject({ message: message, type: "success", show: true });
+        setTimeout(() => {
+          navigate("/organizations/dashboard");
+        }, 3000);
+      } else {
+        setAlertObject({ message: message, type: "danger", show: true });
+      }
     } else {
       setError("Please fill out all fields");
     }
@@ -27,6 +41,13 @@ const AddUser = () => {
     setInput((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const closeAlert = () => {
+    setAlertObject((prev) => ({
+      ...prev,
+      show: false,
     }));
   };
 
@@ -67,6 +88,14 @@ const AddUser = () => {
           </button>
         </div>
       </div>
+      {alertObject.show && (
+        <Alert
+          alertText={alertObject.message}
+          alertType={alertObject.type}
+          duration={3000}
+          onClose={closeAlert}
+        />
+      )}
     </div>
   );
 };

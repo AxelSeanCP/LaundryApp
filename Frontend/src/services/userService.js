@@ -18,12 +18,11 @@ const addUser = async ({ username, password }) => {
     );
 
     if (response.status === 201) {
-      console.log("User added successfully");
-      alert("User added successfully");
+      return { success: true, message: response.data.message };
     }
   } catch (error) {
-    alert("Add user failed");
-    console.error("Add user error: ", error.response?.data || error.message);
+    const message = error.response?.data?.message || "An error occured";
+    return { success: false, message };
   }
 };
 

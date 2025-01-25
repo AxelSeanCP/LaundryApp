@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useMember from "../../Hooks/useMember";
+import Alert from "../../Components/Alert/Alert";
 
 const AddMember = () => {
   const { addMember } = useMember();
@@ -10,12 +11,25 @@ const AddMember = () => {
     phoneNumber: "",
   });
   const [error, setError] = useState(null);
+  const [alertObject, setAlertObject] = useState({
+    message: "",
+    type: "",
+    show: false,
+  });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.name !== "" && input.phoneNumber !== "") {
-      addMember(input);
-      navigate("/users/dashboard");
+      const { success, message } = await addMember(input);
+
+      if (success) {
+        setAlertObject({ message: message, type: "success", show: true });
+        setTimeout(() => {
+          navigate("/users/dashboard");
+        }, 3000);
+      } else {
+        setAlertObject({ message: message, type: "danger", show: true });
+      }
     } else {
       setError("Please fill out all fields");
     }
@@ -26,6 +40,13 @@ const AddMember = () => {
     setInput((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const closeAlert = () => {
+    setAlertObject((prev) => ({
+      ...prev,
+      show: false,
     }));
   };
 
@@ -65,6 +86,14 @@ const AddMember = () => {
           </button>
         </div>
       </div>
+      {alertObject.show && (
+        <Alert
+          alertText={alertObject.message}
+          alertType={alertObject.type}
+          duration={3000}
+          onClose={closeAlert}
+        />
+      )}
     </div>
   );
 };

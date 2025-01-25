@@ -14,12 +14,11 @@ const addMember = async ({ name, phoneNumber }) => {
     );
 
     if (response.status === 201) {
-      alert("Member added successfully");
-      console.log("Member added successfully");
+      return { success: true, message: response.data.message };
     }
   } catch (error) {
-    alert("Add member failed");
-    console.error("Add member error: ", error.response?.data || error.message);
+    const message = error.response?.data?.message || "An error occured";
+    return { success: false, message };
   }
 };
 
@@ -55,11 +54,11 @@ const getMemberById = async (id) => {
       return member;
     }
   } catch (error) {
-    alert("Get member by id failed");
     console.error(
       "Get member by id error: ",
       error.response?.data || error.message
     );
+    throw new Error(error.response?.data?.message || "An error occurred");
   }
 };
 

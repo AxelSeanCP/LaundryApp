@@ -10,7 +10,7 @@ import {
 
 const MemberContextProvider = ({ children }) => {
   const addMember = async (credentials) => {
-    await addMemberService(credentials);
+    return await addMemberService(credentials);
   };
 
   const getMembers = async (input) => {

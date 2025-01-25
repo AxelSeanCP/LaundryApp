@@ -20,15 +20,15 @@ const MemberDetail = () => {
         const memberData = await getMemberById(memberId);
         setMember(memberData);
       } catch (error) {
-        setError("Failed to load member. Please try again");
-        console.error(error);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
     };
 
     fetchMember();
-  }, [getMemberById, memberId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [memberId]);
 
   const handleEditMember = () => {
     navigate(`/users/members/${memberId}/edit`, { state: member });

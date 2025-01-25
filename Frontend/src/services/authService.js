@@ -25,12 +25,11 @@ const organizationRegister = async ({ name, password }) => {
     });
 
     if (response.status === 201) {
-      console.log("Register successfull");
-      alert("Register successfull");
+      return { success: true, message: response.data.message };
     }
   } catch (error) {
-    alert("Register failed");
-    console.error("Register error: ", error.response?.data || error.message);
+    const message = error.response?.data?.message || "An error occured";
+    return { success: false, message };
   }
 };
 

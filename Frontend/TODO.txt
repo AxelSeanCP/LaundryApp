@@ -1,5 +1,7 @@
 Selalu buat mobile first
 
+Tambah response untuk error tiap fitur (terutama di member)
+
 ServiceView
 - buat card untuk menampilkan services
 - taruh card di service view

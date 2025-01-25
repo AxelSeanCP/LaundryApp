@@ -54,6 +54,7 @@ const getMembers = async (input, idOrganization) => {
   const members = await db.Member.findAll({
     attributes: ["id", "name", "phoneNumber"],
     where: whereClause,
+    order: [["createdAt", "DESC"]],
   });
 
   if (members.length === 0) {

@@ -35,7 +35,7 @@ const AuthContextProvider = ({ children }) => {
   }, []);
 
   const register = async (credentials) => {
-    await organizationRegister(credentials);
+    return await organizationRegister(credentials);
   };
 
   const login = async (role, credentials) => {
@@ -73,6 +73,7 @@ const AuthContextProvider = ({ children }) => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
+    localStorage.removeItem("organization");
     setIsAuthenticated(false);
     localStorage.removeItem("role");
   };

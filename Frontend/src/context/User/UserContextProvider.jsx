@@ -4,7 +4,7 @@ import { UserContext } from "./UserContext";
 
 const UserContextProvider = ({ children }) => {
   const addUser = async (credentials) => {
-    await addUserService(credentials);
+    return await addUserService(credentials);
   };
 
   const contextValue = {

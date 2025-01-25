@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import Alert from "../../Components/Alert/Alert";
 
 const OrganizationRegister = () => {
   const { register } = useAuth();
@@ -10,13 +11,29 @@ const OrganizationRegister = () => {
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [alertObject, setAlertObject] = useState({
+    message: "",
+    type: "",
+    show: false,
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { organizationName, password } = input;
     if (organizationName !== "" && password !== "") {
-      register({ name: organizationName, password });
-      navigate("/organizations/login");
+      const { success, message } = await register({
+        name: organizationName,
+        password,
+      });
+
+      if (success) {
+        setAlertObject({ message: message, type: "success", show: true });
+        setTimeout(() => {
+          navigate("/organizations/login");
+        }, 3000);
+      } else {
+        setAlertObject({ message: message, type: "danger", show: true });
+      }
     } else {
       setError("Please fill out all the fields");
     }
@@ -27,6 +44,13 @@ const OrganizationRegister = () => {
     setInput((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const closeAlert = () => {
+    setAlertObject((prev) => ({
+      ...prev,
+      show: false,
     }));
   };
 
@@ -90,6 +114,14 @@ const OrganizationRegister = () => {
           </Link>
         </p>
       </div>
+      {alertObject.show && (
+        <Alert
+          alertText={alertObject.message}
+          alertType={alertObject.type}
+          duration={3000}
+          onClose={closeAlert}
+        />
+      )}
     </div>
   );
 };
