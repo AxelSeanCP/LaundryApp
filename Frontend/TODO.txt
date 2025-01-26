@@ -1,6 +1,5 @@
 Selalu buat mobile first
-
-Tambah response untuk error tiap fitur (terutama di member)
+Tambah response untuk error tiap fitur
 
 ServiceView
 - buat card untuk menampilkan services
@@ -8,6 +7,9 @@ ServiceView
 - buat function untuk mendapat services
 - buat add button component dibawah service view (navigasi ke AddService) + buat universal button ini (kalo bisa ubah di MemberView)
 - tambah link di card (navigasi ke ServiceDetail)
+
+AddService
+- buat mirip AddMember
 
 ServiceDetail
 - buat function untuk mendapat detail service dari id di params

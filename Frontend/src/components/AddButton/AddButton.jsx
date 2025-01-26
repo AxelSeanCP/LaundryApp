@@ -6,7 +6,7 @@ const AddButton = ({ navigatePath, buttonText }) => {
   return (
     <div className="flex items-center justify-center inset-0 z-50">
       <button
-        className="rounded-lg shadow-lg bg-white font-medium text-slate-700 hover:bg-slate-200 border border-slate-700 fixed bottom-1 flex items-center justify-center gap-2 w-48 h-12 sm:w-52 sm:h-16 transition-all sm:text-xl focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className="rounded-lg shadow-lg bg-white font-medium text-slate-700 hover:bg-slate-200 border border-slate-700 fixed bottom-1 flex items-center justify-center gap-2 w-36 h-12 sm:w-48 sm:h-16 transition-all sm:text-xl focus:outline-none focus:ring-2 focus:ring-slate-700"
         onClick={() => navigate(navigatePath)}
       >
         <svg

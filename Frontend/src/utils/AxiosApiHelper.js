@@ -23,13 +23,18 @@ const api = axios.create({
   },
 });
 
-// api.interceptors.request.use((config) => {
-//   const accessToken = localStorage.getItem("accessToken")
-//   if(accessToken) {
-//     config.headers.Authorization = `Bearer ${accessToken}`
-//   }
-//   return config;
-// });
+api.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 api.interceptors.response.use(
   (response) => response,
@@ -41,13 +46,18 @@ api.interceptors.response.use(
       try {
         const newAccessToken = await refreshAccessToken();
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(originalRequest);
+        return axios(originalRequest);
       } catch (refreshError) {
         console.error("Token refresh failed: ", refreshError);
+        alert("Session expired. Please login again");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+        localStorage.removeItem("user");
+        localStorage.removeItem("organization");
         localStorage.removeItem("role");
-        throw refreshError;
+        window.location.href = `/?redirect=${encodeURIComponent(
+          window.location.pathname
+        )}`;
       }
     }
 

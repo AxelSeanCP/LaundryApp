@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import useMember from "../../Hooks/useMember";
+import Alert from "../../Components/Alert/Alert";
 
 const EditMember = () => {
   const { memberId } = useParams();
@@ -10,6 +11,12 @@ const EditMember = () => {
     phoneNumber: "",
   });
   const [error, setError] = useState(null);
+  const [alertObject, setAlertObject] = useState({
+    message: "",
+    type: "",
+    show: false,
+  });
+
   const navigate = useNavigate();
   const { state: member } = useLocation();
 
@@ -26,11 +33,19 @@ const EditMember = () => {
     return <h1>No member data available</h1>;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.name !== "" && input.phoneNumber !== "") {
-      editMember(memberId, input);
-      navigate("/users/members");
+      const { success, message } = await editMember(memberId, input);
+
+      if (success) {
+        setAlertObject({ message: message, type: "success", show: true });
+        setTimeout(() => {
+          navigate("/users/members");
+        }, 3000);
+      } else {
+        setAlertObject({ message: message, type: "danger", show: true });
+      }
     } else {
       setError("Please fill out all fields");
     }
@@ -41,6 +56,13 @@ const EditMember = () => {
     setInput((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const closeAlert = () => {
+    setAlertObject((prev) => ({
+      ...prev,
+      show: false,
     }));
   };
 
@@ -92,6 +114,14 @@ const EditMember = () => {
           </button>
         </div>
       </div>
+      {alertObject.show && (
+        <Alert
+          alertText={alertObject.message}
+          alertType={alertObject.type}
+          duration={3000}
+          onClose={closeAlert}
+        />
+      )}
     </div>
   );
 };

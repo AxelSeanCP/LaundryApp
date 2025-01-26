@@ -1,17 +1,8 @@
 import api from "../utils/AxiosApiHelper";
 
-const addMember = async ({ name, phoneNumber }) => {
+const add = async ({ name, phoneNumber }) => {
   try {
-    const token = localStorage.getItem("accessToken");
-    const response = await api.post(
-      "/members",
-      { name, phoneNumber },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await api.post("/members", { name, phoneNumber });
 
     if (response.status === 201) {
       return { success: true, message: response.data.message };
@@ -22,32 +13,23 @@ const addMember = async ({ name, phoneNumber }) => {
   }
 };
 
-const getMembers = async (input) => {
+const getAll = async (input) => {
   try {
-    const token = localStorage.getItem("accessToken");
-    const response = await api.get(`/members?input=${input}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.get(`/members?input=${input}`);
 
     if (response.status === 200) {
       const { members } = response.data.data;
       return members || [];
     }
   } catch (error) {
-    alert("Get member failed");
-    console.error("Get member error: ", error.response?.data || error.message);
+    console.error("Get members error: ", error.response?.data || error.message);
     return [];
   }
 };
 
-const getMemberById = async (id) => {
+const getById = async (id) => {
   try {
-    const token = localStorage.getItem("accessToken");
-    const response = await api.get(`/members/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await api.get(`/members/${id}`);
 
     if (response.status === 200) {
       const { member } = response.data.data;
@@ -58,34 +40,26 @@ const getMemberById = async (id) => {
       "Get member by id error: ",
       error.response?.data || error.message
     );
-    throw new Error(error.response?.data?.message || "An error occurred");
+    return error.response?.data?.message || "An error occurred";
   }
 };
 
-const editMember = async (id, { name, phoneNumber }) => {
+const update = async (id, { name, phoneNumber }) => {
   try {
-    const token = localStorage.getItem("accessToken");
-    const response = await api.put(
-      `/members/${id}`,
-      { name, phoneNumber },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const response = await api.put(`/members/${id}`, { name, phoneNumber });
 
     if (response.status === 200) {
-      console.log("Edit member successfull");
+      return { success: true, message: response.data.message };
     }
   } catch (error) {
-    alert("Edit member failed.");
-    console.error("Edit member error: ", error.response?.data || error.message);
+    const message = error.response?.data?.message;
+    return { success: false, message: message };
   }
 };
 
-const deleteMember = async (id) => {
+const remove = async (id) => {
   try {
-    const token = localStorage.getItem("accessToken");
-    const response = await api.delete(`/members/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await api.delete(`/members/${id}`);
 
     if (response.status === 200) {
       console.log("Delete member successfull");
@@ -99,4 +73,4 @@ const deleteMember = async (id) => {
   }
 };
 
-export { addMember, getMembers, getMemberById, editMember, deleteMember };
+export { add, getAll, getById, update, remove };

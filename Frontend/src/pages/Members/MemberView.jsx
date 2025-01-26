@@ -9,28 +9,21 @@ const MemberView = () => {
   const { getMembers } = useMember();
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     const fetchMembers = async () => {
-      try {
-        setLoading(true);
-        const membersData = await getMembers(searchInput);
-        setMembers(membersData);
-      } catch (error) {
-        setError("Failed to load members. Please try again");
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
+      setLoading(true);
+      const membersData = await getMembers(searchInput);
+      setMembers(membersData);
+      setLoading(false);
     };
 
     fetchMembers();
   }, [getMembers, searchInput]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mb-12">
       <div className="flex items-center justify-center">
         <SearchBar
           placeholderText={"name / phone number"}
@@ -38,11 +31,9 @@ const MemberView = () => {
           onInputChange={(value) => setSearchInput(value)}
         />
       </div>
-      <div className="container mx-auto p-2 gap-2 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 mb-12">
+      <div className="container mx-auto p-2 gap-3 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
         {loading ? (
           <Loader />
-        ) : error ? (
-          <p className="text-center col-span-full text-red-500">{error}</p>
         ) : members.length > 0 ? (
           members.map((member) => (
             <MemberCard

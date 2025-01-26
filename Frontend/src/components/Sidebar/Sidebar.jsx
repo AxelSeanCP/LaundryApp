@@ -86,7 +86,13 @@ const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
                 </button>
               </li>
               <li>
-                <button className="sidebar-button">
+                <button
+                  className="sidebar-button"
+                  onClick={() => {
+                    toggleSidebar();
+                    navigate("/users/services");
+                  }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     height="24px"

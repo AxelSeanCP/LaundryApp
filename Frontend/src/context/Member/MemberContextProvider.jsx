@@ -1,34 +1,34 @@
 import PropType from "prop-types";
 import { MemberContext } from "./MemberContext";
 import {
-  addMember as addMemberService,
-  getMembers as getMembersService,
-  getMemberById as getMemberByIdService,
-  editMember as editMemberService,
-  deleteMember as deleteMemberService,
+  add,
+  getAll,
+  getById,
+  update,
+  remove,
 } from "../../Services/memberService";
 
 const MemberContextProvider = ({ children }) => {
-  const addMember = async (credentials) => {
-    return await addMemberService(credentials);
+  const addMember = async (memberData) => {
+    return await add(memberData);
   };
 
   const getMembers = async (input) => {
-    const members = await getMembersService(input);
+    const members = await getAll(input);
     return members;
   };
 
   const getMemberById = async (id) => {
-    const member = await getMemberByIdService(id);
+    const member = await getById(id);
     return member;
   };
 
   const editMember = async (id, credentials) => {
-    await editMemberService(id, credentials);
+    await update(id, credentials);
   };
 
   const deleteMember = async (id) => {
-    await deleteMemberService(id);
+    await remove(id);
   };
 
   const contextValue = {

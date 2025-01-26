@@ -15,15 +15,14 @@ const MemberDetail = () => {
 
   useEffect(() => {
     const fetchMember = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         const memberData = await getMemberById(memberId);
         setMember(memberData);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
+      } catch (err) {
+        setError(err);
       }
+      setLoading(false);
     };
 
     fetchMember();

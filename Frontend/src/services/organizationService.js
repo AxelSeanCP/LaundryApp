@@ -2,12 +2,7 @@ import api from "../utils/AxiosApiHelper";
 
 const getOrganization = async (id) => {
   try {
-    const token = localStorage.getItem("accessToken");
-    const response = await api.get(`/organizations/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.get(`/organizations/${id}`);
 
     if (response.status === 200) {
       console.log("Get organization successfull");

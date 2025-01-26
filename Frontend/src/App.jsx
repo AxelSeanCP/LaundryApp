@@ -17,6 +17,8 @@ import MemberView from "./Pages/Members/MemberView";
 import MemberDetail from "./Pages/Members/MemberDetail";
 import EditMember from "./Pages/Members/EditMember";
 
+import ServiceView from "./Pages/Services/ServiceView";
+
 /* Private Routes */
 import PrivateRouteOrganization from "./Components/PrivateRoute/PrivateRouteOrganization";
 import PrivateRouteUser from "./Components/PrivateRoute/PrivateRouteUser";
@@ -113,7 +115,7 @@ const router = createBrowserRouter([
         path: "services",
         element: (
           <PrivateRouteUser>
-            <h1>Services</h1>
+            <ServiceView />
           </PrivateRouteUser>
         ),
         children: [

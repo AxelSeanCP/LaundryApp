@@ -13,7 +13,7 @@ const verifyMember = async ({ name, phoneNumber }) => {
   });
 
   if (member) {
-    throw new InvariantError("Add member failed. Member already exists!");
+    throw new InvariantError("Member already exists!");
   }
 };
 
@@ -81,6 +81,7 @@ const getMemberById = async (id, idOrganization) => {
 };
 
 const editMemberById = async (id, { name, phoneNumber }) => {
+  await verifyMember({ name, phoneNumber });
   await db.Member.update({ name, phoneNumber }, { where: { id } });
 };
 

@@ -2,20 +2,10 @@ import api from "../utils/AxiosApiHelper";
 
 const addUser = async ({ username, password }) => {
   try {
-    const token = localStorage.getItem("accessToken");
-    const response = await api.post(
-      "/users",
-      {
-        username,
-        password,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await api.post("/users", {
+      username,
+      password,
+    });
 
     if (response.status === 201) {
       return { success: true, message: response.data.message };

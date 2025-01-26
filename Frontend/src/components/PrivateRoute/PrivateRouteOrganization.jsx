@@ -4,7 +4,11 @@ import useAuth from "../../Hooks/useAuth";
 
 const PrivateRouteOrganization = ({ children }) => {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to={"/organizations/login"} />;
+  return isAuthenticated ? (
+    children
+  ) : (
+    <Navigate to={"/organizations/login"} replace />
+  );
 };
 
 PrivateRouteOrganization.propTypes = {

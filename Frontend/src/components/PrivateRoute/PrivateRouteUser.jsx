@@ -4,7 +4,7 @@ import PropType from "prop-types";
 
 const PrivateRouteUser = ({ children }) => {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to={"/users/login"} />;
+  return isAuthenticated ? children : <Navigate to={"/users/login"} replace />;
 };
 
 PrivateRouteUser.propTypes = {

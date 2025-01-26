@@ -19,18 +19,28 @@ const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    const user = localStorage.getItem("user");
+    const refreshToken = localStorage.getItem("refreshToken");
     const role = localStorage.getItem("role");
-    if (accessToken && user && !isTokenExpired(accessToken) && role) {
-      const { username } = JSON.parse(user);
+
+    if (accessToken && refreshToken && !isTokenExpired(accessToken) && role) {
       setIsAuthenticated(true);
-      setUser(username);
+      if (role === "organization") {
+        const organization = JSON.parse(localStorage.getItem("organization"));
+        setOrganization(organization.name);
+      } else {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const organization = JSON.parse(localStorage.getItem("organization"));
+        setUser(user.username);
+        setOrganization(organization.name);
+      }
     } else if (isFirstRender.current) {
+      isFirstRender.current = false;
       if (isTokenExpired(accessToken)) {
-        isFirstRender.current = false;
         alert("Session expired. Please login again");
         logout();
       }
+    } else {
+      logout();
     }
   }, []);
 
@@ -70,6 +80,7 @@ const AuthContextProvider = ({ children }) => {
 
   const logout = async () => {
     setUser(null);
+    setOrganization(null);
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
