@@ -30,4 +30,24 @@ const getAll = async () => {
   }
 };
 
-export { add, getAll };
+const getById = async (id) => {
+  try {
+    const response = await api.get(`/services/${id}`);
+
+    if (response.status === 200) {
+      const { service } = response.data.data;
+      return service;
+    }
+  } catch (error) {
+    console.error(
+      "Get Service by id error: ",
+      error.response?.data || error.message
+    );
+    return {
+      error: true,
+      message: error.response?.data?.message || "An error occured",
+    };
+  }
+};
+
+export { add, getAll, getById };

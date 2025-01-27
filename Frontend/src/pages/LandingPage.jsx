@@ -14,58 +14,69 @@ const LandingPage = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col items-center min-h-screen">
-      <h1 className="text-center text-4xl font-bold mb-12 mt-12">
-        Welcome! Please Select{" "}
-        <span className="bg-gradient-to-r from-indigo-700 to-teal-500 bg-clip-text text-transparent">
-          Your Role
-        </span>
-      </h1>
-      <div className="lg:flex gap-10 w-4/5">
-        <div className="flex-1 bg-gray-100 shadow-md p-8 rounded-md text-center mb-6 lg:mb-0">
-          <h2 className="text-3xl font-bold mb-3">
-            For{" "}
-            <span className="bg-gradient-to-r from-indigo-700 to-teal-500 bg-clip-text text-transparent">
-              Organizations
-            </span>
-          </h2>
-          <p className="text-slate-700 h-20 flex items-center justify-center">
-            Access tools to manage users, streamline operations, and create a
-            better experience.
-          </p>
-          <button
-            className="bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 w-full mb-4"
-            onClick={() => navigate("/organizations/login")}
-          >
-            Login
-          </button>
-          <p className="text-center text-slate-700">
-            Don&apos;t have an account?{" "}
-            <Link
-              to={"/organizations/register"}
-              className="text-teal-500 font-medium hover:underline"
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-indigo-300 via-slate-100 to-teal-200">
+      <div className="w-full p-8 flex items-center justify-center">
+        <h1 className="text-center text-4xl font-bold">
+          Welcome! Please Select{" "}
+          <span className="bg-gradient-to-r from-indigo-700 to-teal-500 bg-clip-text text-transparent">
+            Your Role
+          </span>
+        </h1>
+      </div>
+
+      <div className="lg:flex lg:flex-1 p-12">
+        <div className="flex-1 text-center lg:mb-0 flex max-lg:border-b lg:border-r border-slate-600">
+          <div className="w-full flex flex-col gap-6 p-12 items-center justify-center">
+            <h2 className="text-3xl font-bold text-indigo-800">
+              For{" "}
+              <span className="bg-gradient-to-r from-indigo-700 to-teal-500 bg-clip-text text-transparent">
+                Organizations
+              </span>
+            </h2>
+            <p className="text-slate-700 h-20 flex items-center justify-center">
+              Access tools to manage users, streamline operations, and create a
+              better experience.
+            </p>
+            <button
+              className="bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 transition-colors duration-300 w-1/2 shadow-sm"
+              onClick={() => navigate("/organizations/login")}
             >
-              Register here
-            </Link>
-          </p>
+              Login
+            </button>
+            <p className="text-center text-slate-700">
+              Don&apos;t have an account?{" "}
+              <Link
+                to={"/organizations/register"}
+                className="text-teal-500 font-medium hover:underline"
+              >
+                Register here
+              </Link>
+            </p>
+          </div>
         </div>
-        <div className="flex-1 shadow-md p-8 rounded-md text-center">
-          <h2 className="text-3xl font-bold mb-3">
-            For{" "}
-            <span className="bg-gradient-to-r from-indigo-700 to-teal-500 bg-clip-text text-transparent">
-              Users
-            </span>
-          </h2>
-          <p className="text-slate-700 h-20 flex items-center justify-center">
-            Join your organization with other users, manage your tasks, and
-            simplify your workflow.
-          </p>
-          <button
-            className="border border-indigo-600 text-slate-800 py-3 px-6 rounded-md hover:bg-indigo-600 hover:text-white w-full mb-4"
-            onClick={() => navigate("/users/login")}
-          >
-            Login
-          </button>
+
+        <div className="flex-1 text-center flex max-lg:border-t lg:border-l border-slate-600">
+          <div className="w-full flex flex-col gap-6 p-12 items-center justify-center">
+            <h2 className="text-3xl font-bold text-indigo-800">
+              For{" "}
+              <span className="bg-gradient-to-r from-indigo-700 to-teal-500 bg-clip-text text-transparent">
+                Users
+              </span>
+            </h2>
+            <p className="text-slate-700 h-20 flex items-center justify-center">
+              Join your organization with other users, manage your tasks, and
+              simplify your workflow.
+            </p>
+            <button
+              className="border border-indigo-600 text-indigo-600 py-3 px-6 rounded-md hover:bg-indigo-600 hover:text-white transition-colors duration-300 w-1/2 shadow-sm"
+              onClick={() => navigate("/users/login")}
+            >
+              Login
+            </button>
+            <p className="text-center text-slate-700">
+              Don&apos;t have an account? Ask your organizations
+            </p>
+          </div>
         </div>
       </div>
     </div>

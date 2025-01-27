@@ -16,8 +16,9 @@ import AddMember from "./Pages/Members/AddMember";
 import MemberView from "./Pages/Members/MemberView";
 import MemberDetail from "./Pages/Members/MemberDetail";
 import EditMember from "./Pages/Members/EditMember";
-
+import AddService from "./Pages/Services/AddService";
 import ServiceView from "./Pages/Services/ServiceView";
+import ServiceDetail from "./Pages/Services/ServiceDetail";
 
 /* Private Routes */
 import PrivateRouteOrganization from "./Components/PrivateRoute/PrivateRouteOrganization";
@@ -113,17 +114,28 @@ const router = createBrowserRouter([
       },
       {
         path: "services",
-        element: (
-          <PrivateRouteUser>
-            <ServiceView />
-          </PrivateRouteUser>
-        ),
         children: [
+          {
+            path: "",
+            element: (
+              <PrivateRouteUser>
+                <ServiceView />
+              </PrivateRouteUser>
+            ),
+          },
           {
             path: "add",
             element: (
               <PrivateRouteUser>
-                <h1>Add Service</h1>
+                <AddService />
+              </PrivateRouteUser>
+            ),
+          },
+          {
+            path: ":serviceId",
+            element: (
+              <PrivateRouteUser>
+                <ServiceDetail />
               </PrivateRouteUser>
             ),
           },

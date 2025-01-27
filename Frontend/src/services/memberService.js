@@ -40,7 +40,10 @@ const getById = async (id) => {
       "Get member by id error: ",
       error.response?.data || error.message
     );
-    return error.response?.data?.message || "An error occurred";
+    return {
+      error: true,
+      message: error.response?.data?.message || "An error occured",
+    };
   }
 };
 

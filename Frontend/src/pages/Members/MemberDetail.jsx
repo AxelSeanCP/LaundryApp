@@ -9,19 +9,16 @@ const MemberDetail = () => {
   const { getMemberById, deleteMember } = useMember();
   const [member, setMember] = useState({});
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMember = async () => {
       setLoading(true);
-      try {
-        const memberData = await getMemberById(memberId);
-        setMember(memberData);
-      } catch (err) {
-        setError(err);
-      }
+
+      const memberData = await getMemberById(memberId);
+      setMember(memberData);
+
       setLoading(false);
     };
 
@@ -56,8 +53,10 @@ const MemberDetail = () => {
       )}
       {loading ? (
         <Loader />
-      ) : error ? (
-        <p className="text-center col-span-full text-red-500">{error}</p>
+      ) : member.error ? (
+        <p className="text-center col-span-full text-red-500">
+          {member.message}
+        </p>
       ) : (
         <div className="max-w-md w-full space-y-3 sm:max-w-lg">
           <div className="bg-teal-400 flex flex-col items-center justify-center p-4 sm:p-5 rounded-md">

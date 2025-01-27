@@ -26,14 +26,14 @@ const ServiceView = () => {
         {loading ? (
           <Loader />
         ) : services.length > 0 ? (
-          services.map((service) => {
+          services.map((service) => (
             <ServiceCard
               key={service.id}
               id={service.id}
               name={service.name}
               unit={service.unit}
-            />;
-          })
+            />
+          ))
         ) : (
           <p className="text-center col-span-full text-gray-500 text-lg sm:text-xl">
             No services available

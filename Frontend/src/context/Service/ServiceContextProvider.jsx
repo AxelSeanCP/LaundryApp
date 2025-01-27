@@ -1,6 +1,6 @@
 import PropType from "prop-types";
 import { ServiceContext } from "./ServiceContext";
-import { add, getAll } from "../../Services/serviceService";
+import { add, getAll, getById } from "../../Services/serviceService";
 
 const ServiceContextProvider = ({ children }) => {
   const addService = async (serviceData) => {
@@ -11,9 +11,14 @@ const ServiceContextProvider = ({ children }) => {
     return await getAll();
   };
 
+  const getServiceById = async (id) => {
+    return await getById(id);
+  };
+
   const contextValue = {
     addService,
     getServices,
+    getServiceById,
   };
 
   return (
