@@ -50,4 +50,33 @@ const getById = async (id) => {
   }
 };
 
-export { add, getAll, getById };
+const update = async (id, { name, unit }) => {
+  try {
+    const response = await api.put(`/services/${id}`, { name, unit });
+
+    if (response.status === 200) {
+      return { success: true, message: response.data.message };
+    }
+  } catch (error) {
+    const message = error.response?.data?.message || "An error occured";
+    return { success: false, message };
+  }
+};
+
+const remove = async (id) => {
+  try {
+    const response = await api.delete(`/services/${id}`);
+
+    if (response.status === 200) {
+      console.log("Delete service successfull");
+    }
+  } catch (error) {
+    alert("Delete service failed");
+    console.error(
+      "Delete service error: ",
+      error.response?.data?.message || error.message
+    );
+  }
+};
+
+export { add, getAll, getById, update, remove };

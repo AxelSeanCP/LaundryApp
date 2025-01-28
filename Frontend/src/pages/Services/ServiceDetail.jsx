@@ -7,7 +7,7 @@ import AddButton from "../../Components/AddButton/AddButton";
 
 const ServiceDetail = () => {
   const { serviceId } = useParams();
-  const { getServiceById } = useService();
+  const { getServiceById, deleteService } = useService();
   const [service, setService] = useState({});
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -32,7 +32,7 @@ const ServiceDetail = () => {
   };
 
   const handleDeleteService = async () => {
-    // await deleteService(serviceId);
+    await deleteService(serviceId);
     setShowModal(false);
     navigate("/users/services");
   };

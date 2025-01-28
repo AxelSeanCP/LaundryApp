@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import useService from "../../Hooks/useService";
 import Alert from "../../Components/Alert/Alert";
 
-const AddService = () => {
-  const { addService } = useService();
-  const navigate = useNavigate();
+const EditService = () => {
+  const { serviceId } = useParams();
+  const { editService } = useService();
   const [input, setInput] = useState({
     name: "",
     unit: "",
@@ -18,16 +18,36 @@ const AddService = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const navigate = useNavigate();
+  const { state: service } = useLocation();
+
+  useEffect(() => {
+    if (service) {
+      setInput({
+        name: service.name || "",
+        unit: service.unit || "",
+      });
+    }
+  }, [service]);
+
+  if (!service) {
+    return (
+      <h1 className="text-2xl text-red-500 text-center">
+        No service data available
+      </h1>
+    );
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.name !== "" && input.unit !== "") {
       setIsSubmitting(true);
-      const { success, message } = await addService(input);
+      const { success, message } = await editService(serviceId, input);
 
       if (success) {
         setAlertObject({ message: message, type: "success", show: true });
         setTimeout(() => {
-          navigate("/users/dashboard");
+          navigate("/users/services");
         }, 3000);
       } else {
         setAlertObject({ message: message, type: "danger", show: true });
@@ -58,19 +78,31 @@ const AddService = () => {
     <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-8 space-y-6 sm:max-w-lg">
         <h1 className="text-xl sm:text-2xl text-center font-semibold">
-          Add a service
+          Edit Service
         </h1>
         {error && <p className="text-red-500">{error}</p>}
         <div>
+          <label
+            htmlFor="name"
+            className="block text-sm sm:text-lg font-medium text-slate-700 mb-2"
+          >
+            Service name
+          </label>
           <input
             type="text"
             name="name"
-            placeholder="Name"
+            value={input.name}
             required
             onChange={handleInput}
             className="form-input sm:text-lg"
           />
         </div>
+        <label
+          htmlFor="unit"
+          className="block text-sm sm:text-lg font-medium text-slate-700"
+        >
+          Service unit
+        </label>
         <div className="space-y-4 text-center">
           <p className="font-medium text-slate-700">Select Unit:</p>
           <div className="flex items-center justify-center gap-6">
@@ -79,6 +111,7 @@ const AddService = () => {
                 type="radio"
                 name="unit"
                 value="By Weight"
+                checked={input.unit === "By Weight"}
                 className="hidden peer"
                 onChange={handleInput}
               />
@@ -92,6 +125,7 @@ const AddService = () => {
                 type="radio"
                 name="unit"
                 value="By Item"
+                checked={input.unit === "By Item"}
                 className="hidden peer"
                 onChange={handleInput}
               />
@@ -110,7 +144,7 @@ const AddService = () => {
               isSubmitting ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            {isSubmitting ? "Adding..." : "Add Service"}
+            {isSubmitting ? "Editing..." : "Edit Service"}
           </button>
         </div>
       </div>
@@ -126,4 +160,4 @@ const AddService = () => {
   );
 };
 
-export default AddService;
+export default EditService;

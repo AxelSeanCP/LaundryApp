@@ -16,10 +16,12 @@ const AddMember = () => {
     type: "",
     show: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.name !== "" && input.phoneNumber !== "") {
+      setIsSubmitting(true);
       const { success, message } = await addMember(input);
 
       if (success) {
@@ -29,9 +31,11 @@ const AddMember = () => {
         }, 3000);
       } else {
         setAlertObject({ message: message, type: "danger", show: true });
+        setIsSubmitting(false);
       }
     } else {
       setError("Please fill out all fields");
+      setIsSubmitting(false);
     }
   };
 
@@ -80,9 +84,12 @@ const AddMember = () => {
         <div>
           <button
             onClick={handleSubmit}
-            className="form-button sm:text-xl sm:px-5 sm:py-3"
+            disabled={isSubmitting}
+            className={`form-button sm:text-xl sm:px-5 sm:py-3 ${
+              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Add Member
+            {isSubmitting ? "Adding..." : "Add Member"}
           </button>
         </div>
       </div>

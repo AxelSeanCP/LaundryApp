@@ -24,7 +24,7 @@ const MemberContextProvider = ({ children }) => {
   };
 
   const editMember = async (id, credentials) => {
-    await update(id, credentials);
+    return await update(id, credentials);
   };
 
   const deleteMember = async (id) => {

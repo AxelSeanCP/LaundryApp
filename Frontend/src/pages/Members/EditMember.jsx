@@ -16,6 +16,7 @@ const EditMember = () => {
     type: "",
     show: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
   const { state: member } = useLocation();
@@ -30,12 +31,17 @@ const EditMember = () => {
   }, [member]);
 
   if (!member) {
-    return <h1>No member data available</h1>;
+    return (
+      <h1 className="text-2xl text-red-500 text-center">
+        No member data available
+      </h1>
+    );
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.name !== "" && input.phoneNumber !== "") {
+      setIsSubmitting(true);
       const { success, message } = await editMember(memberId, input);
 
       if (success) {
@@ -45,9 +51,11 @@ const EditMember = () => {
         }, 3000);
       } else {
         setAlertObject({ message: message, type: "danger", show: true });
+        setIsSubmitting(false);
       }
     } else {
       setError("Please fill out all fields");
+      setIsSubmitting(false);
     }
   };
 
@@ -108,9 +116,12 @@ const EditMember = () => {
         <div>
           <button
             onClick={handleSubmit}
-            className="form-button sm:px-5 sm:py-3 sm:text-xl"
+            disabled={isSubmitting}
+            className={`form-button sm:text-xl sm:px-5 sm:py-3 ${
+              isSubmitting ? "opactity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Edit Member
+            {isSubmitting ? "Editing..." : "Edit Member"}
           </button>
         </div>
       </div>

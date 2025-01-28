@@ -19,6 +19,7 @@ import EditMember from "./Pages/Members/EditMember";
 import AddService from "./Pages/Services/AddService";
 import ServiceView from "./Pages/Services/ServiceView";
 import ServiceDetail from "./Pages/Services/ServiceDetail";
+import EditService from "./Pages/Services/EditService";
 
 /* Private Routes */
 import PrivateRouteOrganization from "./Components/PrivateRoute/PrivateRouteOrganization";
@@ -143,23 +144,26 @@ const router = createBrowserRouter([
             path: ":serviceId/edit",
             element: (
               <PrivateRouteUser>
-                <h1>Edit Service</h1>
+                <EditService />
               </PrivateRouteUser>
             ),
           },
           {
             path: ":serviceId/options",
-            element: (
-              <PrivateRouteUser>
-                <h1>Service Options</h1>
-              </PrivateRouteUser>
-            ),
             children: [
               {
                 path: "add",
                 element: (
                   <PrivateRouteUser>
                     <h1>Add Service Option</h1>
+                  </PrivateRouteUser>
+                ),
+              },
+              {
+                path: ":optionId",
+                element: (
+                  <PrivateRouteUser>
+                    <h1>Option detail</h1>
                   </PrivateRouteUser>
                 ),
               },
