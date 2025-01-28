@@ -65,10 +65,10 @@ const AddService = () => {
           <input
             type="text"
             name="name"
-            placeholder="Name"
+            placeholder="Service Name"
             required
             onChange={handleInput}
-            className="form-input sm:text-lg"
+            className="form-input"
           />
         </div>
         <div className="space-y-4 text-center">
@@ -106,7 +106,7 @@ const AddService = () => {
           <button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className={`form-button sm:text-xl sm:px-5 sm:py-3 ${
+            className={`form-button ${
               isSubmitting ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >

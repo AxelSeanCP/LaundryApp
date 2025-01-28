@@ -5,13 +5,16 @@ import AuthContextProvider from "./context/Auth/AuthContextProvider.jsx";
 import UserContextProvider from "./Context/User/UserContextProvider.jsx";
 import MemberContextProvider from "./Context/Member/MemberContextProvider.jsx";
 import ServiceContextProvider from "./Context/Service/ServiceContextProvider.jsx";
+import OptionContextProvider from "./Context/Option/OptionContextProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <AuthContextProvider>
     <UserContextProvider>
       <MemberContextProvider>
         <ServiceContextProvider>
-          <App />
+          <OptionContextProvider>
+            <App />
+          </OptionContextProvider>
         </ServiceContextProvider>
       </MemberContextProvider>
     </UserContextProvider>

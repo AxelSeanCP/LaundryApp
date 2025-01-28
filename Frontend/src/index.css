@@ -8,7 +8,7 @@
   }
 
   .form-button {
-    @apply w-full px-4 py-2 text-white bg-orange-600 rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-400;
+    @apply w-full px-4 py-2 text-white bg-orange-600 rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-400 sm:px-5 sm:py-3 sm:text-xl;
   }
 
   .reverse-form-button {
@@ -16,7 +16,7 @@
   }
 
   .form-input {
-    @apply w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500;
+    @apply w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500 sm:text-lg;
   }
 
   .sidebar-button {

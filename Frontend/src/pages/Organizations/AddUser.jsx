@@ -16,11 +16,13 @@ const AddUser = () => {
     type: "",
     show: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (input.username !== "" && input.password !== "") {
+      setIsSubmitting(true);
       const { success, message } = await addUser(input);
 
       if (success) {
@@ -30,9 +32,11 @@ const AddUser = () => {
         }, 3000);
       } else {
         setAlertObject({ message: message, type: "danger", show: true });
+        setIsSubmitting(false);
       }
     } else {
       setError("Please fill out all fields");
+      setIsSubmitting(false);
     }
   };
 
@@ -65,7 +69,7 @@ const AddUser = () => {
             placeholder="Username"
             required
             onChange={handleInput}
-            className="form-input sm:text-lg"
+            className="form-input"
           />
         </div>
         <div>
@@ -75,16 +79,19 @@ const AddUser = () => {
             placeholder="Password"
             required
             onChange={handleInput}
-            className="form-input sm:text-lg"
+            className="form-input"
           />
         </div>
         <div>
           <button
             type="button"
+            disabled={isSubmitting}
             onClick={handleSubmit}
-            className="form-button sm:px-5 sm:py-3 sm:text-xl"
+            className={`form-button ${
+              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Add User
+            {isSubmitting ? "Adding..." : "Add User"}
           </button>
         </div>
       </div>

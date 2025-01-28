@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import useMember from "../../Hooks/useMember";
+import { useNavigate, useParams } from "react-router-dom";
+import useOption from "../../Hooks/useOption";
 import Alert from "../../Components/Alert/Alert";
 
-const AddMember = () => {
-  const { addMember } = useMember();
+const AddOption = () => {
+  const { addOption } = useOption();
+  const { serviceId } = useParams();
   const navigate = useNavigate();
   const [input, setInput] = useState({
     name: "",
-    phoneNumber: "",
+    price: 0,
   });
   const [error, setError] = useState(null);
   const [alertObject, setAlertObject] = useState({
@@ -16,18 +17,18 @@ const AddMember = () => {
     type: "",
     show: false,
   });
-  const [isSubmitting, setIsSubmitting] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (input.name !== "" && input.phoneNumber !== "") {
+    if (input.name !== "" && input.price !== 0) {
       setIsSubmitting(true);
-      const { success, message } = await addMember(input);
+      const { success, message } = await addOption(serviceId, input);
 
       if (success) {
         setAlertObject({ message: message, type: "success", show: true });
         setTimeout(() => {
-          navigate("/users/dashboard");
+          navigate(`/users/services/${serviceId}`);
         }, 3000);
       } else {
         setAlertObject({ message: message, type: "danger", show: true });
@@ -58,14 +59,14 @@ const AddMember = () => {
     <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-8 space-y-6 sm:max-w-lg">
         <h1 className="text-xl sm:text-2xl text-center font-semibold">
-          Add a member
+          Add a option for this service
         </h1>
         {error && <p className="text-red-500">{error}</p>}
         <div>
           <input
             type="text"
             name="name"
-            placeholder="Member Name"
+            placeholder="Option Name"
             required
             onChange={handleInput}
             className="form-input"
@@ -73,9 +74,9 @@ const AddMember = () => {
         </div>
         <div>
           <input
-            type="text"
-            name="phoneNumber"
-            placeholder="Phone Number"
+            type="number"
+            name="price"
+            placeholder="Option Price"
             required
             onChange={handleInput}
             className="form-input"
@@ -89,7 +90,7 @@ const AddMember = () => {
               isSubmitting ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            {isSubmitting ? "Adding..." : "Add Member"}
+            {isSubmitting ? "Adding..." : "Add Option"}
           </button>
         </div>
       </div>
@@ -105,4 +106,4 @@ const AddMember = () => {
   );
 };
 
-export default AddMember;
+export default AddOption;

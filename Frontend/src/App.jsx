@@ -20,6 +20,7 @@ import AddService from "./Pages/Services/AddService";
 import ServiceView from "./Pages/Services/ServiceView";
 import ServiceDetail from "./Pages/Services/ServiceDetail";
 import EditService from "./Pages/Services/EditService";
+import AddOption from "./Pages/Options/AddOption";
 
 /* Private Routes */
 import PrivateRouteOrganization from "./Components/PrivateRoute/PrivateRouteOrganization";
@@ -155,7 +156,7 @@ const router = createBrowserRouter([
                 path: "add",
                 element: (
                   <PrivateRouteUser>
-                    <h1>Add Service Option</h1>
+                    <AddOption />
                   </PrivateRouteUser>
                 ),
               },
