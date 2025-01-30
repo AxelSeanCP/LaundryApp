@@ -99,16 +99,10 @@ const MemberDetail = () => {
             </p>
           </div>
           <div className="flex items-center justify-center gap-2 sm:gap-3">
-            <button
-              className="form-button sm:px-5 sm:py-3 sm:text-xl"
-              onClick={handleEditMember}
-            >
+            <button className="form-button" onClick={handleEditMember}>
               Edit Member
             </button>
-            <button
-              className="reverse-form-button sm:px-5 sm:py-3 sm:text-xl"
-              onClick={toggleModal}
-            >
+            <button className="reverse-form-button" onClick={toggleModal}>
               Delete Member
             </button>
           </div>

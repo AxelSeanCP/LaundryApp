@@ -59,7 +59,7 @@ const AddOption = () => {
     <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-8 space-y-6 sm:max-w-lg">
         <h1 className="text-xl sm:text-2xl text-center font-semibold">
-          Add a option for this service
+          Add option for this service
         </h1>
         {error && <p className="text-red-500">{error}</p>}
         <div>

@@ -2,7 +2,17 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        scroll: "scroll 3s infinite linear",
+      },
+      keyframes: {
+        scroll: {
+          "0%": { transform: "translateX(100%)", width: "100%" },
+          "100%": { transform: "translateX(0)", width: "100%" },
+        },
+      },
+    },
   },
   plugins: [],
 };

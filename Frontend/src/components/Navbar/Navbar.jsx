@@ -2,7 +2,7 @@ import PropType from "prop-types";
 
 const Navbar = ({ toggleSidebar }) => {
   return (
-    <nav className="bg-indigo-600 text-white p-4 flex items-center fixed top-0 w-full">
+    <nav className="bg-gradient-to-r from-indigo-600 via-violet-800 to-teal-500 text-white p-4 flex items-center fixed top-0 w-full">
       <button className="block focus:outline-none mr-5" onClick={toggleSidebar}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

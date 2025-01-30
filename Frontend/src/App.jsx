@@ -25,6 +25,7 @@ import AddOption from "./Pages/Options/AddOption";
 /* Private Routes */
 import PrivateRouteOrganization from "./Components/PrivateRoute/PrivateRouteOrganization";
 import PrivateRouteUser from "./Components/PrivateRoute/PrivateRouteUser";
+import OptionDetail from "./Pages/Options/OptionDetail";
 
 const router = createBrowserRouter([
   {
@@ -164,7 +165,7 @@ const router = createBrowserRouter([
                 path: ":optionId",
                 element: (
                   <PrivateRouteUser>
-                    <h1>Option detail</h1>
+                    <OptionDetail />
                   </PrivateRouteUser>
                 ),
               },
