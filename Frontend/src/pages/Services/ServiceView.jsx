@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import useService from "../../Hooks/useService";
-import ServiceCard from "../../Components/Card/ServiceCard";
+import Card from "../../Components/Card/Card";
 import AddButton from "../../Components/AddButton/AddButton";
 import Loader from "../../Components/Loader/Loader";
 
@@ -8,6 +9,7 @@ const ServiceView = () => {
   const { getServices } = useService();
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -20,6 +22,10 @@ const ServiceView = () => {
     fetchServices();
   }, [getServices]);
 
+  const cardOnClick = (id) => {
+    navigate(`/users/services/${id}`);
+  };
+
   return (
     <div className="space-y-4 mb-12">
       <div className="container mx-auto p-2 gap-3 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
@@ -27,11 +33,11 @@ const ServiceView = () => {
           <Loader />
         ) : services.length > 0 ? (
           services.map((service) => (
-            <ServiceCard
+            <Card
               key={service.id}
-              id={service.id}
-              name={service.name}
-              unit={service.unit}
+              clickFunction={() => cardOnClick(service.id)}
+              title={service.name}
+              description={service.unit}
             />
           ))
         ) : (

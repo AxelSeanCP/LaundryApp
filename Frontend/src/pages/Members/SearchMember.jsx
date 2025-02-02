@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import useMember from "../../Hooks/useMember";
 import Card from "../../Components/Card/Card";
 import SearchBar from "../../Components/SearchBar/SeachBar";
-import AddButton from "../../Components/AddButton/AddButton";
 import Loader from "../../Components/Loader/Loader";
 
-const MemberView = () => {
+const SearchMember = () => {
   const { getMembers } = useMember();
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -37,7 +36,7 @@ const MemberView = () => {
           onInputChange={(value) => setSearchInput(value)}
         />
       </div>
-      <div className="container mx-auto p-2 gap-3 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
+      <div className="container mx-auto p-2 gap-1 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
         {loading ? (
           <Loader />
         ) : members.length > 0 ? (
@@ -47,6 +46,7 @@ const MemberView = () => {
               clickFunction={() => cardOnClick(member.id)}
               title={member.name}
               description={member.phoneNumber}
+              defaultStyle={false}
             />
           ))
         ) : (
@@ -55,9 +55,8 @@ const MemberView = () => {
           </p>
         )}
       </div>
-      <AddButton navigatePath="/users/members/add" buttonText="Add Member" />
     </div>
   );
 };
 
-export default MemberView;
+export default SearchMember;

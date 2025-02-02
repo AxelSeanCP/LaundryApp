@@ -5,6 +5,7 @@ import {
   login as loginService,
   organizationRegister,
   organizationLogin,
+  logout as logoutService,
 } from "../../Services/authService";
 import { getUser } from "../../Services/userService";
 import { getOrganization } from "../../Services/organizationService";
@@ -79,6 +80,8 @@ const AuthContextProvider = ({ children }) => {
   };
 
   const logout = async () => {
+    const refreshToken = localStorage.getItem("refreshToken");
+    await logoutService(refreshToken);
     setUser(null);
     setOrganization(null);
     localStorage.removeItem("accessToken");

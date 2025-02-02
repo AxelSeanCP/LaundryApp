@@ -7,8 +7,8 @@ const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    toggleSidebar();
     await logout();
-    navigate("/");
   };
 
   return (
@@ -19,12 +19,12 @@ const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
         } transition-transform duration-300 ease-in-out z-50`}
       >
         {isUser ? (
-          <div className="bg-teal-500 py-4 px-6 border-b border-gray-600">
+          <div className="bg-gradient-to-r from-indigo-600 via-violet-800 to-teal-500 text-white py-4 px-6 border-b border-gray-600">
             <h1 className="text-xl font-bold">{user}</h1>
             <p className="text-lg font-semibold">{organization}</p>
           </div>
         ) : (
-          <div className="bg-teal-500 p-4 text-lg font-semibold border-b border-gray-600">
+          <div className="bg-gradient-to-r from-indigo-600 via-violet-800 to-teal-500 text-white p-4 text-lg font-semibold border-b border-gray-600">
             {organization}
           </div>
         )}

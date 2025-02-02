@@ -4,7 +4,7 @@ import useService from "../../Hooks/useService";
 import Loader from "../../Components/Loader/Loader";
 import Modal from "../../Components/Modal/Modal";
 import AddButton from "../../Components/AddButton/AddButton";
-import OptionCard from "../../Components/Card/OptionCard";
+import Card from "../../Components/Card/Card";
 
 const ServiceDetail = () => {
   const { serviceId } = useParams();
@@ -40,6 +40,12 @@ const ServiceDetail = () => {
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);
+  };
+
+  const cardOnClick = ({ optionId, name, price, serviceId }) => {
+    navigate(`/users/services/${serviceId}/options/${optionId}`, {
+      state: { optionId, name, price, serviceId },
+    });
   };
 
   return (
@@ -106,12 +112,11 @@ const ServiceDetail = () => {
             <div className="container mx-auto p-2 gap-3 grid lg:grid-cols-2">
               {service.options.length > 0 ? (
                 service.options.map((option) => (
-                  <OptionCard
+                  <Card
                     key={option.id}
-                    optionId={option.id}
-                    name={option.name}
-                    price={option.price}
-                    serviceId={option.idService}
+                    clickFunction={() => cardOnClick(option)}
+                    title={option.name}
+                    description={option.price}
                   />
                 ))
               ) : (

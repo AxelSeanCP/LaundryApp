@@ -6,21 +6,28 @@ import UserLayout from "./Layouts/UserLayout";
 
 /* Pages */
 import LandingPage from "./Pages/LandingPage";
+
 import OrganizationLogin from "./Pages/Organizations/Login";
 import OrganizationRegister from "./Pages/Organizations/Register";
 import OrganizationDashboard from "./Pages/Organizations/Dashboard";
 import AddUser from "./Pages/Organizations/AddUser";
+
 import UserLogin from "./Pages/Users/Login";
 import UserDashboard from "./Pages/Users/Dashboard";
+
 import AddMember from "./Pages/Members/AddMember";
 import MemberView from "./Pages/Members/MemberView";
 import MemberDetail from "./Pages/Members/MemberDetail";
 import EditMember from "./Pages/Members/EditMember";
+import SearchMember from "./Pages/Members/SearchMember";
+
 import AddService from "./Pages/Services/AddService";
 import ServiceView from "./Pages/Services/ServiceView";
 import ServiceDetail from "./Pages/Services/ServiceDetail";
 import EditService from "./Pages/Services/EditService";
+
 import AddOption from "./Pages/Options/AddOption";
+import EditOption from "./Pages/Options/EditOption";
 
 /* Private Routes */
 import PrivateRouteOrganization from "./Components/PrivateRoute/PrivateRouteOrganization";
@@ -113,6 +120,10 @@ const router = createBrowserRouter([
               </PrivateRouteUser>
             ),
           },
+          {
+            path: "search",
+            element: <SearchMember />,
+          },
         ],
       },
       {
@@ -173,7 +184,7 @@ const router = createBrowserRouter([
                 path: ":optionId/edit",
                 element: (
                   <PrivateRouteUser>
-                    <h1>Edit Service Option</h1>
+                    <EditOption />
                   </PrivateRouteUser>
                 ),
               },

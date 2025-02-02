@@ -1,6 +1,13 @@
 import PropType from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ toggleSidebar }) => {
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <nav className="bg-gradient-to-r from-indigo-600 via-violet-800 to-teal-500 text-white p-4 flex items-center fixed top-0 w-full">
       <button className="block focus:outline-none mr-5" onClick={toggleSidebar}>
@@ -17,6 +24,16 @@ const Navbar = ({ toggleSidebar }) => {
             strokeLinejoin="round"
             d="M4 6h16M4 12h16M4 18h16"
           />
+        </svg>
+      </button>
+      <button className="block focus:outline-none mr-5" onClick={goBack}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6"
+          viewBox="0 -960 960 960"
+          fill="#FFFFFF"
+        >
+          <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
         </svg>
       </button>
       <h1 className="text-xl font-semibold">LaundryApp</h1>

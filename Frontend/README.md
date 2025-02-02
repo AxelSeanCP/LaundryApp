@@ -8,3 +8,4 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 > bug: when error, doesn't display but goes straight to login page (MemberDetail.jsx)
+> bug2: useEffect inside auth context provider can't navigate to "/" when logout

@@ -50,4 +50,20 @@ const organizationLogin = async ({ name, password }) => {
   }
 };
 
-export { login, organizationRegister, organizationLogin };
+const logout = async (refreshToken) => {
+  try {
+    const response = await api.delete("/authentications", {
+      data: { refreshToken },
+    });
+    if (response.status === 200) {
+      console.log("Logout successfull");
+    }
+  } catch (error) {
+    console.error(
+      "Logout error: ",
+      error.response?.data?.message || error.message
+    );
+  }
+};
+
+export { login, organizationRegister, organizationLogin, logout };
