@@ -6,7 +6,7 @@ const UserDashboard = () => {
   const buttons = [
     {
       label: "Add Transactions",
-      navigateTo: "/users/transactions/add",
+      navigateTo: "/users/transactions",
       bgColor: "bg-indigo-600 hover:bg-indigo-700",
       icon: (
         <svg

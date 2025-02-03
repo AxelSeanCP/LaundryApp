@@ -1,10 +1,7 @@
 Selalu buat mobile first
 Tambah response untuk error tiap fitur
 
-bikin card component 1 lagi buat search member
-
 SearchMember
-- tampilkan list member dalam bentuk kartu
 - tiap kartu navigasi ke ChooseServices dengan credentials member
 
 Transactions

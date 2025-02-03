@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useMember from "../../Hooks/useMember";
 import Card from "../../Components/Card/Card";
 import SearchBar from "../../Components/SearchBar/SeachBar";
-import AddButton from "../../Components/AddButton/AddButton";
+import NavigateButton from "../../Components/Button/NavigateButton";
 import Loader from "../../Components/Loader/Loader";
 
 const MemberView = () => {
@@ -55,7 +55,11 @@ const MemberView = () => {
           </p>
         )}
       </div>
-      <AddButton navigatePath="/users/members/add" buttonText="Add Member" />
+      <NavigateButton
+        navigatePath="/users/members/add"
+        buttonText="Add Member"
+        icon="plus"
+      />
     </div>
   );
 };

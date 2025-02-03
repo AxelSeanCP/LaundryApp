@@ -2,13 +2,13 @@ import { Navigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import PropType from "prop-types";
 
-const PrivateRouteUser = ({ children }) => {
+const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to={"/users/login"} replace />;
+  return isAuthenticated ? children : <Navigate to={"/"} replace />;
 };
 
-PrivateRouteUser.propTypes = {
+PrivateRoute.propTypes = {
   children: PropType.node.isRequired,
 };
 
-export default PrivateRouteUser;
+export default PrivateRoute;

@@ -24,6 +24,7 @@ const SearchMember = () => {
   }, [getMembers, searchInput]);
 
   const cardOnClick = (id) => {
+    //TODO: fix this to navigate(-1) with state data
     navigate(`/users/members/${id}`);
   };
 
@@ -46,7 +47,7 @@ const SearchMember = () => {
               clickFunction={() => cardOnClick(member.id)}
               title={member.name}
               description={member.phoneNumber}
-              defaultStyle={false}
+              variant="compact"
             />
           ))
         ) : (

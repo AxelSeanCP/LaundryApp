@@ -23,3 +23,13 @@
     @apply w-full text-base text-slate-700 hover:bg-slate-300 py-2 px-2 rounded-md flex items-center gap-3;
   }
 }
+
+@layer utilities {
+  #toggle:checked ~ label div.toggle-circle {
+    @apply translate-x-3;
+  }
+
+  #toggle:checked ~ label div.toggle-track {
+    @apply bg-sky-600;
+  }
+}

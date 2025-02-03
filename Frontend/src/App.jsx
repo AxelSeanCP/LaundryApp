@@ -1,5 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+/* Private Routes */
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+
 /* Layouts */
 import OrganizationLayout from "./Layouts/OrganizationLayout";
 import UserLayout from "./Layouts/UserLayout";
@@ -28,11 +31,8 @@ import EditService from "./Pages/Services/EditService";
 
 import AddOption from "./Pages/Options/AddOption";
 import EditOption from "./Pages/Options/EditOption";
-
-/* Private Routes */
-import PrivateRouteOrganization from "./Components/PrivateRoute/PrivateRouteOrganization";
-import PrivateRouteUser from "./Components/PrivateRoute/PrivateRouteUser";
 import OptionDetail from "./Pages/Options/OptionDetail";
+import ChooseService from "./Pages/Transaction/ChooseServices";
 
 const router = createBrowserRouter([
   {
@@ -46,9 +46,9 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: (
-          <PrivateRouteOrganization>
+          <PrivateRoute>
             <OrganizationDashboard />
-          </PrivateRouteOrganization>
+          </PrivateRoute>
         ),
       },
       {
@@ -62,9 +62,9 @@ const router = createBrowserRouter([
       {
         path: "addUser",
         element: (
-          <PrivateRouteOrganization>
+          <PrivateRoute>
             <AddUser />
-          </PrivateRouteOrganization>
+          </PrivateRoute>
         ),
       },
     ],
@@ -76,9 +76,9 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: (
-          <PrivateRouteUser>
+          <PrivateRoute>
             <UserDashboard />
-          </PrivateRouteUser>
+          </PrivateRoute>
         ),
       },
       {
@@ -91,33 +91,33 @@ const router = createBrowserRouter([
           {
             path: "",
             element: (
-              <PrivateRouteUser>
+              <PrivateRoute>
                 <MemberView />
-              </PrivateRouteUser>
+              </PrivateRoute>
             ),
           },
           {
             path: "add",
             element: (
-              <PrivateRouteUser>
+              <PrivateRoute>
                 <AddMember />
-              </PrivateRouteUser>
+              </PrivateRoute>
             ),
           },
           {
             path: ":memberId",
             element: (
-              <PrivateRouteUser>
+              <PrivateRoute>
                 <MemberDetail />
-              </PrivateRouteUser>
+              </PrivateRoute>
             ),
           },
           {
             path: ":memberId/edit",
             element: (
-              <PrivateRouteUser>
+              <PrivateRoute>
                 <EditMember />
-              </PrivateRouteUser>
+              </PrivateRoute>
             ),
           },
           {
@@ -132,33 +132,33 @@ const router = createBrowserRouter([
           {
             path: "",
             element: (
-              <PrivateRouteUser>
+              <PrivateRoute>
                 <ServiceView />
-              </PrivateRouteUser>
+              </PrivateRoute>
             ),
           },
           {
             path: "add",
             element: (
-              <PrivateRouteUser>
+              <PrivateRoute>
                 <AddService />
-              </PrivateRouteUser>
+              </PrivateRoute>
             ),
           },
           {
             path: ":serviceId",
             element: (
-              <PrivateRouteUser>
+              <PrivateRoute>
                 <ServiceDetail />
-              </PrivateRouteUser>
+              </PrivateRoute>
             ),
           },
           {
             path: ":serviceId/edit",
             element: (
-              <PrivateRouteUser>
+              <PrivateRoute>
                 <EditService />
-              </PrivateRouteUser>
+              </PrivateRoute>
             ),
           },
           {
@@ -167,25 +167,25 @@ const router = createBrowserRouter([
               {
                 path: "add",
                 element: (
-                  <PrivateRouteUser>
+                  <PrivateRoute>
                     <AddOption />
-                  </PrivateRouteUser>
+                  </PrivateRoute>
                 ),
               },
               {
                 path: ":optionId",
                 element: (
-                  <PrivateRouteUser>
+                  <PrivateRoute>
                     <OptionDetail />
-                  </PrivateRouteUser>
+                  </PrivateRoute>
                 ),
               },
               {
                 path: ":optionId/edit",
                 element: (
-                  <PrivateRouteUser>
+                  <PrivateRoute>
                     <EditOption />
-                  </PrivateRouteUser>
+                  </PrivateRoute>
                 ),
               },
             ],
@@ -194,34 +194,37 @@ const router = createBrowserRouter([
       },
       {
         path: "transactions",
-        element: (
-          <PrivateRouteUser>
-            <h1>Transactions</h1>
-          </PrivateRouteUser>
-        ),
         children: [
+          {
+            path: "",
+            element: (
+              <PrivateRoute>
+                <ChooseService />
+              </PrivateRoute>
+            ),
+          },
           {
             path: "add",
             element: (
-              <PrivateRouteUser>
+              <PrivateRoute>
                 <h1>Add Transaction</h1>
-              </PrivateRouteUser>
+              </PrivateRoute>
             ),
           },
           {
             path: "status",
             element: (
-              <PrivateRouteUser>
+              <PrivateRoute>
                 <h1>Transaction Status</h1>
-              </PrivateRouteUser>
+              </PrivateRoute>
             ),
             children: [
               {
                 path: "edit",
                 element: (
-                  <PrivateRouteUser>
+                  <PrivateRoute>
                     <h1>Edit Transaction Status</h1>
-                  </PrivateRouteUser>
+                  </PrivateRoute>
                 ),
               },
             ],
@@ -229,9 +232,9 @@ const router = createBrowserRouter([
           {
             path: ":transactionId/edit",
             element: (
-              <PrivateRouteUser>
+              <PrivateRoute>
                 <h1>Edit Transaction</h1>
-              </PrivateRouteUser>
+              </PrivateRoute>
             ),
           },
         ],
@@ -239,9 +242,9 @@ const router = createBrowserRouter([
       {
         path: "reports",
         element: (
-          <PrivateRouteUser>
+          <PrivateRoute>
             <h1>Reports</h1>
-          </PrivateRouteUser>
+          </PrivateRoute>
         ),
       },
     ],

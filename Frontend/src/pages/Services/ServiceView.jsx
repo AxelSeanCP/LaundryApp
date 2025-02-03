@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useService from "../../Hooks/useService";
 import Card from "../../Components/Card/Card";
-import AddButton from "../../Components/AddButton/AddButton";
+import NavigateButton from "../../Components/Button/NavigateButton";
 import Loader from "../../Components/Loader/Loader";
 
 const ServiceView = () => {
@@ -46,7 +46,11 @@ const ServiceView = () => {
           </p>
         )}
       </div>
-      <AddButton navigatePath="/users/services/add" buttonText="Add Service" />
+      <NavigateButton
+        navigatePath="/users/services/add"
+        buttonText="Add Service"
+        icon="plus"
+      />
     </div>
   );
 };

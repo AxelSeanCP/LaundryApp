@@ -33,12 +33,12 @@ const LandingPage = () => {
                 Organizations
               </span>
             </h2>
-            <p className="text-slate-700 h-20 flex items-center justify-center">
+            <p className="text-slate-700 text-lg h-20 flex items-center justify-center">
               Access tools to manage users, streamline operations, and create a
               better experience.
             </p>
             <button
-              className="bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 transition-colors duration-300 w-1/2 shadow-sm"
+              className="bg-indigo-600 text-white py-4 px-5 rounded-sm hover:bg-indigo-700 transition-colors duration-300 w-1/3 shadow-sm"
               onClick={() => navigate("/organizations/login")}
             >
               Login
@@ -63,12 +63,12 @@ const LandingPage = () => {
                 Users
               </span>
             </h2>
-            <p className="text-slate-700 h-20 flex items-center justify-center">
+            <p className="text-slate-700 text-lg h-20 flex items-center justify-center">
               Join your organization with other users, manage your tasks, and
               simplify your workflow.
             </p>
             <button
-              className="border border-indigo-600 text-indigo-600 py-3 px-6 rounded-md hover:bg-indigo-600 hover:text-white transition-colors duration-300 w-1/2 shadow-sm"
+              className="border border-indigo-600 text-indigo-600 py-4 px-5 rounded-sm hover:bg-indigo-600 hover:text-white transition-colors duration-300 w-1/3 shadow-sm"
               onClick={() => navigate("/users/login")}
             >
               Login

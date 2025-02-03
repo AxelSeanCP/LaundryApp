@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import useService from "../../Hooks/useService";
 import Loader from "../../Components/Loader/Loader";
 import Modal from "../../Components/Modal/Modal";
-import AddButton from "../../Components/AddButton/AddButton";
+import NavigateButton from "../../Components/Button/NavigateButton";
 import Card from "../../Components/Card/Card";
 
 const ServiceDetail = () => {
@@ -128,9 +128,10 @@ const ServiceDetail = () => {
           </div>
         )}
       </div>
-      <AddButton
+      <NavigateButton
         navigatePath={`/users/services/${serviceId}/options/add`}
         buttonText="Add Options"
+        icon="plus"
       />
     </div>
   );
