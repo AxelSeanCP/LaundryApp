@@ -42,9 +42,9 @@ const ServiceDetail = () => {
     setShowModal((prev) => !prev);
   };
 
-  const cardOnClick = ({ optionId, name, price, serviceId }) => {
-    navigate(`/users/services/${serviceId}/options/${optionId}`, {
-      state: { optionId, name, price, serviceId },
+  const cardOnClick = ({ id, name, price, idService }) => {
+    navigate(`/users/services/${idService}/options/${id}`, {
+      state: { id, name, price, idService },
     });
   };
 

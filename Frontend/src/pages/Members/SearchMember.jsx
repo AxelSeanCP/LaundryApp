@@ -23,9 +23,8 @@ const SearchMember = () => {
     fetchMembers();
   }, [getMembers, searchInput]);
 
-  const cardOnClick = (id) => {
-    //TODO: fix this to navigate(-1) with state data
-    navigate(`/users/members/${id}`);
+  const cardOnClick = (member) => {
+    navigate("/users/transactions", { state: { member } });
   };
 
   return (
@@ -44,7 +43,7 @@ const SearchMember = () => {
           members.map((member) => (
             <Card
               key={member.id}
-              clickFunction={() => cardOnClick(member.id)}
+              clickFunction={() => cardOnClick(member)}
               title={member.name}
               description={member.phoneNumber}
               variant="compact"

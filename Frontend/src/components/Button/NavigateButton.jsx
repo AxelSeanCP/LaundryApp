@@ -1,13 +1,33 @@
 import { useNavigate } from "react-router-dom";
 import PropType from "prop-types";
 
-const NavigateButton = ({ navigatePath, buttonText, icon = "none" }) => {
+const NavigateButton = ({
+  navigatePath,
+  buttonText,
+  icon = "none",
+  stateData = null,
+  onBeforeNavigate = null,
+}) => {
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (onBeforeNavigate) {
+      const shouldNavigate = onBeforeNavigate();
+      if (!shouldNavigate) return;
+    }
+
+    if (stateData) {
+      navigate(navigatePath, { state: stateData });
+    } else {
+      navigate(navigatePath);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center inset-0 z-50">
       <button
         className="rounded-lg shadow-lg bg-white font-medium text-slate-700 hover:bg-slate-200 hover:scale-105 transition-transform border-2 border-slate-700 fixed bottom-4 flex items-center justify-center gap-2 w-40 h-12 sm:w-48 sm:h-14 text-lg sm:text-xl focus:outline-none focus:ring-2 focus:ring-slate-700"
-        onClick={() => navigate(navigatePath)}
+        onClick={handleClick}
       >
         {icon === "plus" && (
           <svg
@@ -29,6 +49,8 @@ NavigateButton.propTypes = {
   navigatePath: PropType.string.isRequired,
   buttonText: PropType.string.isRequired,
   icon: PropType.oneOf(["none", "plus"]),
+  stateData: PropType.object,
+  onBeforeNavigate: PropType.func,
 };
 
 export default NavigateButton;

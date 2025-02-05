@@ -33,6 +33,7 @@ import AddOption from "./Pages/Options/AddOption";
 import EditOption from "./Pages/Options/EditOption";
 import OptionDetail from "./Pages/Options/OptionDetail";
 import ChooseService from "./Pages/Transaction/ChooseServices";
+import AddTransaction from "./Pages/Transaction/AddTransaction";
 
 const router = createBrowserRouter([
   {
@@ -207,7 +208,7 @@ const router = createBrowserRouter([
             path: "add",
             element: (
               <PrivateRoute>
-                <h1>Add Transaction</h1>
+                <AddTransaction />
               </PrivateRoute>
             ),
           },

@@ -42,6 +42,7 @@ const getServices = async (idOrganization) => {
     where: {
       idOrganization,
     },
+    order: [["createdAt", "ASC"]],
   });
 
   if (services.length === 0) {
@@ -64,6 +65,7 @@ const getServiceById = async (idService, idOrganization) => {
         as: "options",
       },
     ],
+    order: [[{ model: db.Option, as: "options" }, "createdAt", "ASC"]],
   });
 
   if (!service) {

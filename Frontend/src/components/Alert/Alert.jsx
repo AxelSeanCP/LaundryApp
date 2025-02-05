@@ -26,7 +26,7 @@ const Alert = ({ alertText, alertType, duration = 3000, onClose }) => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 w-96">
+    <div className="fixed bottom-4 left-4 right-4 mx-auto z-50 max-w-lg">
       <div
         className={`p-4 rounded-t-lg rounded-x-lg shadow-lg border-l-4 flex flex-col justify-center items-start gap-3 ${alertStyles[alertType]}`}
       >

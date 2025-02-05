@@ -1,32 +1,118 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useService from "../../Hooks/useService";
 import Loader from "../../Components/Loader/Loader";
 import Card from "../../Components/Card/Card";
 import NavigateButton from "../../Components/Button/NavigateButton";
+import ToggleButton from "../../Components/Button/ToggleButton";
 
 const ChooseService = () => {
-  const { getServices } = useService();
+  const { getServices, getServiceById } = useService();
   const [services, setServices] = useState([]);
-  const [member, setMember] = useState({});
+  const [input, setInput] = useState({
+    options: [],
+  });
   const [loading, setLoading] = useState(false);
+  const [dropdownStates, setDropdownStates] = useState({});
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const member = state?.member || { name: "" };
 
   useEffect(() => {
     const fetchServices = async () => {
       setLoading(true);
       const servicesData = await getServices();
-      setServices(servicesData);
+
+      const updatedServices = await Promise.all(
+        servicesData.map(async (service) => {
+          const serviceData = await getServiceById(service.id);
+          return {
+            ...service,
+            options: serviceData.options,
+          };
+        })
+      );
+
+      setServices(updatedServices);
       setLoading(false);
     };
 
     fetchServices();
-  }, [getServices]);
+  }, [getServices, getServiceById]);
+
+  const handleValidation = () => {
+    if (!member.id) {
+      alert("Please select a member.");
+      return false;
+    }
+
+    if (input.options.length === 0) {
+      alert("Please choose at least one service option.");
+      return false;
+    }
+
+    if (
+      input.options.some(
+        (option) => option.qty === 0 || option.qty === undefined
+      )
+    ) {
+      alert("Please input a valid quantity for all selected options");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleOptionChange = (serviceId, optionId) => {
+    setInput((prev) => {
+      const existingService = prev.options.find(
+        (entry) => entry.serviceId === serviceId
+      );
+
+      if (existingService) {
+        return {
+          ...prev,
+          options: prev.options.map((entry) =>
+            entry.serviceId === serviceId
+              ? { ...entry, optionId, qty: 0 }
+              : entry
+          ),
+        };
+      }
+
+      return {
+        ...prev,
+        options: [...prev.options, { serviceId, optionId, qty: 0 }],
+      };
+    });
+  };
+
+  const handleQtyChange = (serviceId, qty) => {
+    setInput((prev) => ({
+      ...prev,
+      options: prev.options.map((entry) =>
+        entry.serviceId === serviceId
+          ? { ...entry, qty: parseFloat(qty) || 0 }
+          : entry
+      ),
+    }));
+  };
+
+  const handleToggle = (id) => {
+    setDropdownStates((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   return (
     <div className="space-y-4 mb-12">
+      {/* Member select button */}
       <div className="flex items-center justify-center">
-        <button className="border-b border-indigo-600 text-indigo-600 text-xl font-semibold hover:bg-slate-200 flex items-center gap-3 w-full max-w-md sm:max-w-lg px-3 py-2">
+        <button
+          className="border-b border-indigo-600 text-indigo-600 text-xl font-semibold hover:bg-slate-200 flex items-center gap-3 w-full max-w-md sm:max-w-lg px-3 py-2"
+          onClick={() => navigate("/users/members/search")}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-6 h-6"
@@ -38,22 +124,93 @@ const ChooseService = () => {
           {member.name || "Select/Input Member"}
         </button>
       </div>
+
+      {/* Services card */}
       <div className="container mx-auto p-2 gap-3 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2">
         {loading ? (
           <Loader />
         ) : services.length > 0 ? (
-          services.map(
-            (
-              service //TODO: add toggle button as children of card, add function to toggle the toggle button when card is clicked
-            ) => (
+          services.map((service) => (
+            <div key={service.id}>
               <Card
-                key={service.id}
                 title={service.name}
                 description={service.unit}
                 variant="functional"
-              />
-            )
-          )
+              >
+                <ToggleButton onToggle={() => handleToggle(service.id)} />
+              </Card>
+              {/* Dropdown options */}
+              {dropdownStates[service.id] && (
+                <div className="bg-white p-1 rounded shadow">
+                  {service.options.length > 0 ? (
+                    <div>
+                      <ul>
+                        {service.options.map((option) => (
+                          <li key={option.id} className="p-1 gap-2">
+                            <label className="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-gray-50 transition">
+                              <input
+                                type="radio"
+                                name={service.id}
+                                value={option.id}
+                                className="hidden peer"
+                                onChange={() =>
+                                  handleOptionChange(service.id, option.id)
+                                }
+                              />
+                              <div className="w-5 h-5 rounded-full border border-gray-400 peer-checked:border-orange-600 peer-checked:bg-orange-600 flex items-center justify-center transition-all">
+                                <div className="w-3 h-3 rounded-full bg-white"></div>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-slate-800 font-medium">
+                                  {option.name}
+                                </span>
+                                <span className="text-slate-600 flex items-center">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="w-4 h-4"
+                                    viewBox="0 -960 960 960"
+                                    fill="currentColor"
+                                  >
+                                    <path d="M441-120v-86q-53-12-91.5-46T293-348l74-30q15 48 44.5 73t77.5 25q41 0 69.5-18.5T587-356q0-35-22-55.5T463-458q-86-27-118-64.5T313-614q0-65 42-101t86-41v-84h80v84q50 8 82.5 36.5T651-650l-74 32q-12-32-34-48t-60-16q-44 0-67 19.5T393-614q0 33 30 52t104 40q69 20 104.5 63.5T667-358q0 71-42 108t-104 46v84h-80Z" />
+                                  </svg>
+                                  {option.price}
+                                </span>
+                              </div>
+                            </label>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="flex justify-end">
+                        <label
+                          htmlFor="qty"
+                          className="flex items-center gap-2 mt-4 mr-4"
+                        >
+                          <span className="text-slate-700 font-medium">
+                            Qty:
+                          </span>
+                          <input
+                            type="number"
+                            name="qty"
+                            className="w-16 p-1 border border-gray-300 rounded-md text-center"
+                            placeholder="0"
+                            step="0.1"
+                            min="0"
+                            onChange={(e) =>
+                              handleQtyChange(service.id, e.target.value)
+                            }
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-center col-span-full text-gray-500 text-lg sm:text-xl">
+                      No Options available
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          ))
         ) : (
           <p className="text-center col-span-full text-gray-500 text-lg sm:text-xl">
             No Services available
@@ -63,6 +220,8 @@ const ChooseService = () => {
       <NavigateButton
         navigatePath="/users/transactions/add"
         buttonText="Continue"
+        stateData={{ ...input, memberId: member.id }}
+        onBeforeNavigate={handleValidation}
       />
     </div>
   );
