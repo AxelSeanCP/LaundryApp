@@ -9,7 +9,7 @@ const Navbar = ({ toggleSidebar }) => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-indigo-600 via-violet-800 to-teal-500 text-white p-4 flex items-center fixed top-0 w-full">
+    <nav className=" text-indigo-600 p-4 flex items-center fixed top-0 w-full bg-slate-100 border-b border-slate-500 z-50">
       <button className="block focus:outline-none mr-5" onClick={toggleSidebar}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +31,7 @@ const Navbar = ({ toggleSidebar }) => {
           xmlns="http://www.w3.org/2000/svg"
           className="w-6 h-6"
           viewBox="0 -960 960 960"
-          fill="#FFFFFF"
+          fill="currentColor"
         >
           <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
         </svg>

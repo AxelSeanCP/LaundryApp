@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 @layer components {
   .dashboard-button {
     @apply flex w-full max-w-5xl items-center justify-between px-10 py-16 text-2xl md:text-3xl rounded-xl shadow-md transition-transform duration-200 hover:scale-105 hover:brightness-110 focus:outline-none focus:ring-4 focus:ring-orange-500;

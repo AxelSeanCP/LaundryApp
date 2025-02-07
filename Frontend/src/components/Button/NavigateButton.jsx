@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import PropType from "prop-types";
-
+//TODO: remove stateData and onBeforeNavigate to make button return to original purpose which is just navigating without data
 const NavigateButton = ({
   navigatePath,
   buttonText,

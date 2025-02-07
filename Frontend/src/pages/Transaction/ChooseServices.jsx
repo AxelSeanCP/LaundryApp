@@ -3,20 +3,26 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useService from "../../Hooks/useService";
 import Loader from "../../Components/Loader/Loader";
 import Card from "../../Components/Card/Card";
-import NavigateButton from "../../Components/Button/NavigateButton";
 import ToggleButton from "../../Components/Button/ToggleButton";
+import Alert from "../../Components/Alert/Alert";
 
 const ChooseService = () => {
   const { getServices, getServiceById } = useService();
   const [services, setServices] = useState([]);
-  const [input, setInput] = useState({
-    options: [],
-  });
   const [loading, setLoading] = useState(false);
   const [dropdownStates, setDropdownStates] = useState({});
+  const [alertObject, setAlertObject] = useState({
+    message: "",
+    type: "",
+    show: false,
+  });
   const navigate = useNavigate();
   const { state } = useLocation();
   const member = state?.member || { name: "" };
+  const [input, setInput] = useState({
+    options: [],
+    member: member || null,
+  });
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -41,13 +47,21 @@ const ChooseService = () => {
   }, [getServices, getServiceById]);
 
   const handleValidation = () => {
-    if (!member.id) {
-      alert("Please select a member.");
+    if (!member) {
+      setAlertObject({
+        message: "Please select a member",
+        type: "danger",
+        show: true,
+      });
       return false;
     }
 
     if (input.options.length === 0) {
-      alert("Please choose at least one service option.");
+      setAlertObject({
+        message: "Please choose at least one service option ",
+        type: "danger",
+        show: true,
+      });
       return false;
     }
 
@@ -56,14 +70,42 @@ const ChooseService = () => {
         (option) => option.qty === 0 || option.qty === undefined
       )
     ) {
-      alert("Please input a valid quantity for all selected options");
+      setAlertObject({
+        message: "Please input a valid quantity for all selected options ",
+        type: "danger",
+        show: true,
+      });
       return false;
     }
 
     return true;
   };
 
-  const handleOptionChange = (serviceId, optionId) => {
+  const handleSubmit = () => {
+    handleValidation();
+
+    const totalPrice = input.options.reduce(
+      (total, option) => total + option.qty * option.price,
+      0
+    );
+
+    const newInput = {};
+
+    newInput.member = input.member;
+    newInput.options = input.options.map(
+      ({ serviceName, optionId, qty, price }) => ({
+        serviceName,
+        optionId,
+        qty,
+        price,
+      })
+    );
+    newInput.totalPrice = totalPrice;
+
+    navigate("/users/transactions/add", { state: newInput });
+  };
+
+  const handleOptionChange = (serviceId, serviceName, optionId, price) => {
     setInput((prev) => {
       const existingService = prev.options.find(
         (entry) => entry.serviceId === serviceId
@@ -74,7 +116,7 @@ const ChooseService = () => {
           ...prev,
           options: prev.options.map((entry) =>
             entry.serviceId === serviceId
-              ? { ...entry, optionId, qty: 0 }
+              ? { ...entry, serviceName, optionId, price, qty: 0 }
               : entry
           ),
         };
@@ -82,7 +124,10 @@ const ChooseService = () => {
 
       return {
         ...prev,
-        options: [...prev.options, { serviceId, optionId, qty: 0 }],
+        options: [
+          ...prev.options,
+          { serviceId, serviceName, optionId, price, qty: 0 },
+        ],
       };
     });
   };
@@ -102,6 +147,13 @@ const ChooseService = () => {
     setDropdownStates((prev) => ({
       ...prev,
       [id]: !prev[id],
+    }));
+  };
+
+  const closeAlert = () => {
+    setAlertObject((prev) => ({
+      ...prev,
+      show: false,
     }));
   };
 
@@ -144,7 +196,7 @@ const ChooseService = () => {
                 <div className="bg-white p-1 rounded shadow">
                   {service.options.length > 0 ? (
                     <div>
-                      <ul>
+                      <ul className="grid grid-cols-2">
                         {service.options.map((option) => (
                           <li key={option.id} className="p-1 gap-2">
                             <label className="flex items-center gap-3 cursor-pointer p-3 rounded-lg hover:bg-gray-50 transition">
@@ -154,7 +206,12 @@ const ChooseService = () => {
                                 value={option.id}
                                 className="hidden peer"
                                 onChange={() =>
-                                  handleOptionChange(service.id, option.id)
+                                  handleOptionChange(
+                                    service.id,
+                                    service.name,
+                                    option.id,
+                                    option.price
+                                  )
                                 }
                               />
                               <div className="w-5 h-5 rounded-full border border-gray-400 peer-checked:border-orange-600 peer-checked:bg-orange-600 flex items-center justify-center transition-all">
@@ -217,12 +274,22 @@ const ChooseService = () => {
           </p>
         )}
       </div>
-      <NavigateButton
-        navigatePath="/users/transactions/add"
-        buttonText="Continue"
-        stateData={{ ...input, memberId: member.id }}
-        onBeforeNavigate={handleValidation}
-      />
+      <div className="flex items-center justify-center inset-0 z-50">
+        <button
+          className="rounded-lg shadow-lg bg-white font-medium text-slate-700 hover:bg-slate-200 hover:scale-105 transition-transform border-2 border-slate-700 fixed bottom-4 flex items-center justify-center gap-2 w-40 h-12 sm:w-48 sm:h-14 text-lg sm:text-xl focus:outline-none focus:ring-2 focus:ring-slate-700"
+          onClick={handleSubmit}
+        >
+          Continue
+        </button>
+      </div>
+      {alertObject.show && (
+        <Alert
+          alertText={alertObject.message}
+          alertType={alertObject.type}
+          duration={3000}
+          onClose={closeAlert}
+        />
+      )}
     </div>
   );
 };
