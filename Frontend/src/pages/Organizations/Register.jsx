@@ -57,12 +57,12 @@ const OrganizationRegister = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="w-full max-w-md bg-white rounded shadow-lmd p-8 space-y-6">
-        <h1 className="text-3xl font-bold text-center text-indigo-600">
-          Welcome to <span className="text-teal-500">Laundry App</span>
+        <h1 className="text-3xl font-bold text-center text-slate-700">
+          Welcome to <span className="text-indigo-600">Laundry App</span>
         </h1>
         <p className="font-semibold text-slate-500 text-center">
-          Please Login <span className="text-indigo-600">Organization</span> to
-          Continue
+          Please Register <span className="text-indigo-600">Organization</span>{" "}
+          to Continue
         </p>
         {error && <p className="text-red-500">{error}</p>}
         <div>
@@ -108,7 +108,7 @@ const OrganizationRegister = () => {
           Already have an account?{" "}
           <Link
             to={"/organizations/login"}
-            className="text-teal-500 no-underline hover:underline"
+            className="text-blue-600 no-underline hover:underline"
           >
             Login here
           </Link>

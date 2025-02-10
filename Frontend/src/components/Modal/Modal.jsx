@@ -9,7 +9,7 @@ const Modal = ({ buttonAction, closeModal, title, body, buttonText }) => {
       ></div>
 
       <div className="relative bg-white rounded-lg shadow-lg">
-        <div className="bg-teal-400 p-4 sm:p-6 rounded-t-lg">
+        <div className="bg-indigo-600 p-4 sm:p-6 rounded-t-lg">
           <h1 className="text-2xl sm:text-3xl font-bold text-center text-white">
             {title}
           </h1>
@@ -20,16 +20,10 @@ const Modal = ({ buttonAction, closeModal, title, body, buttonText }) => {
           </p>
         </div>
         <div className="flex items-center justify-center gap-1 sm:gap-2 p-1 sm:p-2">
-          <button
-            className="form-button sm:px-5 sm:py-3 sm:text-xl"
-            onClick={closeModal}
-          >
+          <button className="form-button" onClick={closeModal}>
             Cancel
           </button>
-          <button
-            className="reverse-form-button sm:px-5 sm:py-3 sm:text-xl"
-            onClick={buttonAction}
-          >
+          <button className="reverse-form-button" onClick={buttonAction}>
             {buttonText}
           </button>
         </div>

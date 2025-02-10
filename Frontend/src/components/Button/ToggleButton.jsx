@@ -13,7 +13,7 @@ const ToggleButton = ({ onToggle }) => {
     <div onClick={handleToggle}>
       <div
         className={`w-9 h-5 cursor-pointer rounded-full flex items-center p-1 ${
-          isToggled ? "bg-sky-600" : "bg-slate-500"
+          isToggled ? "bg-blue-600" : "bg-slate-500"
         }`}
       >
         <div

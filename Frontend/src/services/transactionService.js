@@ -1,13 +1,13 @@
 import api from "../utils/AxiosApiHelper";
 
-const add = async (
+const add = async ({
   idMember,
   options,
   description,
   estimation,
   discount,
-  payment
-) => {
+  payment,
+}) => {
   try {
     const response = await api.post("/transactions", {
       idMember,
@@ -19,7 +19,7 @@ const add = async (
     });
 
     if (response.status === 201) {
-      return { success: true, message: response.data.data.message };
+      return { success: true, message: response.data.message };
     }
   } catch (error) {
     const message = error.response?.data?.message || "An error occured";

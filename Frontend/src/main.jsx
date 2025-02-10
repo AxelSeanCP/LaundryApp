@@ -6,6 +6,7 @@ import UserContextProvider from "./Context/User/UserContextProvider.jsx";
 import MemberContextProvider from "./Context/Member/MemberContextProvider.jsx";
 import ServiceContextProvider from "./Context/Service/ServiceContextProvider.jsx";
 import OptionContextProvider from "./Context/Option/OptionContextProvider.jsx";
+import TransactionContextProvider from "./Context/Transaction/TransactionContextProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <AuthContextProvider>
@@ -13,7 +14,9 @@ createRoot(document.getElementById("root")).render(
       <MemberContextProvider>
         <ServiceContextProvider>
           <OptionContextProvider>
-            <App />
+            <TransactionContextProvider>
+              <App />
+            </TransactionContextProvider>
           </OptionContextProvider>
         </ServiceContextProvider>
       </MemberContextProvider>

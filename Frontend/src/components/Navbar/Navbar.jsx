@@ -9,7 +9,7 @@ const Navbar = ({ toggleSidebar }) => {
   };
 
   return (
-    <nav className=" text-indigo-600 p-4 flex items-center fixed top-0 w-full bg-slate-100 border-b border-slate-500 z-50">
+    <nav className="text-black p-4 flex items-center fixed top-0 w-full bg-white z-40">
       <button className="block focus:outline-none mr-5" onClick={toggleSidebar}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -1,9 +1,15 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import useTransaction from "../../Hooks/useTransaction";
+import Alert from "../../Components/Alert/Alert";
 
 const AddTransaction = () => {
+  const { addTransaction } = useTransaction();
   const { state } = useLocation();
-  const { member, options, totalPrice } = state;
+  const { member, options } = state;
+  const [totalPrice, setTotalPrice] = useState(state.totalPrice);
+  const [showModal, setShowModal] = useState(false);
+  const [discValue, setDiscValue] = useState(0);
   const [input, setInput] = useState({
     idMember: member.id,
     options: options,
@@ -12,13 +18,109 @@ const AddTransaction = () => {
     discount: 0,
     payment: 0,
   });
-
+  const [alertObject, setAlertObject] = useState({
+    message: "",
+    type: "",
+    show: false,
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
   const date = new Date().toDateString();
 
+  const handleSubmit = async () => {
+    const newInput = {
+      idMember: input.idMember,
+      options: input.options.map(({ idOption, qty }) => ({ idOption, qty })),
+    };
+    setIsSubmitting(true);
+    const { success, message } = await addTransaction(newInput);
+
+    if (success) {
+      setAlertObject({ message: message, type: "success", show: true });
+      setTimeout(() => {
+        navigate("/users/dashboard");
+      }, 3000);
+    } else {
+      setAlertObject({ message: message, type: "danger", show: true });
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    setInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const addDiscount = () => {
+    setInput((prev) => ({ ...prev, discount: discValue }));
+    setShowModal(false);
+    setTotalPrice(totalPrice - discValue);
+  };
+
+  const toggleModal = () => {
+    setShowModal((prev) => !prev);
+  };
+
+  const closeAlert = () => {
+    setAlertObject((prev) => ({
+      ...prev,
+      show: false,
+    }));
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-slate-100 via-blue-500 to-blue-800">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-slate-200 via-slate-300 to-slate-500">
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
+          <div className="relative bg-white rounded-2xl shadow-2xl w-11/12 max-w-md">
+            <div className="bg-indigo-600 p-5 sm:p-6 rounded-t-2xl">
+              <h1 className="text-2xl sm:text-3xl font-bold text-center text-white">
+                Add Discount
+              </h1>
+            </div>
+            <div className="px-6 py-4 sm:py-6">
+              <div className="text-center mb-6">
+                <p className="text-base sm:text-lg font-medium text-blue-600">
+                  Price
+                </p>
+                <h1 className="text-3xl sm:text-4xl font-semibold text-slate-800">
+                  {totalPrice}
+                </h1>
+              </div>
+              <div className="mb-6">
+                <input
+                  type="number"
+                  name="discount"
+                  placeholder="Discount"
+                  onChange={(e) => setDiscValue(e.target.value)}
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring focus:ring-indigo-300 focus:outline-none"
+                />
+              </div>
+            </div>
+            <div className="flex items-center justify-between px-6 py-4 sm:py-5 bg-slate-50 rounded-b-2xl">
+              <button
+                className="text-slate bg-white border border-indigo-600 hover:border-none hover:bg-indigo-600 hover:text-white px-4 py-2 rounded-lg font-medium"
+                onClick={toggleModal}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-indigo-600 text-white hover:bg-indigo-700 px-4 py-2 rounded-lg font-medium"
+                onClick={addDiscount}
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="max-w-lg w-full bg-white shadow-lg rounded-xl overflow-hidden">
-        <div className="relative bg-gradient-to-br from-blue-500 to-blue-800 h-48 py-2 px-4 flex justify-between items-center">
+        <div className="relative bg-gradient-to-br from-indigo-500 to-indigo-700 h-48 py-2 px-4 flex justify-between items-center">
           <div className="flex flex-col justify-between h-full py-2">
             <h1 className="text-2xl sm:text-3xl text-white font-semibold underline italic">
               Invoice Summary
@@ -37,7 +139,10 @@ const AddTransaction = () => {
               {date}
             </p>
             <div className="flex flex-col items-end">
-              <button className="bg-orange-500 hover:bg-orange-600 py-1 px-3 rounded-md text-sm text-white font-medium">
+              <button
+                className="bg-purple-700 hover:bg-purple-800 py-1 px-3 rounded-md text-sm text-white font-medium"
+                onClick={toggleModal}
+              >
                 Discount
               </button>
               <h1 className="text-3xl sm:text-4xl text-white font-bold">
@@ -62,7 +167,8 @@ const AddTransaction = () => {
               placeholder="Description"
               name="description"
               required
-              className="text-base sm:text-lg font-medium text-slate-700 w-full focus:outline-none p-2 border-b-2 border-slate-700"
+              onChange={handleInput}
+              className="text-base sm:text-lg font-medium text-slate-700 w-full focus:outline-none p-2 border-b-2 border-slate-300"
             />
           </div>
           <div className="flex items-center gap-4">
@@ -79,7 +185,8 @@ const AddTransaction = () => {
               placeholder="Estimation"
               name="estimation"
               required
-              className="text-base sm:text-lg font-medium text-slate-700 w-full focus:outline-none p-2 border-b-2 border-slate-700"
+              onChange={handleInput}
+              className="text-base sm:text-lg font-medium text-slate-700 w-full focus:outline-none p-2 border-b-2 border-slate-300"
             />
           </div>
           <div className="flex items-center gap-4">
@@ -95,8 +202,8 @@ const AddTransaction = () => {
               type="number"
               placeholder="Payment"
               name="payment"
-              required
-              className="text-base sm:text-lg font-medium text-slate-700 w-full focus:outline-none p-2 border-b-2 border-slate-700"
+              onChange={handleInput}
+              className="text-base sm:text-lg font-medium text-slate-700 w-full focus:outline-none p-2 border-b-2 border-slate-300"
             />
           </div>
         </div>
@@ -104,14 +211,14 @@ const AddTransaction = () => {
         <div className="space-y-2 p-1">
           {options.length > 0 ? (
             options.map((option) => (
-              <div key={option.optionId} className="p-4">
+              <div key={option.idOption} className="p-4">
                 <div className="border border-slate-300 rounded-lg shadow-md">
                   <h1 className="text-2xl sm:text-3xl text-slate-800 border-b border-slate-300 font-semibold p-4 bg-slate-50">
                     {option.serviceName}
                   </h1>
                   <div className="p-4 flex items-center justify-between">
                     <div className="flex flex-col gap-1">
-                      <p className="text-lg sm:text-xl text-teal-600 font-medium">
+                      <p className="text-lg sm:text-xl text-blue-600 font-medium">
                         price / unit
                       </p>
                       <p className="text-2xl sm:text-3xl font-semibold text-slate-900">
@@ -122,7 +229,7 @@ const AddTransaction = () => {
                       <h1 className="text-2xl sm:text-3xl font-semibold text-slate-800">
                         {option.qty}
                       </h1>
-                      <p className="text-base sm:text-lg font-medium text-slate-600">
+                      <p className="text-base sm:text-lg font-medium text-slate-600 mt-auto">
                         Qty
                       </p>
                     </div>
@@ -136,9 +243,25 @@ const AddTransaction = () => {
         </div>
 
         <div className="p-4">
-          <button className="form-button bg-orange-500">Add Transaction</button>
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className={`form-button bg-slate-800 hover:bg-slate-900 ${
+              isSubmitting ? "cursor-not-allowed opacity-50" : ""
+            }`}
+          >
+            {isSubmitting ? "Adding" : "Add Transaction"}
+          </button>
         </div>
       </div>
+      {alertObject.show && (
+        <Alert
+          alertText={alertObject.message}
+          alertType={alertObject.type}
+          duration={3000}
+          onClose={closeAlert}
+        />
+      )}
     </div>
   );
 };

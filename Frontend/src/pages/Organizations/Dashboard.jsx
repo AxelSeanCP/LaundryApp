@@ -5,7 +5,7 @@ const OrganizationDashboard = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-14">
       <button
-        className="dashboard-button bg-teal-500 hover:bg-teal-600"
+        className="dashboard-button bg-blue-600 hover:bg-blue-700"
         onClick={() => navigate("/organizations/addUser")}
       >
         <svg
@@ -19,7 +19,7 @@ const OrganizationDashboard = () => {
         </svg>
         Add User
       </button>
-      <button className="dashboard-button bg-orange-600 hover:bg-orange-700">
+      <button className="dashboard-button bg-indigo-600 hover:bg-indigo-700">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="48px"

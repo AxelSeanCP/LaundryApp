@@ -7,7 +7,8 @@ const UserDashboard = () => {
     {
       label: "Add Transactions",
       navigateTo: "/users/transactions",
-      bgColor: "bg-indigo-600 hover:bg-indigo-700",
+      bgColor:
+        "bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-700",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +24,8 @@ const UserDashboard = () => {
     {
       label: "Status",
       navigateTo: "/users/transactions/status",
-      bgColor: "bg-teal-500 hover:bg-teal-600",
+      bgColor:
+        "bg-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-700",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +41,8 @@ const UserDashboard = () => {
     {
       label: "Add Member",
       navigateTo: "/users/members/add",
-      bgColor: "bg-orange-600 hover:bg-orange-700",
+      bgColor:
+        "bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-800",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

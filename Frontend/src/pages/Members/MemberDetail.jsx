@@ -41,7 +41,7 @@ const MemberDetail = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-slate-100 via-teal-200 to-teal-400">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-slate-200 via-slate-300 to-slate-500">
       {showModal && (
         <Modal
           buttonAction={handleDeleteMember}
@@ -59,7 +59,7 @@ const MemberDetail = () => {
         </p>
       ) : (
         <div className="max-w-lg w-full bg-white shadow-lg rounded-xl overflow-hidden">
-          <div className="relative bg-gradient-to-br from-teal-400 to-teal-600 h-40 flex flex-col p-2 items-center justify-center">
+          <div className="relative bg-gradient-to-br from-indigo-500 to-indigo-700 h-40 flex flex-col p-2 items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 -960 960 960"
@@ -102,13 +102,13 @@ const MemberDetail = () => {
           </div>
           <div className="flex justify-between py-2 px-4 gap-4">
             <button
-              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg w-full"
+              className="bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 px-4 rounded-lg w-full"
               onClick={handleEditMember}
             >
               Edit Member
             </button>
             <button
-              className="border border-orange-500 hover:bg-orange-500 text-orange-500 hover:text-white font-bold py-2 px-4 rounded-lg w-full"
+              className="border border-slate-800 hover:bg-slate-900 text-slate-800 hover:text-white font-bold py-2 px-4 rounded-lg w-full"
               onClick={toggleModal}
             >
               Delete Member

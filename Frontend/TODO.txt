@@ -1,11 +1,5 @@
 Selalu buat mobile first
 Tambah response untuk error tiap fitur
 
-SearchMember
-- tiap kartu navigasi ke ChooseServices dengan credentials member
-
-Transactions
-- buat kartu list services jadi grid 1, 2 md, 3 lg, 4 xl di halaman utama ChooseServices
-- tiap kartu ada tombol toggle yang menampilkan dropdown berisi option yang tersedia dari service tersebut beserta input berupa counter (yang ada - di kiri dan + di kanan)
-- tombol navigasi ke SearchMember di bagian paling atas
-- tombol lanjut di bawah sendiri untuk navigasi ke halaman AddTransactions;
+perbaiki design dashboard
+perbaiki design warna di semua halaman

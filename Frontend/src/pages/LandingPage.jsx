@@ -14,11 +14,11 @@ const LandingPage = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-indigo-300 via-slate-100 to-teal-200">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-indigo-300 via-slate-200 to-blue-200">
       <div className="w-full p-8 flex items-center justify-center">
         <h1 className="text-center text-4xl font-bold">
           Welcome! Please Select{" "}
-          <span className="bg-gradient-to-r from-indigo-700 to-teal-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-indigo-700 to-blue-500 bg-clip-text text-transparent">
             Your Role
           </span>
         </h1>
@@ -29,7 +29,7 @@ const LandingPage = () => {
           <div className="w-full flex flex-col gap-6 p-12 items-center justify-center">
             <h2 className="text-3xl font-bold text-indigo-800">
               For{" "}
-              <span className="bg-gradient-to-r from-indigo-700 to-teal-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-indigo-700 to-blue-500 bg-clip-text text-transparent">
                 Organizations
               </span>
             </h2>
@@ -47,7 +47,7 @@ const LandingPage = () => {
               Don&apos;t have an account?{" "}
               <Link
                 to={"/organizations/register"}
-                className="text-teal-500 font-medium hover:underline"
+                className="text-blue-500 font-medium hover:underline"
               >
                 Register here
               </Link>
@@ -59,7 +59,7 @@ const LandingPage = () => {
           <div className="w-full flex flex-col gap-6 p-12 items-center justify-center">
             <h2 className="text-3xl font-bold text-indigo-800">
               For{" "}
-              <span className="bg-gradient-to-r from-indigo-700 to-teal-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-indigo-700 to-blue-500 bg-clip-text text-transparent">
                 Users
               </span>
             </h2>

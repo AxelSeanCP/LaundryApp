@@ -16,23 +16,27 @@ input[type="number"] {
 
 @layer components {
   .dashboard-button {
-    @apply flex w-full max-w-5xl items-center justify-between px-10 py-16 text-2xl md:text-3xl rounded-xl shadow-md transition-transform duration-200 hover:scale-105 hover:brightness-110 focus:outline-none focus:ring-4 focus:ring-orange-500;
+    @apply flex w-full max-w-5xl items-center justify-between px-10 py-16 text-2xl md:text-3xl rounded-xl shadow-md transition-transform duration-200 hover:scale-105 hover:brightness-110;
   }
 
   .form-button {
-    @apply w-full px-4 py-2 text-white bg-orange-600 rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-400 sm:px-5 sm:py-3 sm:text-xl;
+    @apply w-full px-4 py-2 text-white bg-slate-800 rounded-md hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 sm:px-5 sm:py-3;
   }
 
   .reverse-form-button {
-    @apply w-full px-4 py-2 text-orange-600 bg-white border border-orange-600 rounded-md hover:bg-orange-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-orange-400 sm:px-5 sm:py-3 sm:text-xl;
+    @apply w-full px-4 py-2 text-slate-800 bg-white border border-slate-800 rounded-md hover:bg-slate-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-slate-900 sm:px-5 sm:py-3;
   }
 
   .form-input {
-    @apply w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-orange-500 sm:text-lg;
+    @apply w-full px-3 py-2 mt-1 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-slate-700 sm:text-lg;
   }
 
   .sidebar-button {
-    @apply w-full text-base text-slate-700 hover:bg-slate-300 py-2 px-2 rounded-md flex items-center gap-3;
+    @apply w-full text-base text-white hover:bg-indigo-700 py-2 px-2 rounded-md flex items-center gap-4;
+  }
+
+  .sidebar-icon {
+    @apply w-6;
   }
 }
 

@@ -47,7 +47,7 @@ const ChooseService = () => {
   }, [getServices, getServiceById]);
 
   const handleValidation = () => {
-    if (!member) {
+    if (member.name === "") {
       setAlertObject({
         message: "Please select a member",
         type: "danger",
@@ -82,25 +82,25 @@ const ChooseService = () => {
   };
 
   const handleSubmit = () => {
-    handleValidation();
+    if (!handleValidation()) {
+      return;
+    }
 
     const totalPrice = input.options.reduce(
       (total, option) => total + option.qty * option.price,
       0
     );
 
-    const newInput = {};
-
-    newInput.member = input.member;
-    newInput.options = input.options.map(
-      ({ serviceName, optionId, qty, price }) => ({
+    const newInput = {
+      member: input.member,
+      options: input.options.map(({ serviceName, idOption, qty, price }) => ({
         serviceName,
-        optionId,
+        idOption,
         qty,
         price,
-      })
-    );
-    newInput.totalPrice = totalPrice;
+      })),
+      totalPrice,
+    };
 
     navigate("/users/transactions/add", { state: newInput });
   };
@@ -116,7 +116,7 @@ const ChooseService = () => {
           ...prev,
           options: prev.options.map((entry) =>
             entry.serviceId === serviceId
-              ? { ...entry, serviceName, optionId, price, qty: 0 }
+              ? { ...entry, serviceName, idOption: optionId, price, qty: 0 }
               : entry
           ),
         };
@@ -126,7 +126,7 @@ const ChooseService = () => {
         ...prev,
         options: [
           ...prev.options,
-          { serviceId, serviceName, optionId, price, qty: 0 },
+          { serviceId, serviceName, idOption: optionId, price, qty: 0 },
         ],
       };
     });
@@ -214,7 +214,7 @@ const ChooseService = () => {
                                   )
                                 }
                               />
-                              <div className="w-5 h-5 rounded-full border border-gray-400 peer-checked:border-orange-600 peer-checked:bg-orange-600 flex items-center justify-center transition-all">
+                              <div className="w-5 h-5 rounded-full border border-gray-400 peer-checked:border-purple-600 peer-checked:bg-purple-600 flex items-center justify-center transition-all">
                                 <div className="w-3 h-3 rounded-full bg-white"></div>
                               </div>
                               <div className="flex flex-col">
@@ -276,7 +276,7 @@ const ChooseService = () => {
       </div>
       <div className="flex items-center justify-center inset-0 z-50">
         <button
-          className="rounded-lg shadow-lg bg-white font-medium text-slate-700 hover:bg-slate-200 hover:scale-105 transition-transform border-2 border-slate-700 fixed bottom-4 flex items-center justify-center gap-2 w-40 h-12 sm:w-48 sm:h-14 text-lg sm:text-xl focus:outline-none focus:ring-2 focus:ring-slate-700"
+          className="rounded-lg shadow-lg bg-purple-600 font-medium text-white hover:bg-purple-700 hover:scale-105 transition-transform fixed bottom-4 flex items-center justify-center gap-2 w-40 h-12 sm:w-48 sm:h-14 text-lg sm:text-xl focus:outline-none focus:ring-2 focus:ring-purple-700"
           onClick={handleSubmit}
         >
           Continue

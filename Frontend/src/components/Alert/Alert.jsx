@@ -11,8 +11,8 @@ const Alert = ({ alertText, alertType, duration = 3000, onClose }) => {
   }, [duration, onClose]);
 
   const alertStyles = {
-    success: "border-green-500 bg-green-100 text-green-800",
-    danger: "border-red-500 bg-red-100 text-red-800",
+    success: "border-green-500",
+    danger: "border-red-500",
   };
 
   const loadingBarStyles = {
@@ -20,15 +20,10 @@ const Alert = ({ alertText, alertType, duration = 3000, onClose }) => {
     danger: "bg-red-500",
   };
 
-  const clearBarStyles = {
-    success: "bg-green-100",
-    danger: "bg-red-100",
-  };
-
   return (
-    <div className="fixed bottom-4 left-4 right-4 mx-auto z-50 max-w-lg">
+    <div className="fixed bottom-4 right-4 z-50 w-full max-w-md">
       <div
-        className={`p-4 rounded-t-lg rounded-x-lg shadow-lg border-l-4 flex flex-col justify-center items-start gap-3 ${alertStyles[alertType]}`}
+        className={`p-4 rounded-t-lg rounded-x-lg shadow-lg border-l-8 flex flex-col justify-center items-start gap-3 bg-white text-slate-800 ${alertStyles[alertType]}`}
       >
         <div className="flex-1">
           <p className="font-medium">{alertText}</p>
@@ -37,9 +32,7 @@ const Alert = ({ alertText, alertType, duration = 3000, onClose }) => {
       <div
         className={`relative w-full h-1 overflow-hidden rounded ${loadingBarStyles[alertType]}`}
       >
-        <div
-          className={`absolute bottom-0 left-0 h-full animate-scroll ${clearBarStyles[alertType]}`}
-        ></div>
+        <div className="absolute bottom-0 left-0 h-full animate-scroll bg-white"></div>
       </div>
     </div>
   );
