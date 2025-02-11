@@ -1,5 +1,6 @@
 Selalu buat mobile first
 Tambah response untuk error tiap fitur
 
-perbaiki design dashboard
-perbaiki design warna di semua halaman
+TransactionDetail
+- buat sama di AddTransaction designnya
+- buat input bisa di edit dan buang perubahan

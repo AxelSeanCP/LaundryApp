@@ -25,12 +25,16 @@ const AddTransaction = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  const date = new Date().toDateString();
+  const date = new Date().toLocaleDateString();
 
   const handleSubmit = async () => {
     const newInput = {
       idMember: input.idMember,
       options: input.options.map(({ idOption, qty }) => ({ idOption, qty })),
+      description: input.description,
+      estimation: input.estimation,
+      discount: input.discount,
+      payment: input.payment,
     };
     setIsSubmitting(true);
     const { success, message } = await addTransaction(newInput);

@@ -9,7 +9,7 @@ const Card = ({
 }) => {
   const cardStyle = {
     default:
-      "border-l-8 border-indigo-700 p-5 rounded-md shadow-lg hover:shadow-lg transition-shadow duration-300 cursor-pointer transform hover:-translate-y-1 cursor-pointer",
+      "border-l-8 border-indigo-700 p-5 rounded-md shadow-lg hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1 cursor-pointer",
     compact:
       "border border-slate-300 md:border-2 bg-white hover:bg-slate-100 rounded-lg px-4 py-3 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer",
     functional: "px-3 py-2 rounded-md",

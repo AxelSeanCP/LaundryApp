@@ -3,7 +3,7 @@ import PropType from "prop-types";
 import useAuth from "../../Hooks/useAuth";
 
 const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
-  const { logout, user, organization } = useAuth();
+  const { logout, organization } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -18,17 +18,10 @@ const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out z-50`}
       >
-        {isUser ? (
-          <div className="text-white py-6 px-4">
-            <h1 className="text-xl sm:text-2xl font-bold">{user}</h1>
-            <p className="text-base sm:text-lg font-medium">{organization}</p>
-          </div>
-        ) : (
-          <div className="text-white p-4 text-lg font-semibold">
-            {organization}
-          </div>
-        )}
-        <div className="px-2 space-y-4">
+        <div className="text-white py-10 text-center border-b-2 border-white mb-6 rounded-lg">
+          <h1 className="text-2xl sm:text-3xl font-bold">{organization}</h1>
+        </div>
+        <div className="px-2 space-y-2">
           {isUser ? (
             <>
               <div>
@@ -51,7 +44,13 @@ const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
                 </button>
               </div>
               <div>
-                <button className="sidebar-button">
+                <button
+                  className="sidebar-button"
+                  onClick={() => {
+                    toggleSidebar();
+                    navigate("/users/transactions/list");
+                  }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 -960 960 960"
@@ -60,7 +59,7 @@ const Sidebar = ({ isOpen, toggleSidebar, isUser }) => {
                   >
                     <path d="M240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h480q33 0 56.5 23.5T800-800v640q0 33-23.5 56.5T720-80H240Zm0-80h480v-640H240v640Zm240-40q83 0 141.5-58.5T680-400q0-83-58.5-141.5T480-600q-83 0-141.5 58.5T280-400q0 83 58.5 141.5T480-200Zm0-68q-26 0-50.5-9.5T386-306l188-188q19 19 28.5 43.5T612-400q0 55-38.5 93.5T480-268ZM320-680q17 0 28.5-11.5T360-720q0-17-11.5-28.5T320-760q-17 0-28.5 11.5T280-720q0 17 11.5 28.5T320-680Zm120 0q17 0 28.5-11.5T480-720q0-17-11.5-28.5T440-760q-17 0-28.5 11.5T400-720q0 17 11.5 28.5T440-680ZM240-160v-640 640Z" />
                   </svg>
-                  List Transaksi
+                  List Transactions
                 </button>
               </div>
               <div>

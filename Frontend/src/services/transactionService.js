@@ -27,4 +27,21 @@ const add = async ({
   }
 };
 
-export { add };
+const getAll = async (memberName) => {
+  try {
+    const response = await api.get(`/transactions?memberName=${memberName}`);
+
+    if (response.status === 200) {
+      const { transactions } = response.data.data;
+      return transactions || [];
+    }
+  } catch (error) {
+    console.error(
+      "Get transactions error: ",
+      error.response?.data || error.message
+    );
+    return [];
+  }
+};
+
+export { add, getAll };

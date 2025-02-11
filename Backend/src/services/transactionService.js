@@ -73,7 +73,7 @@ const addTransaction = async ({
 
 const getTransactions = async (idOrganization, memberName) => {
   const transactions = await db.Transaction.findAll({
-    attributes: ["id", "totalPrice", "paymentStatus", "status"],
+    attributes: ["id", "totalPrice", "paymentStatus", "status", "createdAt"],
     where: {
       idOrganization,
     },
@@ -88,6 +88,7 @@ const getTransactions = async (idOrganization, memberName) => {
         }),
       },
     ],
+    order: [["createdAt", "DESC"]],
   });
 
   if (transactions.length === 0) {

@@ -32,8 +32,10 @@ import EditService from "./Pages/Services/EditService";
 import AddOption from "./Pages/Options/AddOption";
 import EditOption from "./Pages/Options/EditOption";
 import OptionDetail from "./Pages/Options/OptionDetail";
+
 import ChooseService from "./Pages/Transaction/ChooseServices";
 import AddTransaction from "./Pages/Transaction/AddTransaction";
+import TransactionView from "./Pages/Transaction/TransactionView";
 
 const router = createBrowserRouter([
   {
@@ -213,6 +215,14 @@ const router = createBrowserRouter([
             ),
           },
           {
+            path: "list",
+            element: (
+              <PrivateRoute>
+                <TransactionView />
+              </PrivateRoute>
+            ),
+          },
+          {
             path: "status",
             element: (
               <PrivateRoute>
@@ -229,6 +239,14 @@ const router = createBrowserRouter([
                 ),
               },
             ],
+          },
+          {
+            path: ":transactionId",
+            element: (
+              <PrivateRoute>
+                <h1>Transaction detail</h1>
+              </PrivateRoute>
+            ),
           },
           {
             path: ":transactionId/edit",

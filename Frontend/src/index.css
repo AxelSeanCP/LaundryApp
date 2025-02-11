@@ -32,7 +32,7 @@ input[type="number"] {
   }
 
   .sidebar-button {
-    @apply w-full text-base text-white hover:bg-indigo-700 py-2 px-2 rounded-md flex items-center gap-4;
+    @apply w-full text-base text-white hover:bg-indigo-700 py-2 px-2 rounded-md flex items-center gap-2;
   }
 
   .sidebar-icon {

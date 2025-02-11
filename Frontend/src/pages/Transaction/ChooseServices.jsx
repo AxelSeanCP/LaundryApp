@@ -214,7 +214,7 @@ const ChooseService = () => {
                                   )
                                 }
                               />
-                              <div className="w-5 h-5 rounded-full border border-gray-400 peer-checked:border-purple-600 peer-checked:bg-purple-600 flex items-center justify-center transition-all">
+                              <div className="w-5 h-5 rounded-full border border-gray-400 peer-checked:border-indigo-600 peer-checked:bg-indigo-600 flex items-center justify-center transition-all">
                                 <div className="w-3 h-3 rounded-full bg-white"></div>
                               </div>
                               <div className="flex flex-col">
