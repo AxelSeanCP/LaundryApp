@@ -36,6 +36,8 @@ import OptionDetail from "./Pages/Options/OptionDetail";
 import ChooseService from "./Pages/Transaction/ChooseServices";
 import AddTransaction from "./Pages/Transaction/AddTransaction";
 import TransactionView from "./Pages/Transaction/TransactionView";
+import TransactionDetail from "./Pages/Transaction/TransactionDetail";
+import StatusView from "./Pages/Transaction/StatusView";
 
 const router = createBrowserRouter([
   {
@@ -224,14 +226,17 @@ const router = createBrowserRouter([
           },
           {
             path: "status",
-            element: (
-              <PrivateRoute>
-                <h1>Transaction Status</h1>
-              </PrivateRoute>
-            ),
             children: [
               {
-                path: "edit",
+                path: "",
+                element: (
+                  <PrivateRoute>
+                    <StatusView />
+                  </PrivateRoute>
+                ),
+              },
+              {
+                path: ":transactionId",
                 element: (
                   <PrivateRoute>
                     <h1>Edit Transaction Status</h1>
@@ -244,15 +249,7 @@ const router = createBrowserRouter([
             path: ":transactionId",
             element: (
               <PrivateRoute>
-                <h1>Transaction detail</h1>
-              </PrivateRoute>
-            ),
-          },
-          {
-            path: ":transactionId/edit",
-            element: (
-              <PrivateRoute>
-                <h1>Edit Transaction</h1>
+                <TransactionDetail />
               </PrivateRoute>
             ),
           },

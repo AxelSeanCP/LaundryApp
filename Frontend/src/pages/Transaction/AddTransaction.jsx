@@ -25,17 +25,25 @@ const AddTransaction = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  const date = new Date().toLocaleDateString();
+  const date =
+    new Date().toLocaleDateString() +
+    " " +
+    new Date().getHours() +
+    ":" +
+    new Date().getMinutes();
 
   const handleSubmit = async () => {
-    const newInput = {
-      idMember: input.idMember,
-      options: input.options.map(({ idOption, qty }) => ({ idOption, qty })),
-      description: input.description,
-      estimation: input.estimation,
-      discount: input.discount,
-      payment: input.payment,
-    };
+    const newInput = Object.fromEntries(
+      Object.entries({
+        idMember: input.idMember,
+        options: input.options.map(({ idOption, qty }) => ({ idOption, qty })),
+        description: input.description,
+        estimation: input.estimation,
+        discount: input.discount,
+        payment: input.payment,
+        // eslint-disable-next-line no-unused-vars
+      }).filter(([_, value]) => value !== null && value !== "")
+    );
     setIsSubmitting(true);
     const { success, message } = await addTransaction(newInput);
 
@@ -222,7 +230,7 @@ const AddTransaction = () => {
                   </h1>
                   <div className="p-4 flex items-center justify-between">
                     <div className="flex flex-col gap-1">
-                      <p className="text-lg sm:text-xl text-blue-600 font-medium">
+                      <p className="text-lg sm:text-xl text-blue-500 font-medium">
                         price / unit
                       </p>
                       <p className="text-2xl sm:text-3xl font-semibold text-slate-900">
@@ -250,7 +258,7 @@ const AddTransaction = () => {
           <button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className={`form-button bg-slate-800 hover:bg-slate-900 ${
+            className={`form-button ${
               isSubmitting ? "cursor-not-allowed opacity-50" : ""
             }`}
           >

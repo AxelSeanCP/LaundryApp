@@ -113,6 +113,7 @@ const getTransactionById = async (id, idOrganization) => {
       "payment",
       "status",
       "paymentStatus",
+      "createdAt",
     ],
     include: [
       {
@@ -146,7 +147,7 @@ const getTransactionById = async (id, idOrganization) => {
 const editTransactionById = async (
   id,
   idOrganization,
-  { description, discount, payment, status, estimation }
+  { description, discount = 0, payment = 0, status, estimation }
 ) => {
   const transaction = await getTransactionById(id, idOrganization);
 
@@ -154,12 +155,12 @@ const editTransactionById = async (
     transaction.description = description;
   }
 
-  if (discount != null) {
+  if (discount !== 0) {
     transaction.discount = discount;
     transaction.totalPrice -= discount;
   }
-
-  if (payment != null && transaction.paymentStatus == "Unpaid") {
+  //TODO: add case where if payment !== null && transaction.paymentStatus === "Paid"
+  if (payment !== 0 && transaction.paymentStatus === "Unpaid") {
     transaction.payment = payment;
 
     if (transaction.totalPrice - payment == 0) {

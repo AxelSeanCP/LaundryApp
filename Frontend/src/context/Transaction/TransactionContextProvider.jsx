@@ -1,6 +1,12 @@
 import PropType from "prop-types";
 import { TransactionContext } from "./TransactionContext";
-import { add, getAll } from "../../Services/transactionService";
+import {
+  add,
+  getAll,
+  getById,
+  update,
+  remove,
+} from "../../Services/transactionService";
 
 const TransactionContextProvider = ({ children }) => {
   const addTransaction = async (transactionData) => {
@@ -12,9 +18,24 @@ const TransactionContextProvider = ({ children }) => {
     return transactions;
   };
 
+  const getTransactionById = async (id) => {
+    return await getById(id);
+  };
+
+  const editTransaction = async (id, transactionData) => {
+    return await update(id, transactionData);
+  };
+
+  const deleteTransaction = async (id) => {
+    await remove(id);
+  };
+
   const contextValue = {
     addTransaction,
     getTransactions,
+    getTransactionById,
+    editTransaction,
+    deleteTransaction,
   };
 
   return (

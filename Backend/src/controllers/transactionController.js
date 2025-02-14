@@ -72,7 +72,7 @@ const getTransactionByIdController = async (req, res, next) => {
 
 const putTransactionByIdController = async (req, res, next) => {
   try {
-    TransactionsValidator.validateTransactionPayload(req.body);
+    TransactionsValidator.validatePutTransactionPayload(req.body);
     const { id } = req.params;
     const { idOrganization } = req.credentials;
     const { description, discount, payment, status, estimation } = req.body;

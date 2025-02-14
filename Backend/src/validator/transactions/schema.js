@@ -33,4 +33,12 @@ const TransactionPayloadSchema = Joi.object({
   status: Joi.string().optional(),
 });
 
-module.exports = TransactionPayloadSchema;
+const PutTransactionPayloadSchema = Joi.object({
+  description: Joi.string().optional(),
+  estimation: Joi.string().optional(),
+  discount: Joi.number().optional(),
+  payment: Joi.number().optional(),
+  status: Joi.string().optional(),
+});
+
+module.exports = { TransactionPayloadSchema, PutTransactionPayloadSchema };

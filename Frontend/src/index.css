@@ -20,7 +20,7 @@ input[type="number"] {
   }
 
   .form-button {
-    @apply w-full px-4 py-2 text-white bg-slate-800 rounded-md hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900 sm:px-5 sm:py-3;
+    @apply w-full px-4 py-2 text-white bg-slate-800 rounded-md hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 sm:px-5 sm:py-3;
   }
 
   .reverse-form-button {
