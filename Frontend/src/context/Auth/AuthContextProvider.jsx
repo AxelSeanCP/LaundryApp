@@ -81,7 +81,7 @@ const AuthContextProvider = ({ children }) => {
 
   const logout = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
-    await logoutService(refreshToken);
+    if (refreshToken) await logoutService(refreshToken);
     setUser(null);
     setOrganization(null);
     localStorage.removeItem("accessToken");

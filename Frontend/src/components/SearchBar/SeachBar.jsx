@@ -1,10 +1,22 @@
 import PropType from "prop-types";
+import { useEffect, useState } from "react";
 
 const SearchBar = ({
   placeholderText = "Search...",
   inputValue,
   onInputChange,
 }) => {
+  const [debouncedValue, setDebouncedValue] = useState(inputValue);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      onInputChange(debouncedValue);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [debouncedValue, onInputChange]);
   return (
     <div className="flex items-center space-x-2 w-full px-2 max-w-md">
       <svg
@@ -21,7 +33,7 @@ const SearchBar = ({
         name="searchInput"
         placeholder={placeholderText}
         value={inputValue}
-        onChange={(e) => onInputChange(e.target.value)}
+        onChange={(e) => setDebouncedValue(e.target.value)}
         className="w-full px-3 py-2 mt-1 border-b-2 rounded-md border-slate-600 focus:outline-none focus:border-sky-600 italic"
         aria-label={placeholderText}
       />

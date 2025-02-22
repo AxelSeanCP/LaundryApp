@@ -4,7 +4,13 @@ import PropType from "prop-types";
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to={"/"} replace />;
+  const role = localStorage.getItem("role");
+
+  if (!isAuthenticated || !role) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
 };
 
 PrivateRoute.propTypes = {

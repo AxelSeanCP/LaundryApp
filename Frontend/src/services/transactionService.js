@@ -64,13 +64,17 @@ const getById = async (id) => {
   }
 };
 
-const update = async (id, { discount, payment, description, estimation }) => {
+const update = async (
+  id,
+  { discount, payment, description, estimation, status }
+) => {
   try {
     const response = await api.put(`/transactions/${id}`, {
       discount,
       payment,
       description,
       estimation,
+      status,
     });
 
     if (response.status === 200) {

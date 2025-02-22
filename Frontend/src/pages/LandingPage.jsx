@@ -1,17 +1,19 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../Hooks/useAuth";
 
 const LandingPage = () => {
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     const role = localStorage.getItem("role");
-    if (role === "organization") {
+    if (isAuthenticated && role === "organization") {
       navigate("/organizations/dashboard");
-    } else if (role === "user") {
+    } else if (isAuthenticated && role === "user") {
       navigate("/users/dashboard");
     }
-  }, [navigate]);
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-indigo-300 via-slate-200 to-blue-200">

@@ -38,6 +38,7 @@ import AddTransaction from "./Pages/Transaction/AddTransaction";
 import TransactionView from "./Pages/Transaction/TransactionView";
 import TransactionDetail from "./Pages/Transaction/TransactionDetail";
 import StatusView from "./Pages/Transaction/StatusView";
+import StatusDetail from "./Pages/Transaction/StatusDetail";
 
 const router = createBrowserRouter([
   {
@@ -225,6 +226,14 @@ const router = createBrowserRouter([
             ),
           },
           {
+            path: ":transactionId",
+            element: (
+              <PrivateRoute>
+                <TransactionDetail />
+              </PrivateRoute>
+            ),
+          },
+          {
             path: "status",
             children: [
               {
@@ -239,19 +248,11 @@ const router = createBrowserRouter([
                 path: ":transactionId",
                 element: (
                   <PrivateRoute>
-                    <h1>Edit Transaction Status</h1>
+                    <StatusDetail />
                   </PrivateRoute>
                 ),
               },
             ],
-          },
-          {
-            path: ":transactionId",
-            element: (
-              <PrivateRoute>
-                <TransactionDetail />
-              </PrivateRoute>
-            ),
           },
         ],
       },

@@ -1,6 +1,8 @@
-Selalu buat mobile first
-Tambah response untuk error tiap fitur
+future updates
+- ganti localStorage ke cookies
+- buat statusDetail bagian done untuk mengirim teks whatsapp ke nomor member jika ada
+- addTransaction harus bisa membuat nota
+- dapat eksport data member
 
-TransactionDetail
-- buat sama di AddTransaction designnya
-- buat input bisa di edit dan buang perubahan
+- buat statusDetail bagian finished untuk input payment jika paymentStatus masih unpaid
+- buat bisa lihat laporan keuangan hasil transaksi
